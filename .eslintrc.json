@@ -1,0 +1,41 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  // "parser": "vue-eslint-parser",
+  // "extends": [
+  //   "eslint:recommended",
+  //   "plugin:vue/recommended" // or 'plugin:vue/base'
+  // ],
+  // "parserOptions": {
+    "parser": "babel-eslint",
+  //   "allowImportExportEverywhere": true,
+  //   "sourceType": "module",
+  //   "codeFrame": false
+  // },
+  "rules": {
+    "indent": [
+      "error",
+      "tab"
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "no-console": 0,
+    "linebreak-styl":0,
+    "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
+    "no-mixed-spaces-and-tabs": [0, "smart-tabs"],
+    "no-useless-escape": 0
+  }
+}

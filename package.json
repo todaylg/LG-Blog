@@ -1,0 +1,42 @@
+{
+  "name": "lg-blog",
+  "description": "An anime theme blog platform for myself's use,basic on Vue2,Nodejs,MongoDB.",
+  "version": "1.0.0",
+  "author": "todaylg <lg2lugang@gmail.com>",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --progress --profile --watch",
+    "build": "npm-run-all clean --parallel compile",
+    "compile": "cross-env NODE_ENV=production webpack --progress --hide-modules  --profile --bail",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "vue": "^2.3.3",
+    "vue-router": "^2.7.0",
+    "vuex": "^2.3.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "cross-env": "^5.0.1",
+    "css-loader": "^0.28.4",
+    "eslint": "^4.3.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-vue": "^3.8.0",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.29.0",
+    "node-sass": "^4.5.3",
+    "npm-run-all": "^4.0.2",
+    "rimraf": "^2.6.1",
+    "sass-loader": "^6.0.6",
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "vue-loader": "^13.0.2",
+    "vue-template-compiler": "^2.4.2",
+    "webpack": "^3.4.1",
+    "webpack-dashboard": "^0.4.0",
+    "webpack-dev-server": "^2.6.1"
+  }
+}
