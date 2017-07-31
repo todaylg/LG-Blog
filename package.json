@@ -8,9 +8,12 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --progress --profile --watch",
     "build": "npm-run-all clean --parallel compile",
     "compile": "cross-env NODE_ENV=production webpack --progress --hide-modules  --profile --bail",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "start": "node ./server/index"
   },
   "dependencies": {
+    "express": "^4.15.3",
+    "serve-favicon": "^2.4.3",
     "vue": "^2.3.3",
     "vue-router": "^2.7.0",
     "vuex": "^2.3.1"

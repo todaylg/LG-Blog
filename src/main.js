@@ -1,8 +1,10 @@
 import Vue from 'vue';
-import App from './App.vue';
+//import Home from './components/front/Home.vue';
+//import store from './store';
+import router from './router';
+import './style/index.scss';
 
 new Vue({
 	el: '#app',
-	render: h => h(App)
-});
-				
+	router
+});			

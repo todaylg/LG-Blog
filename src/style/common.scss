@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* CSS Document */
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,dl,dt,dd,input{margin:0;padding:0;}
+img{border:none;}
+li{list-style:none;}
+select,textarea{outline:none;border:none; background:none;}
+textarea{resize:none;}
+button {cursor: pointer;}
+a{text-decoration:none; color:#656565;}
+h1 {font-size: 2em;}
+* {
+    box-sizing: border-box;
+    outline: none;
+}

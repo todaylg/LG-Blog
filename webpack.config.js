@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const extractCSSFromSASS = new ExtractTextPlugin('index.css')
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin')
 const UglifyJSPlugin = require('webpack/lib/optimize/UglifyJsPlugin')
 
@@ -35,10 +36,11 @@ let config = {
       disable: false,
       allChunks: true 
     }),
+    extractCSSFromSASS,
     new HtmlWebpackPlugin({
-      favicon:path.join(__dirname,'src/favicon.ico'),
+      favicon:path.join(__dirname,'src/assets/img/favicon.ico'),
       title: 'LG-Blog',
-      template: path.join(__dirname,'./index.html'),  //模板文件
+      template: path.join(__dirname,'src/index.html'),  //模板文件
       inject:'body',
       hash:false,    //为静态资源生成hash值
       minify:{    //压缩HTML文件
@@ -58,6 +60,10 @@ let config = {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.scss$/,
+        loader: extractCSSFromSASS.extract(['css-loader', 'sass-loader'])
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
