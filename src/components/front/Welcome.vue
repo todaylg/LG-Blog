@@ -28,7 +28,7 @@ export default {
 					//法一：
 					welcome.parentElement.removeChild(welcome);
 				}, false); 
-			}, 2000);
+			}, 1500);
 		}
 	}
 }
@@ -60,7 +60,7 @@ export default {
 		filter: blur(8px);
 	}
 	50%{
-		filter: blur(2px);
+		filter: blur(1px);
 	}
 	70%{
 		filter: blur(8px);

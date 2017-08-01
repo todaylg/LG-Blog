@@ -3,46 +3,48 @@
 		<Welcome></Welcome>
 		<HeaderBar></HeaderBar>
 		<Background></Background>
-		<h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-	      <h1>1</h1>
-		<FooterBar></FooterBar>
+		<div id='content'>
+		  <h1 id="blank">test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      <h1>test</h1>
+	      </div>
+		<!-- <FooterBar></FooterBar> -->
 	</div>
 </template>
 <script>
@@ -56,5 +58,13 @@
 	}
 </script>
 <style lang="scss">
- 
+ #content{
+ 	text-align:center;
+ 	opacity:0;
+ 	transform:translateY(400px);
+ 	transition: all 1s ease-in-out;
+ }
+ #blank{
+ 	padding-top:120px;
+ }
 </style>
