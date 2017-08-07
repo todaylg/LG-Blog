@@ -1,79 +1,107 @@
 <template>
 	<div>
 	<div class='welcome'>
+		<div id="ripple1" class="ripple"></div>
+		<div id="ripple2" class="ripple"></div>
+		<div class="topBlock"></div>
+		<div class="buttomBlock"></div>
 		<div class="welcomeText"></div>
 	</div>
 	<div class="eye"></div>
 	</div>
 </template>
 <script>
+import Velocity from "../../assets/js/velocity.min.js";
+
 export default {
 	mounted(){
 		window.addEventListener('load', this.eyeAnimation)
 	},
 	methods:{
 		eyeAnimation(){
-			document.querySelector('.welcome').classList.add('active');
-			setTimeout(function(){
-				var tt = document.querySelector('.eye'); 
-				var welcome = document.querySelector('.welcome');
-				tt.style.display='block';
-				tt.style.animation = 'eye_animate 2s 1 alternate ease-in-out';
-				welcome.style.animation = 'contentBlur 2s 1 alternate ease-in-out';
-				tt.addEventListener("webkitAnimationEnd", function(){ //动画结束时事件 
-					//法一：
-					tt.parentElement.removeChild(tt);
-				}, false); 
-				welcome.addEventListener("webkitAnimationEnd", function(){ //动画结束时事件 
-					//法一：
-					welcome.parentElement.removeChild(welcome);
-				}, false); 
-			}, 1500);
+			var topBlock = document.querySelector('.topBlock');
+			var buttomBlock = document.querySelector('.buttomBlock');
+			var tt = document.querySelector('.eye'); 
+			var welcome = document.querySelector('.welcome');
+			var ripple1 = document.querySelector('#ripple1');
+			var ripple2 = document.querySelector('#ripple2');
+			Velocity.animate(topBlock, {
+			    translateY:0
+			}, {
+			    duration: 1000,
+			    complete:()=>{
+			    	document.querySelector('.welcomeText').classList.add('active');
+			    }
+			})
+			Velocity.animate(buttomBlock, {
+			    translateY:0
+			}, {
+			    duration: 1000
+			})
+
+			Velocity.animate(tt, {
+			    opacity:[1,0]
+			}, {
+				begin: ()=>tt.style.display='block',
+			    duration: 400,
+			    delay:2200,
+			    complete:()=>ripple1.classList.add('wave')
+			})
+			.then(Velocity(tt,{
+				opacity:0.85
+			},{
+			    duration: 600
+			}))
+			.then(Velocity(tt,{
+				opacity:1
+			},{
+			    duration: 400,
+			    complete:()=>ripple2.classList.add('wave')
+			}))
+			.then(Velocity(tt,{
+				opacity:0
+			},{
+			    duration: 600,
+			    complete: function() {
+			    	tt.parentElement.removeChild(tt);
+			    }
+			}))
+			
+			Velocity.animate(welcome, {
+				blur: [8,0],
+			    opacity:1
+			}, {
+			    duration: 400,
+			    delay:2200
+			})
+			.then(Velocity(welcome,{
+				blur: 1,
+			},{
+			    duration: 600
+			}))
+			.then(Velocity(welcome,{
+				blur: 8,
+				opacity:1
+			},{
+			    duration: 400
+			}))
+			.then(Velocity(welcome,{
+				blur: 0,
+				opacity:0
+			},{
+			    duration: 600,
+			    complete: function() {
+			    	welcome.parentElement.removeChild(welcome);
+			    }
+			}))
 		}
 	}
 }
 </script>
 <style lang='scss'>
-@keyframes eye_animate{
-	0%{
-		opacity: 0;
-	}
-	20%{
-		opacity: 1;
-	}
-	50%{
-		opacity: 0.85;
-	}
-	70%{
-		opacity: 1;
-	}
-	100%{
-		opacity: 0;
-	}
-}
-@keyframes contentBlur{
-	0%{
-		filter: blur(0);
-		opacity:1;
-	}
-	20%{
-		filter: blur(8px);
-	}
-	50%{
-		filter: blur(1px);
-	}
-	70%{
-		filter: blur(8px);
-		opacity:1;
-	}
-	100%{
-		filter: blur(0px);
-		opacity:0;
-	}
-}
 @keyframes show-text {
-	0%   { left: 0; }
-	100% { left: 300px; }
+		0%   { left: 0; }
+		100% { left: 300px; }
 }
 .eye{
 	display:none;
@@ -94,7 +122,6 @@ export default {
     text-align: center;
     height: 100%;
     background-color: white;
-    transition: all .5s ease-in-out;
 }
 .welcomeText{
 	position: absolute;
@@ -109,18 +136,89 @@ export default {
     background-repeat: no-repeat;
     background-color: #000;
     overflow: hidden;
-    &:after{
-    	position: absolute;
-	    top: 0;
-	    left: 0;
-	    content: "";
-	    display: block;
-	    width: 300px;
-	    height: 30px;
-	    background-color: #fff;
-    }
 }
-.welcome.active .welcomeText:after {
+
+.welcomeText:after{
+	position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    display: block;
+    width: 300px;
+    height: 30px;
+    background-color: #fff;
+}
+
+.welcomeText.active:after {
 	animation: show-text 1s ease 0s forwards;
+}
+
+/*block*/
+.topBlock,.buttomBlock{
+	position: absolute;
+	width: 100%;
+	height: 20%;
+	background-color: black;
+	transition: all 1s ease-out;
+}
+.topBlock{
+	top:0;
+	transform:translateY(-100%);
+}
+.buttomBlock{
+	bottom:0;
+	transform:translateY(100%);
+}
+/*ripple*/
+
+.ripple {
+  position: absolute;
+  z-index: 1;
+  opacity: 1;
+}
+.ripple.wave:before, .ripple.wave:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 59px;
+  height: 59px;
+  border-radius: 50%;
+  border: 2px solid rgba(64, 58, 62, 0.7);
+  -webkit-filter: blur(0);
+          filter: blur(0);
+  -webkit-transform-origin: 50%;
+          transform-origin: 50%;
+  z-index: 1;
+  animation:rip 2s 1 ease-out;
+}
+.ripple.wave:after {
+  animation-delay:50ms;
+}
+#ripple1{
+	top: 50%;
+	left: 50%;
+	margin-left:140px;
+	margin-top:10px;
+}
+#ripple2{
+	top: 50%;
+    left: 50%;
+    margin-left:-200px;
+	margin-top:-70px;
+}
+
+@-webkit-keyframes rip{
+	100% {
+	border-color: transparent;
+	-webkit-filter: blur(2px);
+	        filter: blur(2px);
+	-webkit-transform: scale(4);
+	        transform: scale(4);
+	-webkit-transition: 2100ms blur ease, 900ms border-color ease, 1000ms -webkit-transform ease;
+	transition: 2100ms blur ease, 900ms border-color ease, 1000ms -webkit-transform ease;
+	transition: 1000ms transform ease, 2100ms blur ease, 900ms border-color ease;
+	transition: 1000ms transform ease, 2100ms blur ease, 900ms border-color ease, 1000ms -webkit-transform ease;
+	}
 }
 </style>

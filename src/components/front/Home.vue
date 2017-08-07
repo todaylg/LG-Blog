@@ -1,49 +1,9 @@
 <template>
 	<div class="contain">
-		<Welcome></Welcome>
+		<!-- <Welcome></Welcome> -->
 		<HeaderBar></HeaderBar>
 		<Background></Background>
-		<div id='content'>
-		  <h1 id="blank">test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      <h1>test</h1>
-	      </div>
+		<ArticlesList></ArticlesList>
 		<!-- <FooterBar></FooterBar> -->
 	</div>
 </template>
@@ -51,20 +11,23 @@
 	import Welcome from './Welcome.vue';
 	import HeaderBar from './HeaderBar.vue';
 	import Background from './Background.vue';
-	import FooterBar from './FooterBar.vue';
+	import ArticlesList from './ArticlesList.vue';
+	//import FooterBar from './FooterBar.vue';
 	
 	export default{
-		components: {Welcome, HeaderBar, Background, FooterBar}
+		components: {Welcome, HeaderBar, Background, ArticlesList}
 	}
 </script>
 <style lang="scss">
- #content{
- 	text-align:center;
- 	opacity:0;
- 	transform:translateY(400px);
- 	transition: all 1s ease-in-out;
- }
- #blank{
- 	padding-top:120px;
- }
+ 	.contain:before{
+ 		content: '';
+	    display: block;
+	    width: 1px;
+	    height: 200%;
+	    position: absolute;
+	    left: 50%;
+	    background: #eaeaea;
+	    top: -50%;
+	    z-index: 0;
+ 	}
 </style>

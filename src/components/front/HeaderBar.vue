@@ -10,16 +10,22 @@
 	            	</h1>
               	</div>
           	</div>
-          	<div class="header-user-avatar">
-          	    <img src="../../assets/img/LG.png" width="30" height="30">
+          	<div v-if="user.name==''" class="header-user-avatar">
+          		<router-link :to="{path:'/login'}">
+          	 		<img src="../../assets/img/LG.png" width="30" height="30">
+	         	</router-link>
+          	   </div>
+          	<div v-else class="header-user-avatar">
+          		<img src="../../assets/img/LG.png" width="30" height="30">
           	    <div class="header-user-menu">
-          	        <div class="herder-user-name">Signed in as 
-          	        	<div class="herder-user-name-u">todaylg</div>
+          	        <div class="herder-user-name">
+          	        	晚上好!
+          	        	<div class="herder-user-name-u">{{user.name}}</div>
           	    	</div>
           	        <div class="user-menu-option">
           	            <a href="http://localhost/wordpress/wp-admin/" target="_top">管理中心</a>
           	            <a href="http://localhost/wordpress/wp-admin/post-new.php" target="_top">撰写文章</a>
-          	            <a href="http://localhost/wordpress/wp-admin/profile.php" target="_top">个人资料</a>
+          	            <a href="http://localhost/wordpress/w·p-admin/profile.php" target="_top">个人资料</a>
           	        	<a href="http://localhost/wordpress/wp-login.php?action=logout&amp;redirect_to=http%3A%2F%2Flocalhost%2Fwordpress&amp;_wpnonce=4386ebd208" target="_top">退出登录</a>
           	        </div>
           	    </div>
@@ -36,6 +42,8 @@
       </header><!-- #masthead -->
 </template>
 <script>
+import {mapState, mapActions} from 'vuex';
+
 export default {
 	data(){
 		return {
@@ -57,7 +65,8 @@ export default {
 				sabit:this.sabit,
 				yya:this.yya
 	 		}
-		}
+		},
+		...mapState(['user'])
 	},
 	methods:{
 		navDisplay(){
@@ -85,6 +94,16 @@ export default {
 }
 </script>
 <style lang="scss">
+@keyframes header-user-menu{
+	0% {
+	    opacity: 0;
+	    transform: translateY(-20px);
+	}
+	100% {
+	    opacity: 1;
+	    transform: translateY(0);
+	}
+}
 header{
 	&.headerBar{
 		width: 100%;
@@ -160,14 +179,48 @@ header{
 		    padding: 10px 10px;
 		    border-bottom: 1px solid #eee;
 		    border-radius: 4px 4px 0 0;
+		    &:before{
+		    	content: "";
+	    	    width: 0;
+	    	    height: 0;
+	    	    border-left: 10px solid transparent;
+	    	    border-right: 10px solid transparent;
+	    	    border-bottom: 10px solid #F5F5F5;
+	    	    position: absolute;
+	    	    top: 10px;
+	    	    right: 5px;
+		    }
+		    .herder-user-name-u {
+		        font-weight: bold;
+		        font-size: 14px;
+		        overflow: hidden;
+		        text-overflow: ellipsis;
+		        -o-text-overflow: ellipsis;
+		        white-space: nowrap;
+		    }
 		}
 		.user-menu-option {
 		    padding: 5px 0;
 		    background: #F5F5F5;
 		    border-radius: 0 0 4px 4px;
 		    width: 130px;
+		    a {
+		        display: block;
+		        padding: 6px 10px;
+		        margin: 2px 0;
+		        width: 100%;
+		        text-align: left;
+		        color: #333;
+		        font-size: 13px;
+		        &:hover{
+		        	background-color: #f1f1f1;
+		        }
+		    }
 		}
 	}
+}
+.header-user-avatar:hover .header-user-menu {
+    display: block;
 }
 .lower {
     position: relative;
