@@ -1,18 +1,17 @@
 'use strict';
 
 var express = require('express');
-var category = require('../controllers/category.js');
-var auth = require('../auth/index.js');
+var Category = require('../controllers/category.js');
 
 var router = express.Router();
 //admin
-router.post('/addCat',auth.adminRequired,category.addCat);
-router.get('/getCatList',auth.adminRequired,category.getCatList);
-router.put('/:id/updateCat', auth.adminRequired, category.updateCat);
-router.delete('/:id', auth.adminRequired, category.delCat);
+router.post('/addCategory',Category.addCategory);
+router.get('/getCatList', Category.getCatList);
+router.post('/updateCat', Category.updateCat);
+router.post('/delCategory', Category.delCat);
 
 //front
-router.get('/getFrontCatList',category.getFrontCatList);
-router.get('/getFrontCatAriticle',category.getFrontCatAriticle);
+// router.get('/getFrontCatList',category.getFrontCatList);
+// router.get('/getFrontCatAriticle',category.getFrontCatAriticle);
 
 module.exports = router;

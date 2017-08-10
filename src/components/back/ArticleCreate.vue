@@ -7,83 +7,79 @@
       <textarea v-model="content" spellcheck="false"></textarea>
       <button class="toggle"
               @click="inspected = !inspected">
-        <i class="fa fa-chevron-left fa-fw"
-           v-show="!inspected"></i>
-        <i class="fa fa-chevron-right fa-fw"
-           v-show="inspected"></i>
       </button>
       <article id="a" v-html="markedContent"></article>
     </div>
     <div class="panel">
       <button class="saveArticle"
-              @click="save">保存
+              @click="add">保存
       </button>
     </div>
   </section>
 </template>
 <script>
-  import {mapActions, mapMutations} from 'vuex'
-  import marked     from '../../assets/js/marked.min'
-  import hljs       from '../../assets/js/highlight.pack'
+import {mapActions, mapMutations} from 'vuex';
+import marked     from '../../assets/js/marked.min';
+import hljs       from '../../assets/js/highlight.pack';
 
-  export default{
-    data(){
-      return {
-        inspected: false,
-        markedContent: ''
-      }
-    },
-    created(){
-      const id = this.$route.query.id
-      if (id) return this.getArticle(id)
-      this.SET_ARTICLE({date: new Date()})
-    },
-    updated(){
-      this.highlight()
-    },
-    methods: {
-      save(){
-        this.saveArticle()
-          .then(() => this.$router.push({name: 'articles'}))
-          .catch(err => console.log(err))
-      },
-      highlight(){
-        setTimeout(() => {
-          hljs.initHighlighting.called = false
-          hljs.initHighlighting()
-        }, 0)
-      },
-      ...mapActions(['getArticle', 'saveArticle']),
-      ...mapMutations(['SET_ARTICLE'])
-    },
-    computed: {
-      content: {
-        get(){
-          this.markedContent = marked(
-            this.$store.state.article.content || '',
-            {sanitize: true}
-          )
-          this.highlight()
-          return this.$store.state.article.content
-        },
-        set(value){
-          this.$store.commit('UPDATE_CONTENT', value)
-        }
-      },
-      title: {
-        get(){
-          return this.$store.state.article.title
-        },
-        set(value){
-          this.$store.commit('UPDATE_TITLE', value)
-        }
-      }
-    }
-  }
+export default{
+ data(){
+   return {
+     inspected: false,
+     markedContent:''
+   }
+ },
+ created(){
+   //const id = "598aa75f1454e1297df9af70"
+   //const title = this.$route.query.title
+   //const id = '';
+   //if (id) return this.getArticle(id)
+   this.SET_ARTICLE({content:'',title:'',date: new Date()});//content不能少，这里原因先todo
+ },
+ updated(){
+   this.highlight()
+ },
+ methods: {
+   add(){
+     this.addArticle()
+       // .then(() => this.$router.push({name: 'articles'}))
+       .catch(err => console.log(err))
+   },
+   highlight(){
+     setTimeout(() => {
+       hljs.initHighlighting.called = false
+       hljs.initHighlighting()
+     }, 0)
+   },
+   ...mapActions(['getArticle', 'addArticle']),
+   ...mapMutations(['SET_ARTICLE'])
+ },
+ computed: {
+   content: {
+     get(){
+       this.markedContent = marked(
+         this.$store.state.article.content || '',
+         {sanitize: true}
+       )
+       this.highlight()
+       return this.$store.state.article.content
+     },
+     set(value){
+       this.$store.commit('UPDATE_CONTENT', value)
+     }
+   },
+   title: {
+     get(){
+       return this.$store.state.article.title
+     },
+     set(value){
+       this.$store.commit('UPDATE_TITLE', value)
+     }
+   }
+ }
+}
 </script>
-<style lang="sass" rel="stylesheet/scss">
-  @import "../../style/mixins.scss";
-
+<style lang="scss">
   section.editor {
     height: 100%;
     .title {
@@ -94,7 +90,7 @@
       height: 50px;
       display: block;
       font-size: 30px;
-      color: $black1;
+      color: black;
     }
     textarea, button, article {
       box-sizing: border-box;
@@ -104,7 +100,7 @@
       transition: width 0.6s;
       font-size: 16px;
       line-height: 1.8;
-      border: 1px solid $green1;
+      border: 1px solid black;
     }
     textarea, article {
       resize: none;
@@ -112,7 +108,6 @@
       overflow-y: auto;
     }
     button {
-      @include greenButton();
       margin: 0 10px;
       width: 20px;
       text-align: center;
@@ -145,10 +140,9 @@
       line-height: 30px;
       input {
         text-align: center;
-        border-bottom: 1px solid $green1;
+        border-bottom: 1px solid black;
       }
       button.saveArticle {
-        @include greenButton();
         float: right;
         height: 30px;
         width: 80px;
@@ -162,7 +156,7 @@
         margin: 1em 0;
         &:before {
           content: "#";
-          color: $green1;
+          color: black;
           position: absolute;
           left: -0.7em;
           top: -4px;
@@ -182,13 +176,13 @@
         font-size: 18px
       }
       a {
-        color: $green1;
+        color: black;
         word-break: break-all;
       }
       blockquote {
         margin: 2em 0;
         padding-left: 20px;
-        border-left: 4px solid $green1;
+        border-left: 4px solid black;
       }
       img {
         display: block;

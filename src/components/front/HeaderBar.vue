@@ -11,7 +11,7 @@
               	</div>
           	</div>
           	<div v-if="user.name==''" class="header-user-avatar">
-          		<router-link :to="{path:'/login'}">
+          		<router-link :to="{path:'/admin'}">
           	 		<img src="../../assets/img/LG.png" width="30" height="30">
 	         	</router-link>
           	   </div>
@@ -23,7 +23,7 @@
           	        	<div class="herder-user-name-u">{{user.name}}</div>
           	    	</div>
           	        <div class="user-menu-option">
-          	            <a href="http://localhost/wordpress/wp-admin/" target="_top">管理中心</a>
+          	        	<router-link :to="{path:'/admin'}">管理中心</router-link>
           	            <a href="http://localhost/wordpress/wp-admin/post-new.php" target="_top">撰写文章</a>
           	            <a href="http://localhost/wordpress/w·p-admin/profile.php" target="_top">个人资料</a>
           	        	<a href="http://localhost/wordpress/wp-login.php?action=logout&amp;redirect_to=http%3A%2F%2Flocalhost%2Fwordpress&amp;_wpnonce=4386ebd208" target="_top">退出登录</a>

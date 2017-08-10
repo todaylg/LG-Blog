@@ -14,7 +14,7 @@ var init = require('./init.json');
 
 var settings = require('./settings');
 var app = express();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3004;
 
 var dbUrl = 'mongodb://localhost/lgBlog';// 数据库地址
 

@@ -7,8 +7,8 @@ var confirmToken = require('../auth/index.js');
 var router = express.Router();
 
 //front
-router.get('/test', confirmToken, user.test);//test
-router.post('/signin', user.signin);//登陆
+router.get('/userTest', confirmToken, user.userTest);//test
+router.post('/userLogin', user.userLogin);//登陆
 
 //admin
 // router.get('/userList', auth.adminRequired, user.userList);

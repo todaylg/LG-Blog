@@ -8,8 +8,8 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	state: {
-		isLoading: false,
-		isToasting: false,
+		catName:'',
+		catList:[],
 		articles: [],
 		article: {},
 		user: {name: '', pwd: '', avatar:''}

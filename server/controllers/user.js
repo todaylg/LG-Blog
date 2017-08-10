@@ -11,13 +11,13 @@ var creatToken = (id, name) => {
     }, "123", { expiresIn: '7d' })
 }
 
-exports.test = function(req,res) {
+exports.userTest = function(req,res) {
   console.log("test");
  return res.json({status:'success',data:'test.'});
 };
 
 /* 登陆 */
-exports.signin = function(req,res) {
+exports.userLogin = function(req,res) {
   const {name, pwd} = req.body;
   console.log(name);//解构赋值
   console.log(pwd);//解构赋值

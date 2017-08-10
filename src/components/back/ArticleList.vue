@@ -1,8 +1,5 @@
 <template>
   <section class="articles">
-    <router-link :to="{name:'editor'}"
-                 tag="button">新增文章
-    </router-link>
     <table>
       <tbody>
       <tr>
@@ -16,16 +13,16 @@
           {{article.title}}
         </router-link>
         <td>
-          {{article.date | toDate}}
+          {{article.created | toDate}}
         </td>
         <td>
           <router-link class="fa fa-pencil-square-o"
                        :to="{name:'editor',query:{id:article._id}}"
                        tag="i">
           </router-link>
-          <i class="fa fa-trash"
-             @click="deleteArticle(article._id)">
-          </i>
+          <span
+             @click="delArticle(article._id)">Delete
+          </span>
         </td>
       </tr>
       </tbody>
@@ -36,19 +33,15 @@
   import {mapState, mapActions} from 'vuex'
   export default{
     created(){
-      this.getArticles()
+      this.getArticleList()
     },
     computed: mapState(['articles']),
-    methods: mapActions(['getArticles', 'deleteArticle'])
+    methods: mapActions(['getArticleList','delArticle'])
   }
 </script>
-<style lang="sass" rel="stylesheet/scss" scoped>
-  @import "../../style/mixins.scss";
-
+<style lang="scss" scoped>
   section.articles {
-    @include rightSide();
     button {
-      @include center();
       position: relative;
       width: 200px;
       height: 60px;
@@ -57,7 +50,6 @@
     }
     table {
       position: absolute;
-      @include center();
       top: 150px;
       width: 60%;
       tr {
@@ -80,14 +72,14 @@
           }
         }
         td:first-of-type {
-          color: $green1;
+          color: black;
           cursor: pointer;
         }
         td:nth-of-type(2), td:nth-of-type(3) {
           text-align: center;
         }
         td i {
-          color: $green2;
+          color: black;
           cursor: pointer;
         }
         td i:after {
