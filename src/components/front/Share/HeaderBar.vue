@@ -10,13 +10,13 @@
 	            	</h1>
               	</div>
           	</div>
-          	<div v-if="user.name==''" class="header-user-avatar">
+          	<div v-if="!user.name" class="header-user-avatar">
           		<router-link :to="{path:'/admin'}">
-          	 		<img src="../../assets/img/LG.png" width="30" height="30">
+          	 		<img src="../../../assets/img/LG.png" width="30" height="30">
 	         	</router-link>
           	   </div>
           	<div v-else class="header-user-avatar">
-          		<img src="../../assets/img/LG.png" width="30" height="30">
+          		<img v-bind:src="user.avatar" width="30" height="30">
           	    <div class="header-user-menu">
           	        <div class="herder-user-name">
           	        	晚上好!

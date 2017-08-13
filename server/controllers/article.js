@@ -81,3 +81,13 @@ exports.getArticleList = function (req,res,next) {
 	})
 }
 
+exports.getFrontArticleList = function (req,res,next) {
+	console.log("getFrontArticleList ing....");
+	const page = req.body.page;
+	const limit = req.body.limit || 4;
+	const skip = limit * (page - 1 );
+	Article.find({status:1}).sort({created:-1}).skip(skip).limit(limit).exec().then((articles) => {
+		console.log("articles:"+articles);
+		res.send(articles);
+	});
+}

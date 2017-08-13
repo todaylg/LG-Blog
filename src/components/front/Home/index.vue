@@ -3,15 +3,22 @@
 		<!-- <Welcome></Welcome> -->
 		<Background></Background>
 		<ArticlesList></ArticlesList>
+		<ScrollTop></ScrollTop>
 	</div>
 </template>
 <script>
-	import Welcome from './Welcome.vue';
+	//import Welcome from '../Share/Welcome.vue';
+	import ScrollTop from '../Share/ScrollTop.vue';
 	import Background from './Background.vue';
 	import ArticlesList from './ArticlesList.vue';
 	
 	export default{
-		components: {Welcome, Background, ArticlesList}
+		components: {
+			//Welcome,
+			Background,
+			ArticlesList,
+			ScrollTop
+		}
 	}
 </script>
 <style lang="scss">

@@ -1,21 +1,44 @@
 import Vue from 'vue';
+import router   from '../router';
 
 export default {
-	login ({commit}, payload) {
-		return Vue.http.post('/api/userLogin', payload).then(response => {
-			if (response.data.state === 1) {
-				payload.token = response.data.token;
-				commit('SET_USER', payload);
-			} else {
-				return Promise.reject(response.data.msg);
-   			}
+	welcomeComplete(){
+		var bg = document.querySelector('#centerbg');
+		var bz = document.querySelector('#bz');
+		var yz = document.querySelector('#yz');
+		Velocity(bg, {
+			blur: [4,0]
+		}, {
+		    duration: 2000
+		});
+		Velocity(bz,{
+			blur: 0,
+			translateX:[0,10]
+		},{
+		    duration: 2500
+		});
+		Velocity(yz,{
+			blur: 0,
+			translateX:[0,-10]
+		},{
+			duration: 2500
 		});
 	},
+	login ({commit}, payload) {
+		return Vue.http.post('/api/userLogin', payload).then(response => {
+			commit('SET_USER', response.data);
+			router.go({name: 'admin'});
+		});
+	},
+	getUserinfo({commit}){//todo findOne
+		return Vue.http.get('/api/getUserinfo').then(response => {
+		  	commit('SET_USER', response.data);
+		  });
+	},
 	getArticle ({commit}, id) {
-	  return Vue.http.get('/api/getArticle', {params: {id}})
-	    .then(response => {
-	    	commit('SET_ARTICLE', response.data);
-	    });
+		return Vue.http.get('/api/getArticle', {params: {id}}).then(response => {
+			commit('SET_ARTICLE', response.data);
+		});
 	},
 	delArticle({commit,dispatch}, id){
 		return Vue.http.post('/api/delArticle',{id:id}).then(response => {
@@ -79,5 +102,14 @@ export default {
 			.then(articles => {
 				commit('SET_ARTICLES', articles);
 			});
+	},
+	getFrontArticleList({commit}, payload) {
+		return Vue.http.get('/api/getFrontArticleList', {params: {payload}}).then(response => response.json()).then(articles => {
+			console.log(articles);
+			console.log(articles.length);
+			if (articles.length != 0) {
+				commit('SET_ARTICLELIST', articles);
+			}
+		});
 	}
 };

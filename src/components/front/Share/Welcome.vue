@@ -11,7 +11,8 @@
 	</div>
 </template>
 <script>
-import Velocity from "../../assets/js/velocity.min.js";
+import Velocity from "../../../assets/js/velocity.min.js";
+//import { mapActions } from 'vuex';
 
 export default {
 	mounted(){
@@ -19,6 +20,7 @@ export default {
 	},
 	methods:{
 		eyeAnimation(){
+			//var that = this;
 			var topBlock = document.querySelector('.topBlock');
 			var buttomBlock = document.querySelector('.buttomBlock');
 			var tt = document.querySelector('.eye'); 
@@ -64,6 +66,7 @@ export default {
 			    duration: 600,
 			    complete: function() {
 			    	tt.parentElement.removeChild(tt);
+			    	//that.welcomeComplete();
 			    }
 			}))
 			
@@ -94,7 +97,8 @@ export default {
 			    	welcome.parentElement.removeChild(welcome);
 			    }
 			}))
-		}
+		},
+		//...mapActions(['welcomeComplete'])
 	}
 }
 </script>
@@ -130,7 +134,7 @@ export default {
     width: 300px;
     height: 30px;
     transform:translate(-50%,-50%);
-    background-image: url(../../assets/img/v_text.png);
+    background-image: url(../../../assets/img/v_text.png);
     background-size: 90% auto;
     background-position: center;
     background-repeat: no-repeat;

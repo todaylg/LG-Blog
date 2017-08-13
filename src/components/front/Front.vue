@@ -6,8 +6,8 @@
 	</div>
 </template>
 <script>
-	import HeaderBar from './HeaderBar.vue';
-	//import FooterBar from './FooterBar.vue';
+	import HeaderBar from './Share/HeaderBar.vue';
+	//import FooterBar from './Share/FooterBar.vue';
 	
 	export default{
 		components: {HeaderBar}

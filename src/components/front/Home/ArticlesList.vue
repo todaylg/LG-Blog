@@ -1,44 +1,58 @@
 <template>
 		<div id='content'>
 			<div id="blank"></div>
-			<div class="post">
-          		<router-link :to="{path:'/articles'}">
-          	 		<img width="1920" height="1080" src="../../assets/img/bg.jpg" class="cover">
-	         	</router-link>
-			    <div class="else">
-			        <p>一月 22, 2017</p>
-			        <h3><a class="posttitle" href="http://localhost/wordpress/?p=213">带图文章测试</a></h3>
-			        <p>
-					这是测试的文章
-					</p>
-			        <p class="here">
-			            <span class="icon-letter">7</span>
-			            <span class="icon-view">0</span>
-			            <a href="javascript:;" class="likeThis" id="like-213"><span class="icon-like"></span><span class="count">0</span></a>
-			        </p>
-			    </div>
-			</div>
-			<div class="post">
-          		<router-link :to="{path:'/articles'}">
-          	 		<img width="1920" height="1080" src="../../assets/img/bg.jpg" class="cover">
-	         	</router-link>
-			    <div class="else">
-			        <p>一月 22, 2017</p>
-			        <h3><a class="posttitle" href="http://localhost/wordpress/?p=213">带图文章测试</a></h3>
-			        <p>
-					这是测试的文章
-					</p>
-			        <p class="here">
-			            <span class="icon-letter">7</span>
-			            <span class="icon-view">0</span>
-			            <a href="javascript:;" class="likeThis" id="like-213"><span class="icon-like"></span><span class="count">0</span></a>
-			        </p>
-			    </div>
-			</div>        
-	    </div>
+      <ul>
+        <li class="post" v-for="(article,index) in articleList">
+              <router-link v-if="article.special_img" :to="{ name: 'article', params: {aid: article._id } }">
+                <img width="1920" height="1080" :src="article.special_img" class="cover">
+            </router-link>
+          <div class="else">
+              <p>{{ article.publish | toDate }}</p>
+              <h3>
+                <router-link :to="{ name: 'article', params: {aid: article._id } }">
+                  {{article.title}}
+                </router-link>
+          </h3>
+              <p>{{article.content}}</p>
+              <p class="here">
+                  <span>{{article.visit_count}}</span>
+                  <span>{{article.comment_count}}</span>
+              </p>
+          </div>
+        </li>
+      </ul>
+      <!-- <div class="load-more">
+          <button class="ladda-button" @click.prevent="addData()">
+            <span v-if="isFetching" class="ladda-spinner">
+              <i class="fa fa-spinner fa-spin"></i>
+            </span>
+            <span v-else class="ladda-label">点击查看更多</span>
+          </button>
+      </div>   -->
+	 </div>
 </template>
 <script>
-  
+  import { mapState,mapActions } from 'vuex'
+
+  export default {
+  data(){
+    return {
+      page:1,
+      limit:4
+    }
+  },
+  computed: {
+    ...mapState(['articleList'])
+  },  
+  created(){
+      this.getFrontArticleList({page:this.page,limit:this.limit});
+  },
+  methods:{
+    ...mapActions([
+      'getFrontArticleList'
+    ])
+  }
+}
 </script>
 
 <style lang="scss">

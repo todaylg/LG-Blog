@@ -1,9 +1,9 @@
 [
   {
     "type": "User",
-    "username": "test",
+    "username": "lg",
     "intro": "this is the test user for init",
     "password": "123",
-    "role":"11"
+    "avatar":"http://ouib5enmf.bkt.clouddn.com/LG.png"
   }
 ]

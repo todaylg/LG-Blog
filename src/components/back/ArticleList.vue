@@ -30,10 +30,10 @@
   </section>
 </template>
 <script>
-  import {mapState, mapActions} from 'vuex'
+  import {mapState, mapActions} from 'vuex';
   export default{
     created(){
-      this.getArticleList()
+      this.getArticleList();
     },
     computed: mapState(['articles']),
     methods: mapActions(['getArticleList','delArticle'])

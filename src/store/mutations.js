@@ -1,8 +1,18 @@
 export default {
 	SET_USER: (state, user) => {
-		state.user = user;
 		localStorage.setItem('token', user.token);
+		localStorage.setItem('username', user.username);
+		state.user = {
+			username:user.username,
+			intro:user.intro,
+			avatar:user.avatar
+		};
 		console.log(user);
+	},
+	UNSET_USER: (state) => {
+	    localStorage.removeItem('token');
+	    localStorage.removeItem('username');
+	    state.user = {};
 	},
 	SET_ARTICLE: (state, article) => {
 		state.article = article;
@@ -21,5 +31,8 @@ export default {
 	},
 	SET_CATLIST:  (state, catList) => {
 		state.catList = catList;
+	},
+	SET_ARTICLELIST: (state, articles) => {
+		state.articleList = state.articleList.concat(articles);
 	},
 };

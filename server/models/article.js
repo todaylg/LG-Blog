@@ -18,11 +18,8 @@ var ArticleSchema = new Schema({
 	},
 	content:String,
 	special_img:{
-		type:String 	//特色图片的保存路径
-	},
-	//存储文章所用到的图片
-	images:{
-		type:Array
+		type:String,
+		default:"http://onok3htf1.bkt.clouddn.com/WY_bg.png"
 	},
 	visit_count:{//访问数
 		type:Number,
@@ -32,13 +29,9 @@ var ArticleSchema = new Schema({
 		type:Number,
 		default:0
 	},
-	top:{
-		type:Boolean,
-		default:false
-	},
 	status:{//0:草稿 1:发布
 		type:Number,
-		default:0
+		default:1//测试
 	},
 	created: {// 创建时间
 		type: Date,

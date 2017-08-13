@@ -1,6 +1,5 @@
 var jwt =require('jsonwebtoken');
-// var secret = require('../../config').jwt
-var secret = "123";
+var secret = require('./config').jwt;
 
 // 检查token是否正确
 var confirmToken = (req, res, next) => {
@@ -13,11 +12,11 @@ var confirmToken = (req, res, next) => {
         jwt.verify(token, secret, function (err) {
             if (err) {
                 console.log("token error");
+                console.log("err.message:"+err.message);
                  return res.status(401).end(err.message);
             }
         })
     }
-    console.log("token ok!");
     next();
 }
 

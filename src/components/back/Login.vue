@@ -1,64 +1,61 @@
 <template>
-  <section class="login">
-  <div id="bg" style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; z-index: -1; overflow: hidden;"><img src="../../assets/img/bg1.png" style="display: block; opacity: 1; width:100%;height:100%;margin-top: 0px;"></div>
-
-  <div id="login" @keyup.enter="doLogin">
-      <h1><a href="http://localhost/wordpress/" title="LG-Blog" tabindex="-1">LG-Blog</a></h1>
-    
-  <form name="loginform" id="loginform">
-    <p>
-      <label for="user_login">用户名<br>
-      <input type="text" name="log" id="user_login" class="input" value="" size="20"
+    <div class="wrapper">
+    <div class="container">
+      <h1>{{info}}</h1>
+      <div class="form">
+        <input type="text" name="log" id="user_login" class="input" value="" size="20"
                placeholder="username"
-               v-model.trim="name"
-        ></label>
-    </p>
-    <p>
-      <label for="user_pass">密码<br>
-              <input type="password" name="pwd" id="user_pass" class="input" value="" size="20"
+               v-model.trim="username"
+        >
+         <input type="password" name="pwd" id="user_pass" class="input" value="" size="20"
                placeholder="password"
                v-model.trim="pwd"
-        ></label>
-    </p>
-     
-    <p class="submit">
-      <input @click="doLogin()" class='button' value="登录">
-    </p>
-  </form>
-    
+        >
+        <button id="login-button" v-on:click.prevent="doLogin">Login</button>
+      </div>
     </div>
-
-  </section>
+    
+    <ul class="bg-bubbles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
 </template>
 <script>
-  import {mapActions} from 'vuex';
-  import {set}  from '../../assets/js/cookieUtil';
+  import {mapActions,mapMutations} from 'vuex';
 
   export default{
     data(){
       return {
-        name: '',
-        pwd: '',
-        info: ''
+        username: 'lg',
+        pwd: '123',
+        info: 'Welcome'
       }
     },
+    // mounted () {
+    //   doLogin();
+    // },
     methods: {
       doLogin(){
-        if (!this.name.length) return this.info = '请输入正常的用户名'
-        if (!this.pwd.length) return this.info = '请输入正常的密码'
-
-        this.login({name: this.name, pwd: this.pwd})
-          .then(() => {
-            const date = new Date(Date.now() + 60000 * 30)
-            set('user', this.name, date, '/', window.location.hostname)
-            this.$router.push({path: '/'})
-          })
-          .catch(msg => this.info = msg)
+        if (!this.username.length) return this.info = '请输入正常的用户名';
+        if (!this.pwd.length) return this.info = '请输入正常的密码';
+        //$('form').fadeOut(500);
+        //document.querySelector('.wrapper').classList.add('form-success');
+        this.login({username: this.username, pwd: this.pwd});
       },
       clearInfo(){
         this.info = ''
       },
-      ...mapActions(['login'])
+      ...mapActions(['login']),
+      ...mapMutations(['SET_USER'])
     },
     watch: {
       name: 'clearInfo',
@@ -67,85 +64,229 @@
   }
 </script>
 <style lang="scss" scoped>
-#login {
-    font: 14px/1.4 "Helvetica Neue","HelveticaNeue",Helvetica,Arial,sans-serif;
-    position: absolute;
-    background: rgba(255, 255, 255, 0.45);
-    border-radius: 6px;
-    top: 50%;
-    left: 50%;
-    width: 350px;
-    padding: 0px !important;
-    margin: -235px 0px 0px -190px !important;
-    background-position: center 48%;
-    h1 a {
-        font-family: "Microsoft Yahei";
-        font-weight: bold;
-        text-indent: 0px;
-        font-size: 0px;
-        height: 64px;
-        width: 100%;
-        line-height: 88px;
-        line-height: 180%;
-        text-align: center;
-        color: #FFF;
-        text-shadow: 1px 1px 0px #000;
-        margin-bottom: 10px;
-        margin-top: 25px;
-        background-image: url(../../assets/img/login.png);
-        background-position: center bottom !important;
-        background-size: contain;
-        padding-top: 20px;
-        box-shadow: none;
-        background-repeat: no-repeat;
-        margin: 0 auto 25px;
-        padding: 0;
-        outline: 0;
-        display: block;
-    }
-    form {
-        text-align:center;
-        padding: 10px 0px;
-        background: none;
-        box-shadow: none;
-        margin-top: 10px;
-        p {
-            font-family: "Microsoft Yahei";
-            position: relative;
-            padding: 0px 35px;
-        }
-        .input {
-            border: 1px solid #EAEAEA;
-            border-radius: 0px;
-            background: none;
-            padding: 5px 10px;
-            color: #444;
-            font-weight: normal;
-            font-size: 14px;
-            background: #FFF;
-            font-family: "Microsoft Yahei";
-            box-shadow: 0 0 0px 1000px white inset;
-            height: 50px;
-            border-radius: 3px;
-            margin-top: 10px;
-        }
-    }
+.wrapper {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  font-weight: 300;
 }
-#login .submit .button {
-    width: 100%;
-    margin: 20px auto 40px;
-    border: none;
-    float: none;
-    border-radius: 30px;
-    height: 50px;
-    font-size: 14px;
-    text-align: center;
-    color: #FFF;
-    background: #FF5656;
-    font-weight: normal;
-    cursor: pointer;
-    box-shadow: none;
-    text-shadow: none;
-    letter-spacing: 2px;
+.wrapper ::-webkit-input-placeholder {
+  /* WebKit browsers */
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  font-weight: 300;
 }
+.wrapper :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  opacity: 1;
+  font-weight: 300;
+}
+.wrapper ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  opacity: 1;
+  font-weight: 300;
+}
+.wrapper :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  font-weight: 300;
+}
+.wrapper {
+  background: #50a3a2;
+  background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
+  background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 400px;
+  margin-top: -200px;
+  overflow: hidden;
+}
+.wrapper.form-success .container h1 {
+  -webkit-transform: translateY(85px);
+          transform: translateY(85px);
+}
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 80px 0;
+  color:white;
+  height: 400px;
+  text-align: center;
+}
+.container h1 {
+  font-size: 40px;
+  -webkit-transition-duration: 1s;
+          transition-duration: 1s;
+  -webkit-transition-timing-function: ease-in-put;
+          transition-timing-function: ease-in-put;
+  font-weight: 200;
+}
+.form {
+  padding: 20px 0;
+  position: relative;
+  z-index: 2;
+}
+.form input {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: 0;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 250px;
+  border-radius: 3px;
+  padding: 10px 15px;
+  margin: 0 auto 10px auto;
+  display: block;
+  text-align: center;
+  font-size: 18px;
+  color: white;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+  font-weight: 300;
+}
+.form input:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.form input:focus {
+  background-color: white;
+  width: 300px;
+  color: #53e3a6;
+}
+.form button {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: 0;
+  background-color: white;
+  border: 0;
+  padding: 10px 15px;
+  color: #53e3a6;
+  border-radius: 3px;
+  width: 250px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+}
+.form button:hover {
+  background-color: #f5f7f9;
+}
+.bg-bubbles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.bg-bubbles li {
+  position: absolute;
+  list-style: none;
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.15);
+  bottom: -160px;
+  -webkit-animation: square 25s infinite;
+  animation: square 25s infinite;
+  -webkit-transition-timing-function: linear;
+  transition-timing-function: linear;
+}
+.bg-bubbles li:nth-child(1) {
+  left: 10%;
+}
+.bg-bubbles li:nth-child(2) {
+  left: 20%;
+  width: 80px;
+  height: 80px;
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+  -webkit-animation-duration: 17s;
+          animation-duration: 17s;
+}
+.bg-bubbles li:nth-child(3) {
+  left: 25%;
+  -webkit-animation-delay: 4s;
+          animation-delay: 4s;
+}
+.bg-bubbles li:nth-child(4) {
+  left: 40%;
+  width: 60px;
+  height: 60px;
+  -webkit-animation-duration: 22s;
+          animation-duration: 22s;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+.bg-bubbles li:nth-child(5) {
+  left: 70%;
+}
+.bg-bubbles li:nth-child(6) {
+  left: 80%;
+  width: 120px;
+  height: 120px;
+  -webkit-animation-delay: 3s;
+          animation-delay: 3s;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.bg-bubbles li:nth-child(7) {
+  left: 32%;
+  width: 160px;
+  height: 160px;
+  -webkit-animation-delay: 7s;
+          animation-delay: 7s;
+}
+.bg-bubbles li:nth-child(8) {
+  left: 55%;
+  width: 20px;
+  height: 20px;
+  -webkit-animation-delay: 15s;
+          animation-delay: 15s;
+  -webkit-animation-duration: 40s;
+          animation-duration: 40s;
+}
+.bg-bubbles li:nth-child(9) {
+  left: 25%;
+  width: 10px;
+  height: 10px;
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+  -webkit-animation-duration: 40s;
+          animation-duration: 40s;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.bg-bubbles li:nth-child(10) {
+  left: 90%;
+  width: 160px;
+  height: 160px;
+  -webkit-animation-delay: 11s;
+          animation-delay: 11s;
+}
+@-webkit-keyframes square {
+  0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  100% {
+    -webkit-transform: translateY(-700px) rotate(600deg);
+            transform: translateY(-700px) rotate(600deg);
+  }
+}
+@keyframes square {
+  0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  100% {
+    -webkit-transform: translateY(-700px) rotate(600deg);
+            transform: translateY(-700px) rotate(600deg);
+  }
+}
+
 </style>

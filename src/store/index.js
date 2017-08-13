@@ -12,7 +12,8 @@ const store = new Vuex.Store({
 		catList:[],
 		articles: [],
 		article: {},
-		user: {name: '', pwd: '', avatar:''}
+		user: {},
+		articleList:[]
 	},
 	getters,
 	mutations,

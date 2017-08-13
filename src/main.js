@@ -13,17 +13,18 @@ Vue.filter('toDate', date => {
 });
 
 //JWT  客户端发送请求
-Vue.http.interceptors.push((request, next) => {
-	if (window.localStorage.getItem('token')) {
- 		request.headers.set('authorization', 'Bearer ' + window.localStorage.getItem('token'));
-	}
-	next((response) => {//token无效后
-		if (response.status === 401) {
-			router.go({name: 'login'});
-		}
-		return response;
-	});
-});
+// Vue.http.interceptors.push((request, next) => {
+// 	if (window.localStorage.getItem('token')) {
+//  		request.headers.set('authorization', 'Bearer ' + window.localStorage.getItem('token'));
+// 	}
+// 	next((response) => {//token无效后
+// 		if (response.status === 401) {
+// 			store.commit('UNSET_USER');
+// 			router.go({path: '/login'});
+// 		}
+// 		return response;
+// 	});
+// });
 
 new Vue({
 	el: '#app',

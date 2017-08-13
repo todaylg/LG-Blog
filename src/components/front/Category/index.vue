@@ -4,7 +4,7 @@
 	</div>
 </template>
 <script>
-	import HeaderBar from './HeaderBar.vue';
+	import HeaderBar from '../Share/HeaderBar.vue';
 	
 	export default{
 		components: {HeaderBar}

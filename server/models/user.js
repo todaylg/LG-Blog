@@ -15,23 +15,23 @@ var UserSchema = new Schema({
 	},
 	password: String,
 	salt: String,
-	role: {
-		type : String ,
-		default : '0'
-	},
+	// role: {
+	// 	type : String ,
+	// 	default : '0'
+	// },
 	avatar:String,
-	status:{
-		type:Number,
-		default:0
-	},
-	created: {
-		type: Date,
-		default: Date.now
-	},
-  updated: {
-    type: Date,
-    default: Date.now
-  }
+	// status:{
+	// 	type:Number,
+	// 	default:0
+	// },
+	// created: {
+	// 	type: Date,
+	// 	default: Date.now
+	// },
+ //  updated: {
+ //    type: Date,
+ //    default: Date.now
+ //  }
 });
 
 /**

@@ -1,17 +1,19 @@
 import Vue      from 'vue';
+//import Store    from '../store';
 import Router   from 'vue-router';
 
 import Front  from '../components/front/Front.vue';
-import Home  from '../components/front/Home.vue';
-import Articles  from '../components/front/Articles.vue';
-import Category  from '../components/front/Category.vue';
-import About  from '../components/front/About.vue';
+import Home  from '../components/front/Home/index.vue';
+import Article  from '../components/front/Article/index.vue';
+import Category  from '../components/front/Category/index.vue';
+import About  from '../components/front/About/index.vue';
 
 import Login  from '../components/back/Login.vue';
 import Dashboard  from '../components/back/Dashboard.vue';
 import ArticleCreate  from '../components/back/ArticleCreate.vue';
 import CategoryEdit  from '../components/back/CategoryEdit.vue';
 import ArticleList  from '../components/back/ArticleList.vue';
+import userInfoEdit  from '../components/back/userInfoEdit.vue';
 
 Vue.use(Router);
 
@@ -39,7 +41,7 @@ var router = new Router({
 					path: 'home', component:Home, meta:{auth:false}
 				},
 				{
-					path: 'articles/:aid', component: Articles, meta:{auth:false}
+					path: 'articles/:aid', component: Article, meta:{auth:false}
 				},
 				{
 					path: 'category', component: Category, meta:{auth:false}
@@ -54,6 +56,7 @@ var router = new Router({
 		},
 		{
 			path:'/admin',
+			name:'admin',
 			component:Dashboard,
 			children:[
 			  	{
@@ -62,9 +65,9 @@ var router = new Router({
 			  	{
 					path:'articleList',component:ArticleList
 			  	},
-				// {
-				// 	path:'userInfoEdit',component:userInfoEdit
-				// },
+				{
+					path:'userInfoEdit',component:userInfoEdit
+				},
 				// {
 				// 	path:'commentEdit',component:commentEdit
 				// },
@@ -79,27 +82,28 @@ var router = new Router({
 			  	},
 			]
 		},
-		// {
-		// 	path:'*',component:NotFound
-		// }
+
+		{
+			path:'*',component:Home//todo 404
+		}
 	]
 });
 
 // 路由钩子
 // router.beforeEach(({meta,path},from,next)=>{
-// 	//store.dispatch('showProgress',0)
-// 	let {auth=true}=meta
-// 	// let isLogin = Boolean(store.state.token)
+// 	let {auth=true}=meta;
+// 	let isLogin = Boolean(Store.state.token);
 
-// 	// if(auth&&!isLogin&&path!=='/login'){
-// 	// 	return next({path:'/login'})	
-// 	// }
-// 	// // 如果登录了以后再访问reg和login则路由到Home
-// 	// if(isLogin&&(path=='/login'||path=='/reg')){
-// 	// 	return next({path:'/admin'});
-// 	// }
-// 	// 未登录的情况下访问reg则直接路由
+// 	if(auth&&!isLogin&&path!=='/login'){
+// 		return next({path:'/login'});	
+// 	}
+// 	// 如果登录了以后再访问reg和login则路由到Home
+// 	if(isLogin&&path=='/login'){
+// 		return next({path:'/admin'});
+// 	}
+// 	//未登录的情况下访问reg则直接路由
 // 	next();
-// })
+// });
+//import Store    from '../store';
 
 export default router;
