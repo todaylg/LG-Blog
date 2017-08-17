@@ -1,23 +1,26 @@
 <template>
   <section>
-    <input placeholder="分类名称" v-model="catName"> 
+    <input placeholder="分类名称" v-model="catName">
+    <input placeholder="分类简介" v-model="catIntro">  
     <div>
       <button class="saveArticle"
               @click="add">新增分类
       </button>
     </div>
-  	  <div class="page">
+  	<div class="page">
   	 <h1>分类目录</h1>
   	<table class="layout display responsive-table">
   	    <thead>
   	        <tr>
   	            <th>分类目录名称</th>
+                <th>分类目录简介</th>
   	            <th>操作</th>
   	        </tr>
   	    </thead>
   	    <tbody>
   	        <tr v-for="(cat,index) in catList">
   	            <td class="organisationnumber">{{cat.name}}</td>
+                <td class="organisationnumber">{{cat.intro}}</td>
   	            <td class="actions">
   	                <a class="edit-item" title="Edit" @click="inspected = !inspected">Edit</a>
   	                <a class="remove-item" title="Delete" @click="del(cat._id)">Delete</a>
@@ -40,7 +43,7 @@ export default{
 	data(){
 	  return {
 	    inspected: false,
-		inputVal:''
+		  inputVal:''
 	  }
 	},
 	created(){
@@ -64,12 +67,20 @@ export default{
 	computed: {
 		catName: {
 			get(){
-		  		return this.$store.state.catName
+		  		return this.$store.state.catEdit.catName
 			},
 			set(value){
-				this.$store.commit('SET_CATEGORY', value)
+				this.$store.commit('SET_CATEDITNAME', value)
 			}
 		},
+    catIntro:{
+        get(){
+            return this.$store.state.catEdit.catIntro
+        },
+        set(value){
+          this.$store.commit('SET_CATEEDITINTRO', value)
+        }
+    },
 		...mapState(['catList']),
 	}
 }

@@ -8,7 +8,7 @@ module.exports = function(app) {
 	app.use('/api', require('../api/user'));
 	app.use('/api', require('../api/category'));
 	app.use('/api', require('../api/article'));
-	// app.use('/api/comment', require('../api/comment'));
+	app.use('/api', require('../api/comment'));
 	// app.use('/api/logs',require('../api/logs'));//多用户这个日志是必要的
 	// app.use('/api/*', function (req,res,next) {
 	// 	return res.json({status:'success',data:'other.'});

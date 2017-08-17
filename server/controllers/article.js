@@ -9,7 +9,8 @@ exports.addArticle = function (req,res,next) {
 	const article = {
 	  title: req.body.title,
 	  updated: req.body.date,
-	  content: req.body.content
+	  content: req.body.content,
+	  category: req.body.belongCat
 	}
 	if (title) {//title不能重复
 		Article.findOne({title},(err,doc)=>{
@@ -19,9 +20,12 @@ exports.addArticle = function (req,res,next) {
 		  		console.log("title name used!!");
 		  		return res.send({state: 0, msg: '文章标题名已经被使用'}).end();
 		  	} else {
-			new Article(article).save();
-			console.log("new Article!!");
-			return res.send({state: 1, msg: '新文章已创建'}).end();
+		  		if(article.content=='')return res.send({state: 0, msg: '新文章内容不能为空'}).end();
+				article.intro = article.content.substring(0,10);
+				article.intro+='...';
+				new Article(article).save();
+				console.log("new Article!!");
+				return res.send({state: 1, msg: '新文章成功创建'}).end();
 			}
 		});
 	}else{
@@ -31,28 +35,35 @@ exports.addArticle = function (req,res,next) {
 
 exports.updateArticle = function (req,res,next) {
 	console.log("updatesaveArticle ing....");
-	const id = req.body.id
+	const title = req.body.title
 	const article = {
 	  title: req.body.title,
 	  updated: req.body.date,
-	  content: req.body.content
+	  content: req.body.content,
+	  category: req.body.belongCat
 	}
-	if (id) {
-	  Article.findByIdAndUpdate(id,article,()=>{
-	  	console.log("update callback");
-	  	res.send({state: 1, msg: '更新成功'}).end();
-	  });
-	} else {
-	  console.log("No this Aticle!!")
-	  return res.status(500).end();
+	if (title) {//title不能重复
+	  	Article.findOneAndUpdate({title},article,(err,doc)=>{
+		  	if (err) {
+	    		console.log(err)
+	    	} else if (doc) {
+		  		console.log("Article更新成功!!");
+		  		res.send({state: 1, msg: '更新成功'}).end();
+		  	}else {
+			  console.log("Article更新失败!!")
+			  return res.send({state: 0, msg: '更新成功失败'}).end();
+			}
+		});
+	}else{
+		return res.send({state: 0, msg: '文章标题名不能为空'}).end();
 	}
-	
 }
 
 exports.getArticle = function (req,res,next) {
 	console.log("getArticle ing....");
-	const _id = req.query.id;
-	Article.findOne({_id}, (err, doc) => {
+	const title = req.body.atitle;
+	console.log("title: "+title);
+	Article.findOne({title}, (err, doc) => {
 		if (err) {
 			console.log(err);
 		} else if (doc) {
@@ -72,7 +83,7 @@ exports.delArticle = function (req,res,next) {
 }
 exports.getArticleList = function (req,res,next) {
 	console.log("getArticleList ing....");
-	Article.find(null, 'title created content', (err, doc) => {
+	Article.find(null, 'title created content category', (err, doc) => {
 		if (err) {
 			console.log(err)
 		} else if (doc) {
@@ -83,11 +94,11 @@ exports.getArticleList = function (req,res,next) {
 
 exports.getFrontArticleList = function (req,res,next) {
 	console.log("getFrontArticleList ing....");
-	const page = req.body.page;
-	const limit = req.body.limit || 4;
+	const page = req.query.page;
+	const limit = req.query.limit-0 || 4;
 	const skip = limit * (page - 1 );
-	Article.find({status:1}).sort({created:-1}).skip(skip).limit(limit).exec().then((articles) => {
-		console.log("articles:"+articles);
+	console.log("page: "+page+";limit: "+limit+";skip: "+skip);
+	Article.find({status:1},"title created intro special_img visit_count comment_count").sort({created:-1}).skip(skip).limit(limit).exec().then((articles) => {
 		res.send(articles);
 	});
 }

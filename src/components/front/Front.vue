@@ -2,15 +2,17 @@
 	<div class="contain">
 		<HeaderBar></HeaderBar>
 		<router-view></router-view>	
-		<!-- <FooterBar></FooterBar> -->
+		<FooterBar></FooterBar>
+		<ScrollTop></ScrollTop>
 	</div>
 </template>
 <script>
 	import HeaderBar from './Share/HeaderBar.vue';
-	//import FooterBar from './Share/FooterBar.vue';
+	import ScrollTop from './Share/ScrollTop.vue';
+	import FooterBar from './Share/FooterBar.vue';
 	
 	export default{
-		components: {HeaderBar}
+		components: {HeaderBar, ScrollTop, FooterBar}
 	}
 </script>
 <style lang="scss">

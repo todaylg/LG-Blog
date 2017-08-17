@@ -1,42 +1,37 @@
-<template>
+ <template>
 	<header class="headerBar" v-bind:class="classObj">
         <div class="site-top">
           	<div class="site-branding">
             	<div class="site-title">
 	            	<h1>
-	            		<a href="<?php bloginfo('url');?>">
+	            		<router-link :to="{name:'adminArticleCreate'}">
 	              			LG
-	              		</a>
+	              		</router-link>
 	            	</h1>
               	</div>
           	</div>
-          	<div v-if="!user.name" class="header-user-avatar">
-          		<router-link :to="{path:'/admin'}">
-          	 		<img src="../../../assets/img/LG.png" width="30" height="30">
-	         	</router-link>
-          	   </div>
-          	<div v-else class="header-user-avatar">
-          		<img v-bind:src="user.avatar" width="30" height="30">
-          	    <div class="header-user-menu">
-          	        <div class="herder-user-name">
-          	        	晚上好!
-          	        	<div class="herder-user-name-u">{{user.name}}</div>
-          	    	</div>
-          	        <div class="user-menu-option">
-          	        	<router-link :to="{path:'/admin'}">管理中心</router-link>
-          	            <a href="http://localhost/wordpress/wp-admin/post-new.php" target="_top">撰写文章</a>
-          	            <a href="http://localhost/wordpress/w·p-admin/profile.php" target="_top">个人资料</a>
-          	        	<a href="http://localhost/wordpress/wp-login.php?action=logout&amp;redirect_to=http%3A%2F%2Flocalhost%2Fwordpress&amp;_wpnonce=4386ebd208" target="_top">退出登录</a>
-          	        </div>
-          	    </div>
-          	</div>
-	        <div class="lower">
-	        	<div id="show-nav" class="showNav">
-	            	<div class="line line1"></div>
-	            	<div class="line line2"></div>
-	            	<div class="line line3"></div>
+	        <div class="burger_container" :class='navShow?"navOpen":"navClose"' @click="navShow = !navShow">
+	        	<div id="burger">
+	            	<div class="burger burger-top"></div>
+	            	<div class="burger burger-middle"></div>
+	            	<div class="burger burger-bottom"></div>
 	            </div>
-	            <nav></nav><!--分类 -->
+	            <nav class='navBar'>
+		            <ul id="menu-test" class="menu">
+		            	<li v-for="(cat,index) in catList">
+	            			<router-link :to="{name:'category',params:{catname:cat.name}}">
+	            	  			{{cat.name}}
+	            	  		</router-link>
+		            	</li>
+
+		            	<!--静态数据-->
+						<!-- <li>
+							<router-link :to="{path:`category/${h1}`}">
+	            	  			测试
+	            	  		</router-link>
+						</li> -->
+					</ul>
+				</nav><!--分类 -->
 	        </div>
         </div>
       </header><!-- #masthead -->
@@ -52,8 +47,12 @@ export default {
 			ss:this.getScrollTop(),
 			yya:false,
 			gizle:false,
-			sabit:true
+			sabit:true,
+			navShow:false
 		}
+	},
+	created(){
+		this.getCatList();
 	},
 	mounted(){
 		window.addEventListener('scroll', this.navDisplay)
@@ -66,7 +65,7 @@ export default {
 				yya:this.yya
 	 		}
 		},
-		...mapState(['user'])
+		...mapState(['user','catList'])
 	},
 	methods:{
 		navDisplay(){
@@ -87,9 +86,10 @@ export default {
 				this.ss = s;
 			}
 		},
-		getScrollTop(){
+		getScrollTop(){//TODO vuex
 			return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-		}
+		},
+		...mapActions(['getCatList'])
 	}
 }
 </script>
@@ -104,6 +104,123 @@ export default {
 	    transform: translateY(0);
 	}
 }
+
+@keyframes burgerTop{
+	0% {
+	    right: 0;
+	    -webkit-transform: rotate(0deg);
+	    transform: rotate(0deg);
+	}
+	20% {
+	    right: 0;
+	    -webkit-transform: rotate(15deg);
+	    transform: rotate(15deg);
+	}
+	80% {
+	    right: -5px;
+	    -webkit-transform: rotate(-60deg);
+	    transform: rotate(-60deg);
+	}
+	100% {
+	    right: -5px;
+	    -webkit-transform: rotate(-45deg);
+	    transform: rotate(-45deg);
+	}
+}
+@keyframes burgerBottom{
+	0% {
+	    right: 0;
+	    -webkit-transform: rotate(0deg);
+	    transform: rotate(0deg);
+	}
+	20% {
+	    right: 0;
+	    -webkit-transform: rotate(-15deg);
+	    transform: rotate(-15deg);
+	}
+	80% {
+	    right: -5px;
+	    -webkit-transform: rotate(60deg);
+	    transform: rotate(60deg);
+	}
+	100% {
+	    right: -5px;
+	    -webkit-transform: rotate(45deg);
+	    transform: rotate(45deg);
+	}
+}
+@keyframes burgerMiddle{
+	0% {
+	    width: 28px;
+	}
+	40% {
+	    width: 30px;
+	    left:-4px;
+	}
+	100% {
+	    width: 0px;
+	    left: 150%;
+	}
+}
+
+@keyframes burgerTopBack{
+	0% {
+	    right: 0;
+	    -webkit-transform: rotate(-45deg);
+	    transform: rotate(-45deg);
+	}
+	20% {
+	    right: 0;
+	    -webkit-transform: rotate(-60deg);
+	    transform: rotate(-60deg);
+	}
+	80% {
+	    right: -5px;
+	    -webkit-transform: rotate(15deg);
+	    transform: rotate(15deg);
+	}
+	100% {
+	    right: -5px;
+	    -webkit-transform: rotate(0deg);
+	    transform: rotate(0deg);
+	}
+}
+@keyframes burgerBottomBack{
+	0% {
+	    right: 0;
+	    -webkit-transform: rotate(45deg);
+	    transform: rotate(45deg);
+	}
+	20% {
+	    right: 0;
+	    -webkit-transform: rotate(60deg);
+	    transform: rotate(60deg);
+	}
+	80% {
+	    right: -5px;
+	    -webkit-transform: rotate(-15deg);
+	    transform: rotate(-15deg);
+	}
+	100% {
+	    right: -5px;
+	    -webkit-transform: rotate(0deg);
+	    transform: rotate(0deg);
+	}
+}
+@keyframes burgerMiddleBack{
+	0% {
+		width: 0px;
+	    left: 150%;
+	}
+	40% {
+	    width: 20px;
+	    right:4px;
+	}
+	100% {
+	    width: 28px;
+	}
+}
+
 header{
 	&.headerBar{
 		width: 100%;
@@ -222,38 +339,100 @@ header{
 .header-user-avatar:hover .header-user-menu {
     display: block;
 }
-.lower {
+
+.burger_container {
     position: relative;
     display: inline-block;
     float: right;
-    margin: 16.5px 0 0 0;
+    margin-top: 25px;
     font-size: 15px;
-    #show-nav {
+    #burger {
 	    position: relative;
 	    float: right;
-	    margin-left: 20px;
 	    display: block;
-	    width: 30px;
-	    height: 33px;
-	    margin-top: 4.5px;
+	    width: 28px;
+	    height: 26px;
+	    margin-left: 50px;
 	    cursor: pointer;
 	    z-index: 999;
-	    .line {
+	    .burger {
 		    position: absolute;
 		    top: 7px;
 		    left: 50%;
 		    width: 28px;
+		    border-radius: 2px;
 		    margin-left: -15px;
 		    height: 2px;
 		    background: #666;
-		    -webkit-transition: all .2s ease;
 		}
-		.line1 {
-		    top: 16px;
+		.burger-top {
+		    top: 0px;
 		}
-		.line3 {
-		    top: 25px;
+		.burger-middle {
+		    top: 10px;
+		}
+		.burger-bottom {
+		    top: 20px;
 		}
 	}
 }
+.burger_container.navOpen .burger-top{
+	animation: burgerTop .6s linear normal;
+	animation-fill-mode: forwards;
+	transform-origin: 28px 1px;
+}
+.burger_container.navOpen .burger-middle{
+    animation: burgerMiddle .4s linear normal;
+    animation-fill-mode: forwards;
+    transform-origin: 28px 1px;
+}
+.burger_container.navOpen .burger-bottom{
+    animation: burgerBottom .6s linear normal;
+    animation-fill-mode: forwards;
+    transform-origin: 28px 1px;
+}
+
+.burger_container.navClose .burger-top{
+	animation: burgerTopBack .6s linear normal;
+	animation-fill-mode: forwards;
+	transform-origin: 28px 1px;
+}
+.burger_container.navClose .burger-middle{
+    animation: burgerMiddleBack .4s linear normal;
+    animation-fill-mode: forwards;
+    transform-origin: 28px 1px;
+}
+.burger_container.navClose .burger-bottom{
+    animation: burgerBottomBack .6s linear normal;
+    animation-fill-mode: forwards;
+    transform-origin: 28px 1px;
+}
+.burger_container ul{
+	margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+}
+.burger_container ul li{
+	float: left;
+    margin-left: 28px;
+    position: relative;
+    transition: all 1s ease;
+}
+.burger_container .navBar{
+	position: relative;
+    float: right;
+    opacity: 0;
+    transform: translateX(30px);
+    transition:all .6s ease-in-out;
+}
+.burger_container.navOpen .navBar{
+    opacity:1;
+	transform: translateX(0);
+}
+.burger_container.navClose .navBar{
+    opacity:0;
+	transform: translateX(30px);
+}
+
 </style>

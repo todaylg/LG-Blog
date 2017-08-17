@@ -3,6 +3,11 @@
     <input class="title"
            placeholder="标题"
            v-model="title">
+
+    <select  v-model="belongCat"><!--TODO设置默认值-->
+     <option v-for="cat in catList">{{cat.name}}</option>
+   </select>
+
     <div :class="inspected?'inspect':'edit'">
       <textarea v-model="content" spellcheck="false"></textarea>
       <button class="toggle"
@@ -18,7 +23,7 @@
   </section>
 </template>
 <script>
-import {mapActions, mapMutations} from 'vuex';
+import {mapActions, mapMutations, mapState} from 'vuex';
 import marked     from '../../assets/js/marked.min';
 import hljs       from '../../assets/js/highlight.pack';
 
@@ -30,18 +35,15 @@ export default{
    }
  },
  created(){
-   const id = this.$route.query.id
-   if (id) return this.getArticle(id)
-   this.SET_ARTICLE({date: new Date()})
+    this.getCatList(),
+    this.getArticle({atitle:this.$route.params.atitle})//显示当前文章
  },
  updated(){
    this.highlight()
  },
  methods: {
    save(){
-     this.saveArticle()
-       // .then(() => this.$router.push({name: 'articles'}))
-       .catch(err => console.log(err))
+     this.updateArticle();
    },
    highlight(){
      setTimeout(() => {
@@ -49,7 +51,7 @@ export default{
        hljs.initHighlighting()
      }, 0)
    },
-   ...mapActions(['getArticle', 'saveArticle']),
+   ...mapActions(['getArticle', 'updateArticle','getCatList']),
    ...mapMutations(['SET_ARTICLE'])
  },
  computed: {
@@ -60,7 +62,7 @@ export default{
          {sanitize: true}
        )
        this.highlight()
-       return this.$store.state.article.content
+       return this.article.content
      },
      set(value){
        this.$store.commit('UPDATE_CONTENT', value)
@@ -68,12 +70,21 @@ export default{
    },
    title: {
      get(){
-       return this.$store.state.article.title
+       return this.article.title
      },
      set(value){
        this.$store.commit('UPDATE_TITLE', value)
      }
-   }
+   },
+   belongCat:{
+    get(){
+      return this.article.belongCat
+    },
+    set(value){
+      this.$store.commit('UPDATE_BELONGCAT', value)
+    }
+   },
+   ...mapState(['article','catList'])
  }
 }
 </script>

@@ -26,13 +26,34 @@ export default {
 	UPDATE_TITLE: (state, title) => {
 		state.article.title = title;
 	},
-	SET_CATEGORY: (state, catName) => {
-		state.catName = catName;
+	UPDATE_BELONGCAT: (state, belongCat) => {
+		state.article.belongCat = belongCat;
 	},
-	SET_CATLIST:  (state, catList) => {
+	SET_CATEDITNAME: (state, catName) => {//后台编辑分类名称
+		state.catEdit.catName = catName;
+	},
+	SET_CATEEDITINTRO: (state, catName) => {//后台编辑分类简介
+		state.catEdit.catIntro = catName;
+	},
+	SET_CAT: (state, cat) => {//前台分类文章
+		state.cat = cat;
+	},
+	SET_CATLIST:  (state, catList) => {//前后通用，获得所有分类目录
 		state.catList = catList;
 	},
 	SET_ARTICLELIST: (state, articles) => {
 		state.articleList = state.articleList.concat(articles);
+	},
+	SET_CATATICLES:(state, articles) => {
+		state.catAticles = state.catAticles.concat(articles);
+	},
+	SET_COMMENTLIST:(state, commentList) => {
+		state.commentList = commentList;
+	},
+	SET_ARTICLECOMENT:(state, articleComment) => {
+		state.articleComment = articleComment;
+	},
+	SET_ADDCOMMENT:(state, comment) => {
+		state.articleComment = state.articleComment.concat(comment);
 	},
 };

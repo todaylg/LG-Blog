@@ -1,126 +1,138 @@
 <template>
-  <section class="links">
-    <div class="title">链接编辑</div>
-    <table>
-      <tbody>
-      <tr>
-        <th>链接名称</th>
-        <th>链接地址</th>
-      </tr>
-      <tr v-for="(link,index) in links">
-        <td>
-          <i class="fa fa-plus-circle"
-             @click="ADD_NEW_LINK(index)"
-             v-if="links.length<4">
-          </i>
-          <i class="fa fa-minus-circle"
-             @click="REMOVE_LINK(index)"
-             v-if="links.length>1">
-          </i>
-          <input type="text"
-                 :value="link.name"
-                 placeholder="链接名称"
-                 spellcheck="false"
-                 @input="UPDATE_LINK_NAME({name: $event.target.value, index})">
-        </td>
-        <td>
-          <input type="text"
-                 :value="link.href"
-                 placeholder="链接地址"
-                 spellcheck="false"
-                 @input="UPDATE_LINK_HREF({href: $event.target.value, index})">
-        </td>
-      </tr>
-      </tbody>
+  <section class='commentEdit'>
+    <div class="page">
+     <h1>评论管理</h1>
+    <table class="layout display responsive-table">
+        <thead>
+            <tr>
+                <th>用户名</th>
+                <th>Email地址</th>
+                <th>用户站点</th>
+                <th>评论文章</th>
+                <th>评论内容</th>
+                <th>评论时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(comment,index) in commentList">
+                <td class="organisationnumber">{{comment.username}}</td>
+                <td class="organisationnumber">{{comment.email}}</td>
+                <td class="organisationnumber">{{comment.website}}</td>
+                <td class="organisationnumber">{{comment.atitle}}</td>
+                <td class="organisationnumber">{{comment.content}}</td>
+                <td class="organisationnumber">{{comment.created | toDate}}</td>
+                <td class="actions">
+                    <router-link class="edit-item" :to="{ name: 'article', params: {atitle: comment.atitle } }"><!--实际上线的时候这里要变成target:_blank-->
+                      查看
+                    </router-link>
+                    <a class="remove-item" title="Delete" @click="del(comment._id)">删除</a>
+                </td>
+            </tr>
+        </tbody>
     </table>
-    <div class="panel">
-      <button @click="saveLinks">保存</button>
     </div>
   </section>
 </template>
 
 <script>
-  import {mapMutations, mapActions, mapState} from 'vuex'
+  import {mapActions, mapState} from 'vuex'
   export default{
     created(){
-      this.getLinks()
+      this.getCommentList()
     },
-    computed: mapState(['links']),
+    computed: {
+      ...mapState(['commentList'])
+    },
     methods: {
-      ...mapActions(['saveLinks', 'getLinks']),
-      ...mapMutations(['UPDATE_LINK_NAME', 'UPDATE_LINK_HREF', 'ADD_NEW_LINK', 'REMOVE_LINK'])
+      del(id){
+        this.delComment(id);
+      },
+      ...mapActions(['getCommentList','delComment'])
     }
   }
 </script>
 
-<style lang="sass" rel="stylesheet/scss" scoped>
-  @import "../../style/mixins.scss";
+<style lang="scss" scoped>
+  .page{
+      max-width: 60em;
+      margin: 0 auto;
+    }
+    table th,
+    table td{
+      text-align: left;
+    }
+    table.layout{
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table.display{
+      margin: 1em 0;
+    }
+    table.display th,
+    table.display td{
+      border: 1px solid #B3BFAA;
+      padding: .5em 1em;
+    }
 
-  section.links {
-    height: 100%;
-    min-width: 500px;
-    .title {
-      @include title();
+    table.display th{ background: #D5E0CC; }
+    table.display td{ background: #fff; }
+
+    table.responsive-table{
+      box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
     }
-    table {
-      @include center();
-      padding-top: 100px;
-      width: 500px;
-      position: relative;
-      input {
-        box-sizing: border-box;
-        height: 30px;
-        padding: 6px;
-        transition: all 0.2s;
-        border-left: 0 solid $green1;
-      }
-      input:focus {
-        border-left: 6px solid $green1;
-      }
-      tr {
-        height: 50px;
-        th {
-          &:first-of-type {
-            width: 120px;
-          }
-          &:last-of-type {
-            width: 60%;
-          }
+
+    @media (max-width: 30em){
+        table.responsive-table{
+          box-shadow: none;  
         }
-        td {
-          text-align: center;
-          input {
-            width: 100%;
-          }
-          &:first-of-type {
-            input {
-              max-width: 60px;
-            }
-            i {
-              cursor: pointer;
-              transition: all 0.4s;
-              &:after {
-                content: '';
-                width: 10px;
-                display: inline-block;
-              }
-              &:hover {
-                color: $green1
-              }
-            }
-          }
+        table.responsive-table thead{
+          display: none; 
         }
+      table.display th,
+      table.display td{
+        padding: .5em;
       }
-    }
-    .panel {
-      position: absolute;
-      bottom: 40px;
-      right: 100px;
-      button {
-        @include greenButton();
-        height: 30px;
-        width: 80px;
+        
+      table.responsive-table td:nth-child(1):before{
+        content: 'Number';
       }
+      table.responsive-table td:nth-child(2):before{
+        content: 'Name';
+      }
+      table.responsive-table td:nth-child(1),
+      table.responsive-table td:nth-child(2){
+        padding-left: 25%;
+      }
+      table.responsive-table td:nth-child(1):before,
+      table.responsive-table td:nth-child(2):before{
+        position: absolute;
+        left: .5em;
+        font-weight: bold;
+      }
+      
+        table.responsive-table tr,
+        table.responsive-table td{
+            display: block;
+        }
+        table.responsive-table tr{
+            position: relative;
+            margin-bottom: 1em;
+        box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+        }
+        table.responsive-table td{
+            border-top: none;
+        }
+        table.responsive-table td.organisationnumber{
+            background: #D5E0CC;
+            border-top: 1px solid #B3BFAA;
+        }
+        table.responsive-table td.actions{
+            position: absolute;
+            top: 0;
+            right: 0;
+            border: none;
+            background: none;
+        }
     }
-  }
 </style>

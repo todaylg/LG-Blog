@@ -1,32 +1,22 @@
 <template>
   <footer>
-    <div class="copyright">
-      &copy;2015-2016 Lei Jiang, ycwalker@outlook.com
-    </div>
-    <router-link :to="{path:'/'}" class="login" tag="div">
-      站长登陆
-    </router-link>
-  </footer>
+      <div class="siteInfo">
+        Copyright © 2017 by todaylg
+        <div class="footertext">
+        <p>Don't care what others say, just do what you like to do</p>
+        </div>
+      </div>
+    </footer>
 </template>
 <style lang="scss">
   footer {
-    position: absolute;
-    bottom: 0;
-    div {
+    padding: 2%;
+    background: #fff;
+    border-top: 1px solid #F7F7F7;
+    .siteInfo{
       text-align: center;
-      color: #aaa;
-      font-weight: 100;
-    }
-    div.copyright {
-      font-size: 12px;
-      height: 40px;
-      padding-top: 26px;
-      border-top: 1px solid #ddd;
-    }
-    div.login {
-      font-size: 14px;
-      margin-bottom: 20px;
-      cursor: pointer;
+      font-size: 13px;
+      color: #B9B9B9;
     }
   }
 </style>

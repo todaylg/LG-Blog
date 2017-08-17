@@ -16,6 +16,8 @@ var ArticleSchema = new Schema({
 		type:String,
 		unique: true
 	},
+	category:String,//所属分类
+	intro:String,//简介
 	content:String,
 	special_img:{
 		type:String,

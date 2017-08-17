@@ -5,5 +5,29 @@
     "intro": "this is the test user for init",
     "password": "123",
     "avatar":"http://ouib5enmf.bkt.clouddn.com/LG.png"
+  },
+  {
+    "type": "Comment",
+    "atitle": "test",
+    "username": "lg",
+    "website": "www.baidu.com",
+    "email": "1034405777@qq.com",
+    "content": "这是一条测试评论"
+  },
+  {
+    "type": "Comment",
+    "atitle": "test",
+    "username": "lg",
+    "website": "www.baidu.com",
+    "email": "1034405777@qq.com",
+    "content": "这是一条测试评论1"
+  },
+  {
+    "type": "Comment",
+    "atitle": "test",
+    "username": "lg",
+    "website": "www.baidu.com",
+    "email": "1034405777@qq.com",
+    "content": "这是一条测试评论2"
   }
 ]

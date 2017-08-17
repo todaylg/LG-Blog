@@ -11,7 +11,7 @@ router.post('/updateCat', Category.updateCat);
 router.post('/delCategory', Category.delCat);
 
 //front
-// router.get('/getFrontCatList',category.getFrontCatList);
-// router.get('/getFrontCatAriticle',category.getFrontCatAriticle);
+router.post('/getCat',Category.getCat);//显示当前分类目录的名称及简介
+router.get('/getCatAticle',Category.getCatAticle);//显示当前分类目录下的文章
 
 module.exports = router;

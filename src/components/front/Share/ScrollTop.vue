@@ -32,7 +32,19 @@ export default {
       }
     },
     gotop(){
-      window.scrollTo(0,0)
+      var start = 0,from = window.scrollY,to = 0,duration = 500/17,value;
+        function step(){
+          value = start/duration*(to-from)+from;
+          start++;
+          if(start <= duration){
+             window.scrollTo(0,value);
+            window.requestAnimationFrame(step);//这里必须是递归，不然就算是有插值也直接就执行到0然后结束了
+        }else{
+          console.log(0);
+          window.scrollTo(0,0);
+        }
+      }
+      step();
     }
   }
 }
@@ -43,6 +55,7 @@ export default {
       right: 20px;
       bottom: -10px;
       transition: all 1s;
+      cursor: pointer;
     }
     .gotop.isShowTop{
       opacity:1;
@@ -54,15 +67,13 @@ export default {
     }
     
     .gotop:hover {
-      transform:rotate(3deg);
+      transform:rotate(1deg);
     }
 
     #backToTop {
-      cursor: pointer;
       position: fixed;
       right: 0px;
       top: -900px;
-      z-index: 2;
       width: 70px;
       height: 900px;
       background: url(../../../assets/img/line.png);

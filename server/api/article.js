@@ -3,10 +3,10 @@
 var express = require('express');
 var Article = require('../controllers/article.js');
 var router = express.Router();
-var confirmToken = require('../auth/index.js');
+//var confirmToken = require('../auth/index.js');
 
 //后台管理
-router.get('/getArticle', Article.getArticle);
+router.post('/getArticle', Article.getArticle);
 router.post('/addArticle', Article.addArticle);
 router.post('/updateArticle', Article.updateArticle);
 router.get('/getArticleList', Article.getArticleList);

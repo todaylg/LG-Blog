@@ -20,7 +20,7 @@ export default {
 	},
 	mounted(){
 		this.getBgWidth(),
-    	window.addEventListener('resize', this.autoHW),
+    	window.addEventListener('resize', this.autoHW),//全局触发导致报错      
     	window.addEventListener('scroll', this.bgDisplay)
     },
     computed:{
@@ -29,13 +29,10 @@ export default {
 				bgShow:!this.bgShow
 	 		}
 		},
-		...mapState(['welcomeComplete']),
-		welcomeEnd:function(){
-			if(this.welcomeComplete)this.bgAnimation();
-		}
+		...mapState(['welcomeComplete'])//TODO 
 	},
     methods: {
-    	autoHW(){
+    	autoHW(){//用vue的事件系统绑定到父组件，在父组件跳转的时候解除事件绑定
     		document.querySelector('#centerbg').style.width = window.innerWidth+'px';
     		document.querySelector('.bgContain').style.height = window.innerWidth/this.wh+'px';
     	},
@@ -84,11 +81,9 @@ export default {
 			if(s > 0){
 				if(!this.bgShow) return;
 				this.bgShow = false;
-				//内容组件向上动画
-				//setTimeout(function(){
-					document.querySelector('#content').style.opacity = '1';
-					document.querySelector('#content').style.transform = 'translateY(0)';
-				//}, 200);
+				//内容组件向上动画 //TODO vuex
+				document.querySelector('#content').style.opacity = '1';
+				document.querySelector('#content').style.transform = 'translateY(0)';
 			}
     	},
 		getScrollTop(){

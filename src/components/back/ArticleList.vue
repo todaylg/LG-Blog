@@ -4,14 +4,18 @@
       <tbody>
       <tr>
         <th>标题</th>
+        <th>分类</th>
         <th>日期</th>
         <th>选项</th>
       </tr>
       <tr v-for="(article,index) in articles">
-        <router-link :to="{name:'article',query:{id:article._id}}"
+        <router-link :to="{name:'adminArticleEdit',params:{atitle:article.title}}"
                      tag="td">
           {{article.title}}
         </router-link>
+        <td>
+          {{article.category}}
+        </td> 
         <td>
           {{article.created | toDate}}
         </td>

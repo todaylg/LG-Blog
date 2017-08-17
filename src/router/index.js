@@ -13,7 +13,9 @@ import Dashboard  from '../components/back/Dashboard.vue';
 import ArticleCreate  from '../components/back/ArticleCreate.vue';
 import CategoryEdit  from '../components/back/CategoryEdit.vue';
 import ArticleList  from '../components/back/ArticleList.vue';
-import userInfoEdit  from '../components/back/userInfoEdit.vue';
+import UserInfoEdit  from '../components/back/userInfoEdit.vue';
+import ArticleEdit  from '../components/back/ArticleEdit.vue';
+import CommentEdit  from '../components/back/CommentEdit.vue';
 
 Vue.use(Router);
 
@@ -35,19 +37,19 @@ var router = new Router({
 			component: Front,
 			children:[
 				{
-					path: '', component:Home, meta:{auth:false}
+					path: '', component:Home, name:'home', meta:{auth:false}
 				},
 				{
 					path: 'home', component:Home, meta:{auth:false}
 				},
 				{
-					path: 'articles/:aid', component: Article, meta:{auth:false}
+					path: 'article/:atitle', component: Article, name:'article',meta:{auth:false}
 				},
 				{
-					path: 'category', component: Category, meta:{auth:false}
+					path: 'category/:catname', component: Category, name:'category', meta:{auth:false}
 				},
 				{
-					path: 'about', component: About, meta:{auth:false}
+					path: 'about', component: About, name:'about', meta:{auth:false}
 				},
 			]
 		},
@@ -60,25 +62,25 @@ var router = new Router({
 			component:Dashboard,
 			children:[
 			  	{
-			  		path:'',component:ArticleList
+			  		path:'',component:ArticleList,name:'admin'
 			  	},
 			  	{
-					path:'articleList',component:ArticleList
+					path:'articleList',component:ArticleList,name:'adminArticleList'
 			  	},
 				{
-					path:'userInfoEdit',component:userInfoEdit
+					path:'userInfoEdit',component:UserInfoEdit,name:'adminUserInfoEdit'
 				},
-				// {
-				// 	path:'commentEdit',component:commentEdit
-				// },
-			 //  	{
-			 //  		path:'articleEdit/:postId',component:ArticleEdit
-			 //  	},
-			  	{
-			  		path:'articleCreate',component:ArticleCreate
+				{
+					path:'commentEdit',component:CommentEdit
 				},
 			  	{
-			  		path:'categoryEdit',component:CategoryEdit
+			  		path:'articleEdit/:atitle', component:ArticleEdit, name:'adminArticleEdit'
+			  	},
+			  	{
+			  		path:'articleCreate',component:ArticleCreate, name:'adminArticleCreate'
+				},
+			  	{
+			  		path:'categoryEdit',component:CategoryEdit,name:'adminCategoryEdit'
 			  	},
 			]
 		},

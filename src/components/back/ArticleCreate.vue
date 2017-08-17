@@ -3,6 +3,11 @@
     <input class="title"
            placeholder="标题"
            v-model="title">
+
+   <select  v-model="belongCat" placeholder="请选择分类">
+     <option v-for="cat in catList">{{cat.name}}</option>
+   </select>
+
     <div :class="inspected?'inspect':'edit'">
       <textarea v-model="content" spellcheck="false"></textarea>
       <button class="toggle"
@@ -18,7 +23,7 @@
   </section>
 </template>
 <script>
-import {mapActions, mapMutations} from 'vuex';
+import {mapActions, mapState, mapMutations} from 'vuex';
 import marked     from '../../assets/js/marked.min';
 import hljs       from '../../assets/js/highlight.pack';
 
@@ -34,7 +39,8 @@ export default{
    //const title = this.$route.query.title
    //const id = '';
    //if (id) return this.getArticle(id)
-   this.SET_ARTICLE({content:'',title:'',date: new Date()});//content不能少，这里原因先todo
+   this.getCatList(),
+   this.SET_ARTICLE({content:'',title:'',belongCat:'', date: new Date()})//content不能少，这里原因先todo
  },
  updated(){
    this.highlight()
@@ -51,7 +57,7 @@ export default{
        hljs.initHighlighting()
      }, 0)
    },
-   ...mapActions(['getArticle', 'addArticle']),
+   ...mapActions(['addArticle','getCatList']),
    ...mapMutations(['SET_ARTICLE'])
  },
  computed: {
@@ -75,7 +81,16 @@ export default{
      set(value){
        this.$store.commit('UPDATE_TITLE', value)
      }
-   }
+   },
+   belongCat:{
+    get(){
+      return this.$store.state.article.belongCat
+    },
+    set(value){
+      this.$store.commit('UPDATE_BELONGCAT', value)
+    }
+   },
+   ...mapState(['catList']),
  }
 }
 </script>

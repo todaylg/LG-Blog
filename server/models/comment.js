@@ -7,13 +7,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var CommentSchema = new Schema({
-	aid:{
-		type: Schema.Types.ObjectId,
-		ref: 'Article'
-	},
+	atitle:String,//评论文章
 	username:String,
 	email:String,
 	content:String,
+	website:String,
 	created: {
 		type: Date,
 		default: Date.now

@@ -1,34 +1,68 @@
 <template>
 		<div id='content'>
-			<div id="blank"></div>
+			<div class="blank"></div>
       <ul>
         <li class="post" v-for="(article,index) in articleList">
-              <router-link v-if="article.special_img" :to="{ name: 'article', params: {aid: article._id } }">
-                <img width="1920" height="1080" :src="article.special_img" class="cover">
+              <router-link v-if="article.special_img" :to="{ name: 'article', params: {atitle: article.title } }">
+                <img :src="article.special_img">
+                <img src="../../../assets/img/mask.png" >
             </router-link>
           <div class="else">
               <p>{{ article.publish | toDate }}</p>
               <h3>
-                <router-link :to="{ name: 'article', params: {aid: article._id } }">
+                <router-link :to="{ name: 'article', params: {atitle: article.title } }">
                   {{article.title}}
                 </router-link>
           </h3>
-              <p>{{article.content}}</p>
+              <p>{{article.intro}}</p>
               <p class="here">
                   <span>{{article.visit_count}}</span>
                   <span>{{article.comment_count}}</span>
               </p>
           </div>
         </li>
+<!--静态数据-->
+        <!-- <li class="post">
+          <a href="">
+            <img src="../../../assets/img/bg1.png">
+            <img src="../../../assets/img/mask.png" >
+          </a>
+          <div class="else">
+              <p>2017-08-14</p>
+              <h3>
+                  <a href="">测试文字标题</a>
+          </h3>
+              <p>这里是文字的内容</p>
+              <p class="here">
+                  <span>浏览量</span>
+                  <span>评论量</span>
+              </p>
+          </div>
+        </li>
+        <li class="post">
+          <a href="">
+            <img src="../../../assets/img/bg1.png">
+            <img src="../../../assets/img/mask.png" >
+          </a>
+          <div class="else">
+              <p>2017-08-14</p>
+              <h3>
+                  <a href="">测试文字标题</a>
+          </h3>
+              <p>这里是文字的内容</p>
+              <p class="here">
+                  <span>浏览量</span>
+                  <span>评论量</span>
+              </p>
+          </div>
+        </li> -->
       </ul>
-      <!-- <div class="load-more">
-          <button class="ladda-button" @click.prevent="addData()">
-            <span v-if="isFetching" class="ladda-spinner">
-              <i class="fa fa-spinner fa-spin"></i>
-            </span>
-            <span v-else class="ladda-label">点击查看更多</span>
-          </button>
-      </div>   -->
+      <div v-if='loadFlag' id="pagination" @click.prevent="addAticle">
+        <a>加载更多</a>
+      </div>
+      <div v-else style="padding: 4%; text-align: center;color: #b9bfd0;">
+        <span>Dont have more...</span>
+      </div>
 	 </div>
 </template>
 <script>
@@ -38,16 +72,21 @@
   data(){
     return {
       page:1,
-      limit:4
+      limit:2
     }
   },
   computed: {
-    ...mapState(['articleList'])
+    ...mapState(['articleList','loadFlag'])
   },  
   created(){
       this.getFrontArticleList({page:this.page,limit:this.limit});
   },
+  
   methods:{
+    addAticle(){
+      this.page++;
+      this.getFrontArticleList({page:this.page,limit:this.limit});
+    },
     ...mapActions([
       'getFrontArticleList'
     ])
@@ -56,24 +95,43 @@
 </script>
 
 <style lang="scss">
+@keyframes showPost{
+  0%{
+    opacity:0;
+    transform:translateY(40px);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0px);
+  }
+}
  #content{
  	opacity:0;
  	transform:translateY(400px);
  	transition: all 1s ease-in-out;
  }
- #blank{
+ .blank{
  	padding-top:120px;
  }
  .post {
     margin: 40px auto 0;
     width: 1200px;
     position: relative;
+    animation: showPost 1s 1 ease-in-out;
 }
  .post:nth-child(odd) {
     text-align: left;
+    
 }
 .post:nth-child(even) {
     text-align: right;
+}
+
+.post:nth-child(odd) .else{
+  box-shadow: 2px 2px #DADEE1;
+}
+.post:nth-child(even) .else{
+ box-shadow: -2px 2px #DADEE1;
 }
 .post > a {
     display: inline-block;
@@ -83,6 +141,7 @@
     position: relative;
     z-index: 3;
     img{
+      position:absolute;
     	display: block;
     	max-width: 100%;
     	height: auto;
@@ -93,9 +152,9 @@
     background: #fff;
     text-align: left;
     top: 20px;
-    height: 398px;
+    height: 350px;
     width: 498px;
-    border: 1px solid #eaeaea;
+    border: 2px solid #eaeaea;
 }
 .post:nth-child(odd) .else {
     left: 660px;
@@ -135,5 +194,22 @@
 .here a {
     display: inline-block;
     cursor: default;
+}
+
+#pagination {
+    padding: 20px 0;
+    text-align: center;
+    margin: 80px 0;
+    font-family: miranafont,"Hiragino Sans GB",STXihei,"Microsoft YaHei",SimSun,sans-serif;
+    a {
+      padding: 13px 35px;
+      border: 1px solid #D6D6D6;
+      border-radius: 50px;
+      color: #ADADAD;
+      &:hover{
+        color: #667783;
+        border-color: #566d80;
+      }
+    }
 }
 </style>
