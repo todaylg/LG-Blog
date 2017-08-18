@@ -15,7 +15,8 @@ export default {
 	data(){
 		return {
 			bgShow:true,
-			wh:1
+			wh:1,
+			scrollEvent:null
 		}
 	},
 	mounted(){
@@ -23,13 +24,17 @@ export default {
     	window.addEventListener('resize', this.autoHW),//全局触发导致报错      
     	window.addEventListener('scroll', this.bgDisplay)
     },
+    destroyed(){//注销事件
+    	window.removeEventListener('scroll', this.bgDisplay),
+    	window.removeEventListener('resize', this.autoHW)
+  	},
     computed:{
 		bgshow:function(){
 			return {
 				bgShow:!this.bgShow
 	 		}
 		},
-		...mapState(['welcomeComplete'])//TODO 
+		...mapState(['firstLoad'])//TODO 
 	},
     methods: {
     	autoHW(){//用vue的事件系统绑定到父组件，在父组件跳转的时候解除事件绑定
@@ -75,19 +80,30 @@ export default {
     			if(this.bgShow) return;
 				this.bgShow = true;
 				//内容组件向下动画
-				document.querySelector('#content').style.opacity = '0';
-				document.querySelector('#content').style.transform = 'translateY(400px)';
+				this.$store.state.contentShow = false;
 			}
 			if(s > 0){
 				if(!this.bgShow) return;
 				this.bgShow = false;
+				var that = this;//非常非常丑陋的方法
+				this.scrollEvent = window.onwheel;
+				window.onwheel = this.diableScroll;
+				setTimeout(()=>{
+					//动画完成之前不能滚动
+					console.log("enableScroll");
+					window.onwheel = that.scrollEvent;
+				}, 1400);
 				//内容组件向上动画 //TODO vuex
-				document.querySelector('#content').style.opacity = '1';
-				document.querySelector('#content').style.transform = 'translateY(0)';
+				this.$store.state.contentShow = true;
 			}
     	},
 		getScrollTop(){
 			return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+		},
+		diableScroll(e){
+			console.log("diableScroll");
+            e.preventDefault();
+            return false;
 		}
     }
 }

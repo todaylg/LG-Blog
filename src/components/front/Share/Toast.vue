@@ -20,11 +20,14 @@
     computed: mapState(['toast'])
   }
 </script>
-<style lang="sass" rel="stylesheet/scss" scoped>
-  @import "../../style/mixins.scss";
-
+<style lang="scss" scoped>
   .toast {
-    @include shade();
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 9;
     background-color: rgba(0, 0, 0, 0.4);
     .info {
       background-color: #FFF;
@@ -52,10 +55,24 @@
           height: 30px;
         }
         .confirm {
-          @include greenButton();
+          border: 1px solid black;
+          background-color: #FFF;
+          transition: all 0.6s;
+          border-radius: 4px;
+          &:hover {
+            background-color: black;
+            color: #FFF;
+          }
         }
         .cancel {
-          @include orangeButton();
+          border: 1px solid black;
+          background-color: #FFF;
+          transition: all 0.6s;
+          border-radius: 4px;
+          &:hover {
+            background-color: black;
+            color: #FFF;
+          }
         }
       }
     }

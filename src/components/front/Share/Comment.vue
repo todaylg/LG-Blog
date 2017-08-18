@@ -1,18 +1,19 @@
 <template>
 <div>
 	<div id="articleComment">
-	    <h3 id="commentListTitle">Comments | <span class="noticom">{{articleComment.length}} 条评论 </span>
-	    </h3>
+		<div id="commentListTitle">
+			<h3>Comments<span class="noticom">{{articleComment.length}} 条评论 </span></h3>
+		</div>
 	    <!--静态测试数据-->
-	    <!-- <div>
+	    <!-- <div id="articleCL">
 	    	<a class='commentUserList' href="">todaylg</a>
 	    	<div class='commentTimeList'><time>2017-08-18</time></div>
 	    	<div class="commentContentList">
 	    		content
 	    	</div>
 	    </div> -->
-
-	    <div v-for="(comment,index) in articleComment">
+		
+	    <div id="articleCL" v-for="(comment,index) in articleComment">
 	    	<a class='commentUserList' :href="comment.website">{{comment.username}}</a>
 	    	<div class='commentTimeList'><time>{{comment.created | toDate}}</time></div>
 	    	<div class="commentContentList">
@@ -23,10 +24,11 @@
 
 	<div id="postComment">
 		<form id="commentform" class="comment-form">
-			<textarea v-model='commentContent' placeholder="Type in your comments ..." id="commentInput" rows="5" tabindex="4"></textarea>
 			<input v-model='username' type="text" placeholder="昵称 (必须)" class='commentInfo' size="22" tabindex="1">
 			<input v-model='email' type="text" placeholder="邮箱 (必须)" class='commentInfo'size="22" tabindex="1">
 			<input v-model='website' type="text" placeholder="网站" class='commentInfo' size="22" tabindex="1">
+			<textarea v-model='commentContent' placeholder="Type in your comments ..." id="commentInput" rows="5" tabindex="4"></textarea>
+			
 
 			<input @click.prevent="add()" id="postComment" type='button' value="Post Comment"> 
 		</form>
@@ -69,6 +71,12 @@ export default {
 </script>
 <style lang="scss">
 #commentListTitle{
+	text-align: center;
+}
+#articleCL{
+	padding:20px;
+}
+#commentListTitle{
 	max-width: 860px;
 	width: 100%;
 	margin: 0 auto;
@@ -77,6 +85,8 @@ export default {
 	color: #7D7D7D;
 	font-weight: 400;
 	.noticom{
+		margin-top:5px;
+		display:block;
 		font-size: 13px;
 		font-weight: 400;
 		color: #909090;
@@ -114,20 +124,18 @@ export default {
 	}
 	.commentInfo {
 	    border: 1px solid #ddd;
-	    margin-top:40px;
-	    margin-bottom: 40px;
-	    margin-right: 2%;
+	    margin-bottom: 20px;
 	    font-family: "microsoft jhenghei","Arial",Sans-Serif;
         font-size: 14px;
         float: left;
-        width: 31%;
+        width: 33.3%;
         padding: 21px 25px 20px;
         color: #535a63;
         background: #FFFFFF;
 	}
 	#postComment{
 		width: auto;
-	    margin: 0;
+		margin-top: 20px;
 	    padding: 15px 25px;
 	    text-transform: none;
 	    color: #535a63;

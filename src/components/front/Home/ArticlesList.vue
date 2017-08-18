@@ -1,5 +1,5 @@
 <template>
-		<div id='content'>
+		<div id='content' :class="contentShow?'showContent':''">
 			<div class="blank"></div>
       <ul>
         <li class="post" v-for="(article,index) in articleList">
@@ -23,10 +23,10 @@
         </li>
 <!--静态数据-->
         <!-- <li class="post">
-          <a href="">
+           <router-link :to="{ path: '/article/test'}"> 
             <img src="../../../assets/img/bg1.png">
             <img src="../../../assets/img/mask.png" >
-          </a>
+          </router-link>
           <div class="else">
               <p>2017-08-14</p>
               <h3>
@@ -40,10 +40,10 @@
           </div>
         </li>
         <li class="post">
-          <a href="">
+          <router-link :to="{ path: '/article/test'}"> 
             <img src="../../../assets/img/bg1.png">
             <img src="../../../assets/img/mask.png" >
-          </a>
+          </router-link>
           <div class="else">
               <p>2017-08-14</p>
               <h3>
@@ -57,16 +57,18 @@
           </div>
         </li> -->
       </ul>
-      <div v-if='loadFlag' id="pagination" @click.prevent="addAticle">
+      <div v-if='!loadMore' v-show="!noMore" class="pagination" @click.prevent="addAticle">
         <a>加载更多</a>
       </div>
-      <div v-else style="padding: 4%; text-align: center;color: #b9bfd0;">
+      <div v-if="noMore" style="padding: 4%; text-align: center;color: #b9bfd0;">
         <span>Dont have more...</span>
       </div>
+      <spinner v-show="loadMore" class="spinner"></spinner>
 	 </div>
 </template>
 <script>
   import { mapState,mapActions } from 'vuex'
+  import Spinner from "../Share/Spinner.vue";
 
   export default {
   data(){
@@ -76,12 +78,12 @@
     }
   },
   computed: {
-    ...mapState(['articleList','loadFlag'])
+    ...mapState(['articleList','loadMore','contentShow','noMore'])
   },  
   created(){
+      this.$store.state.contentShow = false;
       this.getFrontArticleList({page:this.page,limit:this.limit});
   },
-  
   methods:{
     addAticle(){
       this.page++;
@@ -90,7 +92,10 @@
     ...mapActions([
       'getFrontArticleList'
     ])
-  }
+  },
+  components: {
+        Spinner
+    }
 }
 </script>
 
@@ -109,6 +114,10 @@
  	opacity:0;
  	transform:translateY(400px);
  	transition: all 1s ease-in-out;
+ }
+ #content.showContent{
+  opacity:1;
+  transform:translateY(0px);
  }
  .blank{
  	padding-top:120px;
@@ -196,10 +205,9 @@
     cursor: default;
 }
 
-#pagination {
+.pagination {
     padding: 20px 0;
     text-align: center;
-    margin: 80px 0;
     font-family: miranafont,"Hiragino Sans GB",STXihei,"Microsoft YaHei",SimSun,sans-serif;
     a {
       padding: 13px 35px;

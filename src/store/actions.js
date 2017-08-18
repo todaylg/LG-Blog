@@ -1,29 +1,54 @@
 import Vue from 'vue';
-import router   from '../router';
+import router from '../router';
+
+const beginLoading = (commit,flag) => {
+	flag? commit('LOADMORE_TOGGLE', true):commit('LOADING_TOGGLE', true);
+	return Date.now();
+};
+//flag = true =>LOADMORE_TOGGLE
+const stopLoading = (commit, start, flag, timeAllowed = 500) => {
+	const spareTime = timeAllowed - (Date.now() - start);
+	setTimeout(commit, spareTime > 0 ? spareTime : 0, flag? 'LOADMORE_TOGGLE':'LOADING_TOGGLE', false);
+};
+
+const doToast = (state, commit, payload) => {
+	commit('SET_TOAST', payload);
+	commit('TOASTING_TOGGLE', true);
+	return state.toast.promise;
+};
+//学习！！TODO 来波async/await
+Promise.prototype.finally = function (callback) {
+	return this.then(
+		value => Promise.resolve(callback()).then(() => value),
+		reason => Promise.resolve(callback()).then(() => {
+			throw reason;
+		})
+	);
+};
 
 export default {
-	welcomeComplete(){
-		var bg = document.querySelector('#centerbg');
-		var bz = document.querySelector('#bz');
-		var yz = document.querySelector('#yz');
-		Velocity(bg, {
-			blur: [4,0]
-		}, {
-		    duration: 2000
-		});
-		Velocity(bz,{
-			blur: 0,
-			translateX:[0,10]
-		},{
-		    duration: 2500
-		});
-		Velocity(yz,{
-			blur: 0,
-			translateX:[0,-10]
-		},{
-			duration: 2500
-		});
-	},
+	// welcomeComplete(){
+	// 	var bg = document.querySelector('#centerbg');
+	// 	var bz = document.querySelector('#bz');
+	// 	var yz = document.querySelector('#yz');
+	// 	Velocity(bg, {
+	// 		blur: [4,0]
+	// 	}, {
+	// 	    duration: 2000
+	// 	});
+	// 	Velocity(bz,{
+	// 		blur: 0,
+	// 		translateX:[0,10]
+	// 	},{
+	// 	    duration: 2500
+	// 	});
+	// 	Velocity(yz,{
+	// 		blur: 0,
+	// 		translateX:[0,-10]
+	// 	},{
+	// 		duration: 2500
+	// 	});
+	// },
 	login ({commit}, payload) {
 		return Vue.http.post('/api/userLogin', payload).then(response => {
 			commit('SET_USER', response.data);
@@ -36,9 +61,11 @@ export default {
 		  });
 	},
 	getArticle ({commit}, atitle) {//前台后台要不通用？？
+		const start = beginLoading(commit, false);
 		console.log('atitle:'+atitle);
 		//这里get方法不行，先TODO再找原因，可能是中文作为参数不行？？？get 的params参数都会自动转为小写？
 		return Vue.http.post('/api/getArticle', atitle).then(response => {
+			stopLoading(commit, start, false);
 			commit('SET_ARTICLE', response.data);
 		});
 	},
@@ -124,28 +151,63 @@ export default {
 			});
 	},
 	getFrontArticleList({state, commit}, payload) {
-		return Vue.http.get('/api/getFrontArticleList', {params: payload}).then(response => response.json()).then(articles => {
-			console.log(articles);
-			console.log(articles.length);
-			if (articles.length != 0) {
-				commit('SET_ARTICLELIST', articles);
-			}
-			if(articles.length >= 0&&articles.length <payload.limit){
-				state.loadFlag = false;
-			}
-		});
+		if(payload.page ===1){//首次取文章(附带加载 Home Animation)
+			const start = beginLoading(commit,false);
+			return Vue.http.get('/api/getFrontArticleList', {params: payload}).then(response => response.json()).then(articles => {
+				console.log(articles);
+				console.log(articles.length);
+				if (articles.length != 0) {
+					commit('SET_ARTICLELIST', articles);
+				}
+				if(articles.length >= 0&&articles.length <payload.limit){
+					commit('NOMORE_TOGGLE', true);
+				}
+				stopLoading(commit, start , false);
+			});
+		}else{//LoadMore
+			const start = beginLoading(commit,true);
+			return Vue.http.get('/api/getFrontArticleList', {params: payload}).then(response => response.json()).then(articles => {
+				console.log(articles);
+				console.log(articles.length);
+				if (articles.length != 0) {
+					commit('SET_ARTICLELIST', articles);
+				}
+				if(articles.length >= 0&&articles.length <payload.limit){
+					commit('NOMORE_TOGGLE', true);
+				}
+				stopLoading(commit, start , true);
+			});
+		}
+		
 	},
 	getCatArticle({state, commit}, payload){
-		return Vue.http.get('/api/getCatAticle',{params: payload}).then(response => response.json()).then(articles => {
-			console.log(articles);
-			console.log(articles.length);
-			if (articles.length != 0) {
-				commit('SET_CATATICLES', articles);
-			}
-			if(articles.length >= 0&&articles.length <payload.limit){
-				state.loadFlag = false;
-			}
-		});
+		if(payload.page ===1){//首次取文章
+			const start = beginLoading(commit,false);
+			return Vue.http.get('/api/getCatAticle',{params: payload}).then(response => response.json()).then(articles => {
+				console.log(articles);
+				console.log(articles.length);
+				if (articles.length != 0) {
+					commit('SET_CATATICLES', articles);
+				}
+				if(articles.length >= 0&&articles.length <payload.limit){
+					commit('NOMORE_TOGGLE', true);
+				}
+				stopLoading(commit, start , false);
+			});
+		}else{//LoadMore
+			const start = beginLoading(commit,true);
+			return Vue.http.get('/api/getCatAticle',{params: payload}).then(response => response.json()).then(articles => {
+				console.log(articles);
+				console.log(articles.length);
+				if (articles.length != 0) {
+					commit('SET_CATATICLES', articles);
+				}
+				if(articles.length >= 0&&articles.length <payload.limit){
+					commit('NOMORE_TOGGLE', true);
+				}
+				stopLoading(commit, start , true);
+			});
+		}
 	},
 	getCommentList({commit}) {
 		console.log('getCommentList');
@@ -174,16 +236,18 @@ export default {
 				commit('SET_ARTICLECOMENT', result.data);
 			});
 	},
-	addComment ({commit,dispatch},preload) {
-		return Vue.http.post('/api/addComment', {comment:preload}).then(response => {
-			if (response.data.state === 1) {
-				//这里不应该重新再向服务器去取，而应该将返回回来的数据直接添加到本地即可（减少一次请求）
-				commit('SET_ADDCOMMENT', response.data.data);
-				console.log('addcomment: '+response.data.data.content);
-				alert('添加成功');
-			} else {
-				alert('添加失败');
-			}
-		});
+	addComment ({state, commit, dispatch},preload) {
+		return doToast(state, commit, {info: '确定添加评论吗?', btnNum: 2})
+			.then(() =>Vue.http.post('/api/addComment', {comment:preload}))
+			.then(
+			 	() => doToast(state, commit, {info: '保存成功', btnNum: 1}),
+				() => doToast(state, commit, {info: '保存失败', btnNum: 1})
+			)
+			.finally(() => commit('TOASTING_TOGGLE', false))
+			.then(() => {
+				console.log('preload.atitle:'+preload.atitle);
+				dispatch('getComment',{atitle:preload.atitle});
+			})
+			.catch((err) => {console.log(err);});
 	},
 };

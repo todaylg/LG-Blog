@@ -2,8 +2,6 @@
 	<div class="articleContain">
 		<div class="blank"></div>
 		<div id='articleMain'>
-			<!--测试数据-->
-
 			<h1 id='articleTitle'>{{article.title}}</h1>
 			<div id="articleInfo">
 				<span>{{article.created}}</span>
@@ -87,6 +85,14 @@ export default{
 		    	content: '';
 	    	    height: 1px;
 	    	    width: 100px;
+	    	    background: #eee;
+	    	    display: block;
+	    	    margin: 30px auto 40px;
+		    }
+		    &:after{
+		    	content: "";
+	    	    height: 1px;
+	    	    width: 100%;
 	    	    background: #eee;
 	    	    display: block;
 	    	    margin: 30px auto 40px;

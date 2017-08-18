@@ -1,7 +1,7 @@
 <template>
 <div>
   <div id="backToTop"></div>
-  <div class="gotop" @click.prevent="gotop">
+  <div class="gotop" @click.prevent="gotop" :class="isShowTop?'isShowTop':''">
       <img src="../../../assets/img/recive.png" width="100px" >
   </div>
 </div>
@@ -16,18 +16,21 @@ export default {
   mounted(){
     window.addEventListener('scroll', this.handleScroll)
   },
+  destroyed(){//注销事件
+    window.removeEventListener('scroll', this.handleScroll)
+  },
   methods:{
     handleScroll(){
       if (window.scrollY > 200) {
-      document.querySelector('.gotop').classList.add('isShowTop');
+      this.isShowTop = true;
        var windowHeight = window.innerHeight;
-       if(windowHeight<1100){//图片够长了
+       if(windowHeight<1050){//图片太长了啦 calc不能同时满足浏览器窗口过大和过小两种情况，所以这里用js
         document.querySelector('#backToTop').style.top = -(900-(windowHeight-150))+'px';
-       }else{
+       }else{//图片不够长啦
         document.querySelector('#backToTop').style.top = 0;
        }
       } else {
-        document.querySelector('.gotop').classList.remove('isShowTop');
+        this.isShowTop = false;
         document.querySelector('#backToTop').style.top = -900+'px';
       }
     },
@@ -37,14 +40,13 @@ export default {
           value = start/duration*(to-from)+from;
           start++;
           if(start <= duration){
-             window.scrollTo(0,value);
+            window.scrollTo(0,value);
             window.requestAnimationFrame(step);//这里必须是递归，不然就算是有插值也直接就执行到0然后结束了
-        }else{
-          console.log(0);
-          window.scrollTo(0,0);
+          }else{
+            window.scrollTo(0,0);
+          }
         }
-      }
-      step();
+        step();
     }
   }
 }

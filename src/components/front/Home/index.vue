@@ -1,12 +1,15 @@
 <template>
 	<div class="contain">
-		<!-- <Welcome></Welcome> -->
-		<Background></Background>
+		<Welcome v-if="firstLoad"></Welcome>
+		<transition name="fade">
+			<Background v-if="!firstLoad"></Background>
+		</transition>
 		<ArticlesList></ArticlesList>
 	</div>
 </template>
 <script>
-	//import Welcome from '../Share/Welcome.vue';
+	import {mapState} from 'vuex';
+	import Welcome from '../Share/Welcome.vue';
 	import Background from './Background.vue';
 	import ArticlesList from './ArticlesList.vue';
 	
@@ -20,13 +23,22 @@
 			next();
 		},
 		components: {
-			//Welcome,
+			Welcome,
 			Background,
 			ArticlesList
-		}
+		},
+		computed:{
+			...mapState(['firstLoad'])
+		},
 	}
 </script>
 <style lang="scss">
+.fade-enter-active{
+  transition: opacity 1s ease-in-out
+}
+.fade-enter{
+  opacity: 0
+}
  	// .contain:before{
  	// 	content: '';
 	 //    display: block;

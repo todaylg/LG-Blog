@@ -13,6 +13,7 @@
     padding: 2%;
     background: #fff;
     border-top: 1px solid #F7F7F7;
+    margin-top:20px;
     .siteInfo{
       text-align: center;
       font-size: 13px;

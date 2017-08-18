@@ -17,6 +17,9 @@ import UserInfoEdit  from '../components/back/userInfoEdit.vue';
 import ArticleEdit  from '../components/back/ArticleEdit.vue';
 import CommentEdit  from '../components/back/CommentEdit.vue';
 
+//import Loading  from '../components/front/Share/Loading.vue';
+//import Toast  from '../components/front/Share/Toast.vue';
+
 Vue.use(Router);
 
 // 滚动条滚回顶部
@@ -92,6 +95,13 @@ var router = new Router({
 });
 
 // 路由钩子
+router.beforeEach(({meta}, from, next) => {
+	let {goTop=true}=meta;
+	if (goTop) {
+		window.scrollTo(0, 0); 
+	}
+	next();
+});
 // router.beforeEach(({meta,path},from,next)=>{
 // 	let {auth=true}=meta;
 // 	let isLogin = Boolean(Store.state.token);

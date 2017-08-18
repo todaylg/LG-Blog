@@ -23,7 +23,11 @@
 	            	  			{{cat.name}}
 	            	  		</router-link>
 		            	</li>
-
+						<li>
+							<router-link :to="{name:'about'}">
+	            	  			关于
+	            	  		</router-link>
+						</li>
 		            	<!--静态数据-->
 						<!-- <li>
 							<router-link :to="{path:`category/${h1}`}">

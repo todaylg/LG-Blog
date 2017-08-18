@@ -9,7 +9,7 @@
 			</div>
 		</div> -->
 	<!--静态数据-->
-<!--    <article class="post post-list">
+   <!-- <article class="post-list">
 		<div class="post-entry">
 			<div class="feature">
 				<a>
@@ -19,14 +19,14 @@
 			<h1 class="entry-title"><a>文章测试标题</a></h1>
 			<div class="p-time">文章测试时间</div>
 			<p>intro</p>
-			<footer class="entry-footer">
+			<div class="entry-footer">
 				<div class="post-more">
 					<a>More</a>
 				</div>
-			</footer>
+			</div>
 		</div>	
 	</article> -->
-
+	
 		<div id='catAticleMain'>
 			<div id='catTitle'>
 				<h1 id="catName">{{cat.name}}</h1>
@@ -56,18 +56,18 @@
 			</div>	
 		</article>
 		
-
-		<!--可以抽出去Loadmore组件-->
-		  <div v-if='loadFlag' id="pagination" @click.prevent="addAticle">
+		  <div v-if='!loadMore' class="pagination" @click.prevent="addAticle">
 		    <a>加载更多</a>
 		  </div>
 		  <div v-else style="padding: 4%; text-align: center;color: #b9bfd0;">
 		    <span>Dont have more...</span>
 		  </div>
+		  <Spinner v-show="loadMore" class="spinner"></Spinner>
 	</div>
 </template>
 <script>
 import {mapState, mapActions} from 'vuex';
+import Spinner from "../Share/Spinner.vue";
 
 export default{
 	data(){
@@ -83,7 +83,7 @@ export default{
 		this.initData();
 	},
 	beforeRouteLeave (to, from, next) {
-		this.$store.state.loadFlag = true;
+		this.$store.state.loadMore = true;
 		this.$store.state.catAticles = [];
 		this.$store.state.cat = {};
 		console.log("LeaveCategory ");
@@ -91,7 +91,7 @@ export default{
 	},
 	methods: {
 		initData(){
-			this.$store.state.loadFlag = true;
+			this.$store.state.loadMore = true;
 			this.$store.state.catAticles = [];
 			this.$store.state.cat = {};
 			this.page = 1;
@@ -106,11 +106,18 @@ export default{
 		...mapActions(['getCat', 'getCatArticle']),
 	},
 	computed:{
-		...mapState(['cat','catAticles','loadFlag'])
+		...mapState(['cat','catAticles','loadMore'])
 	},
+	components: {
+        Spinner
+    }
 }
 </script>
 <style lang="scss">
+.post-list{
+	margin-bottom: 30px;
+	border-bottom: 1px solid #F7F7F7;
+}
 .catAticle{
 	max-width: 800px;
     padding: 0 10px;
@@ -132,10 +139,11 @@ export default{
 		    color: #676767;
 		}
 		#catName{
-			font-size: 35px;
+			font-size: 40px;
 			text-align: left;
 		}
 		#catIntro{
+			font-size: 20px;
 			text-align: right;
 			border-bottom: 1px dashed #ddd;
 		}
@@ -149,6 +157,7 @@ export default{
 	p{
 	    min-height: 60px;
 	    margin: 0 0 0 17%;
+	    text-indent: 30px;
 	    font-size: 15px;
 	    font-family: miranafont,"Hiragino Sans GB",STXihei,"Microsoft YaHei",SimSun,sans-serif;
 	    color: rgba(0,0,0,.66);
@@ -193,8 +202,22 @@ export default{
     margin: 0 0 0 17%;
     list-style: none;
     .post-more{
-    	margin-top: 10px;
     	text-align: right;
+    }
+}
+.pagination {
+    padding: 20px 0;
+    text-align: center;
+    font-family: miranafont,"Hiragino Sans GB",STXihei,"Microsoft YaHei",SimSun,sans-serif;
+    a {
+      padding: 13px 35px;
+      border: 1px solid #D6D6D6;
+      border-radius: 50px;
+      color: #ADADAD;
+      &:hover{
+        color: #667783;
+        border-color: #566d80;
+      }
     }
 }
 </style>

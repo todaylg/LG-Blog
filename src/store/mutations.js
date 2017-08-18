@@ -1,4 +1,24 @@
 export default {
+	LOADING_TOGGLE: (state, isLoading) => {
+		state.isLoading = isLoading;
+	},
+	LOADMORE_TOGGLE: (state, loadMore) => {
+		state.loadMore = loadMore;
+	},
+	NOMORE_TOGGLE: (state, noMore) => {
+		state.noMore = noMore;
+	},
+	TOASTING_TOGGLE: (state, isToasting) => {
+	  state.isToasting = isToasting;
+	},
+	SET_TOAST (state, payload) {
+	  state.toast.info = payload.info;
+	  state.toast.btnNum = payload.btnNum;
+	  state.toast.promise = new Promise((resolve, reject) => {
+	    state.toast.toastResolve = resolve;
+	    state.toast.toastReject = reject;
+	  });
+	},
 	SET_USER: (state, user) => {
 		localStorage.setItem('token', user.token);
 		localStorage.setItem('username', user.username);
@@ -14,6 +34,9 @@ export default {
 	    localStorage.removeItem('username');
 	    state.user = {};
 	},
+	// SET_CONTENTSHOW:(state, flag) => {
+	// 	state.contentShow = flag;
+	// },
 	SET_ARTICLE: (state, article) => {
 		state.article = article;
 	},
@@ -55,5 +78,5 @@ export default {
 	},
 	SET_ADDCOMMENT:(state, comment) => {
 		state.articleComment = state.articleComment.concat(comment);
-	},
+	}
 };

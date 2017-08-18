@@ -12,15 +12,14 @@
 </template>
 <script>
 import Velocity from "../../../assets/js/velocity.min.js";
-//import { mapActions } from 'vuex';
 
 export default {
 	mounted(){
-		window.addEventListener('load', this.eyeAnimation)
+		this.eyeAnimation();
 	},
 	methods:{
 		eyeAnimation(){
-			//var that = this;
+			var that = this;
 			var topBlock = document.querySelector('.topBlock');
 			var buttomBlock = document.querySelector('.buttomBlock');
 			var tt = document.querySelector('.eye'); 
@@ -28,17 +27,19 @@ export default {
 			var ripple1 = document.querySelector('#ripple1');
 			var ripple2 = document.querySelector('#ripple2');
 			Velocity.animate(topBlock, {
-			    translateY:0
+			    top:0
 			}, {
-			    duration: 1000,
+			    duration: 1500,
+			    easing: "ease-in-out",
 			    complete:()=>{
 			    	document.querySelector('.welcomeText').classList.add('active');
 			    }
 			})
 			Velocity.animate(buttomBlock, {
-			    translateY:0
+			    bottom:0
 			}, {
-			    duration: 1000
+				easing: "ease-in-out",
+			    duration: 1500
 			})
 
 			Velocity.animate(tt, {
@@ -67,6 +68,7 @@ export default {
 			    complete: function() {
 			    	tt.parentElement.removeChild(tt);
 			    	//that.welcomeComplete();
+			    	that.$store.state.firstLoad = false;
 			    }
 			}))
 			
@@ -134,7 +136,7 @@ export default {
     width: 300px;
     height: 30px;
     transform:translate(-50%,-50%);
-    background-image: url(../../../assets/img/v_text.png);
+    background-image: url(../../../assets/img/welcome_text.png);
     background-size: 90% auto;
     background-position: center;
     background-repeat: no-repeat;
@@ -163,15 +165,13 @@ export default {
 	width: 100%;
 	height: 20%;
 	background-color: black;
-	transition: all 1s ease-out;
+	//transition: all 1s ease-out;
 }
 .topBlock{
-	top:0;
-	transform:translateY(-100%);
+	top:-100%;
 }
 .buttomBlock{
-	bottom:0;
-	transform:translateY(100%);
+	bottom:-100%;
 }
 /*ripple*/
 

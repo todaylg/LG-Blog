@@ -72,7 +72,7 @@ exports.addComment = function (req,res,next) {
 		var comment = result.toObject();
 		Article.findOneAndUpdate({title:comment.atitle},{$inc:{comment_count:1}}).then(function(result){
 			console.log('addComment 成功!!: '+comment.atitle);
-			return res.send({state: 1, data: comment});
+			res.status(200).end()
 		})
 	}).catch(function (err) {
 		return next(err);

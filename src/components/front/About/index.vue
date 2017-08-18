@@ -1,14 +1,14 @@
 <template>
-	<div class="contain">
-		<HeaderBar></HeaderBar>
+	<div class="about">
+	<Welcome></Welcome>
 	</div>
 </template>
 <script>
-	import HeaderBar from '../Share/HeaderBar.vue';
-	
-	export default{
-		components: {HeaderBar}
-	}
+import  Welcome from '../Share/Welcome.vue';
+
+export default{
+	components: {Welcome}
+}
 </script>
 <style lang="scss">
 

@@ -14,11 +14,25 @@ const store = new Vuex.Store({
 		catList:[],//前后通用
 		articles: [],//后台文章列表
 		article: {},//前后通用???
-		loadFlag:true,
+		loadMore: false,//Loading标志位，加载更多时显示的Spinner
+		noMore:false,
+		isLoading:false,//Loading标志位，是否显示Spinner
+		firstLoad:true,//首次加载标志位
+		isToasting: false,
+		contentShow:false,//主页内容显示标志
 		user: {},
 		articleList:[],//前台首页文章列表
 		commentList:[],//后台评论列表,
-		articleComment:[]//前台文章所属评论
+		articleComment:[],//前台文章所属评论
+		toast: {
+		  promise: null,
+		  info: '',
+		  btnNum: 1,
+		  toastResolve () {
+		  },
+		  toastReject () {
+		  }
+		}
 	},
 	getters,
 	mutations,

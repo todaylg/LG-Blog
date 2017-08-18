@@ -20,6 +20,46 @@
               @click="add">保存
       </button>
     </div>
+    <input class="title"
+           placeholder="标题"
+           v-model="title">
+
+   <select  v-model="belongCat" placeholder="请选择分类">
+     <option v-for="cat in catList">{{cat.name}}</option>
+   </select>
+
+    <div :class="inspected?'inspect':'edit'">
+      <textarea v-model="content" spellcheck="false"></textarea>
+      <button class="toggle"
+              @click="inspected = !inspected">
+      </button>
+      <article id="a" v-html="markedContent"></article>
+    </div>
+    <div class="panel">
+      <button class="saveArticle"
+              @click="add">保存
+      </button>
+    </div>
+    <input class="title"
+           placeholder="标题"
+           v-model="title">
+
+   <select  v-model="belongCat" placeholder="请选择分类">
+     <option v-for="cat in catList">{{cat.name}}</option>
+   </select>
+
+    <div :class="inspected?'inspect':'edit'">
+      <textarea v-model="content" spellcheck="false"></textarea>
+      <button class="toggle"
+              @click="inspected = !inspected">
+      </button>
+      <article id="a" v-html="markedContent"></article>
+    </div>
+    <div class="panel">
+      <button class="saveArticle"
+              @click="add">保存
+      </button>
+    </div>
   </section>
 </template>
 <script>
