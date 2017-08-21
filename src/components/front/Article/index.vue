@@ -29,7 +29,7 @@ export default{
       this.highlight()
     },
 	created () {
-	    this.getArticle({atitle:this.$route.params.atitle})//显示当前文章
+	    this.getFrontArticle({atitle:this.$route.params.atitle})//显示当前文章
 	},
 	components: {Comment},
 	methods: {
@@ -39,7 +39,7 @@ export default{
 		    hljs.initHighlighting()
 		  }, 0)
 		},
-		...mapActions(['getArticle'])
+		...mapActions(['getFrontArticle'])
 	},
 	computed:mapState({
 		article:state => {

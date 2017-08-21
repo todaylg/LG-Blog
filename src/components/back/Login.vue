@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-  import {mapActions,mapMutations} from 'vuex';
+  import {mapActions} from 'vuex';
 
   export default{
     data(){
@@ -40,9 +40,6 @@
         info: 'Welcome'
       }
     },
-    // mounted () {
-    //   doLogin();
-    // },
     methods: {
       doLogin(){
         if (!this.username.length) return this.info = '请输入正常的用户名';
@@ -54,8 +51,7 @@
       clearInfo(){
         this.info = ''
       },
-      ...mapActions(['login']),
-      ...mapMutations(['SET_USER'])
+      ...mapActions(['login'])
     },
     watch: {
       name: 'clearInfo',

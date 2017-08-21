@@ -4,7 +4,7 @@
           	<div class="site-branding">
             	<div class="site-title">
 	            	<h1>
-	            		<router-link :to="{name:'adminArticleCreate'}">
+	            		<router-link :to="{name:'home'}">
 	              			LG
 	              		</router-link>
 	            	</h1>
@@ -255,6 +255,10 @@ header{
 	    top: 0;
 	    z-index: 1;
 	}
+	a:hover{
+		opacity:0.9;
+		cursor:pointer;
+	}
 }
 
 .site-branding {
@@ -269,7 +273,7 @@ header{
 	    	color: #464646;
 			font-weight: 400;
 			&:hover {
-				color: #FE9600;
+				color: #667783;
 			}
 	    }
 	}

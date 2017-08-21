@@ -56,13 +56,13 @@
 			</div>	
 		</article>
 		
-		  <div v-if='!loadMore' class="pagination" @click.prevent="addAticle">
-		    <a>加载更多</a>
-		  </div>
-		  <div v-else style="padding: 4%; text-align: center;color: #b9bfd0;">
-		    <span>Dont have more...</span>
-		  </div>
-		  <Spinner v-show="loadMore" class="spinner"></Spinner>
+		  <div v-if='!loadMore' v-show="!noMore" class="pagination" @click.prevent="addAticle">
+        <a>加载更多</a>
+      </div>
+      <div v-if="noMore" style="padding: 4%; text-align: center;color: #b9bfd0;">
+        <span>Dont have more...</span>
+      </div>
+      <spinner v-show="loadMore" class="spinner"></spinner>
 	</div>
 </template>
 <script>
@@ -83,7 +83,6 @@ export default{
 		this.initData();
 	},
 	beforeRouteLeave (to, from, next) {
-		this.$store.state.loadMore = true;
 		this.$store.state.catAticles = [];
 		this.$store.state.cat = {};
 		console.log("LeaveCategory ");
@@ -91,7 +90,8 @@ export default{
 	},
 	methods: {
 		initData(){
-			this.$store.state.loadMore = true;
+			this.$store.state.noMore = false;
+			this.$store.state.loadMore = false;
 			this.$store.state.catAticles = [];
 			this.$store.state.cat = {};
 			this.page = 1;
@@ -106,7 +106,7 @@ export default{
 		...mapActions(['getCat', 'getCatArticle']),
 	},
 	computed:{
-		...mapState(['cat','catAticles','loadMore'])
+		...mapState(['cat','catAticles','loadMore','noMore'])
 	},
 	components: {
         Spinner

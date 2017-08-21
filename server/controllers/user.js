@@ -41,7 +41,7 @@ exports.userLogin = function(req,res) {
     if(user.comparePassword(pwd)){
       var token = creatToken(user._id, user.username);
       console.log('登录成功');
-      res.send({state: 1, username:user.username,intro:user.intro,avatar:user.avatar,token}).end();
+      return res.status(200).json({state: 1, username:user.username,intro:user.intro,avatar:user.avatar,token});
     }else{
       console.log('密码不正确');
       res.status(401).end();
@@ -55,7 +55,7 @@ exports.getUserinfo = function(req,res) {
       console.log(err)
     } else if (user) {
       console.log(user);
-      return res.status(200).json(user);
+      return res.status(200).json({username:user.username,intro:user.intro,avatar:user.avatar});
     }
   });
 };

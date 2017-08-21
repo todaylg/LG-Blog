@@ -26,6 +26,8 @@ export default {
 			var welcome = document.querySelector('.welcome');
 			var ripple1 = document.querySelector('#ripple1');
 			var ripple2 = document.querySelector('#ripple2');
+			//todo
+			document.body.style.overflowY='hidden';
 			Velocity.animate(topBlock, {
 			    top:0
 			}, {
@@ -59,7 +61,21 @@ export default {
 				opacity:1
 			},{
 			    duration: 400,
-			    complete:()=>ripple2.classList.add('wave')
+			    complete:()=>{
+			    	ripple2.classList.add('wave');
+			    	Velocity.animate(buttomBlock, {
+			    	    bottom:'-100%'
+			    	}, {
+			    		easing: "ease-in-out",
+			    	    duration: 1000
+			    	})
+			    	Velocity.animate(topBlock, {
+			    	    top:'-100%'
+			    	}, {
+			    		easing: "ease-in-out",
+			    	    duration: 1000
+			    	})
+			    }
 			}))
 			.then(Velocity(tt,{
 				opacity:0
@@ -97,6 +113,7 @@ export default {
 			    duration: 600,
 			    complete: function() {
 			    	welcome.parentElement.removeChild(welcome);
+			    	document.body.style.overflowY='scroll';
 			    }
 			}))
 		},

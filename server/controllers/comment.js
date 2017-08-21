@@ -11,7 +11,7 @@ exports.getCommentList = function (req,res,next) {
 	.sort('created')
 	.exec().then(function (commentList) {
 		console.log('getCommentList ok!!');
-		return res.status(200).json({data:commentList});
+		return res.status(200).json(commentList);
 	}).then(null,function (err) {
 		return next(err);
 	});
@@ -26,7 +26,7 @@ exports.delComment = function (req,res,next) {
 		console.log(result);  
 		Article.findOneAndUpdate({title:result.atitle},{$inc:{comment_count:-1}}).then(function(result){
 			console.log('delComment ok!!: '+result);
-			return res.send({state: 1, msg: 'delComment success'});
+			return res.send({state: 1, msg: 'delComment success'}).end();
 		})
 	}).catch(function (err) {
 		return next(err);
@@ -47,7 +47,7 @@ exports.getFrontComment = function (req,res,next) {
 	// })
 	.exec().then(function (commentList) {
 		console.log('getFrontComment ok!!: '+commentList);
-		return res.status(200).json({data:commentList});
+		return res.status(200).json(commentList).end();
 	}).then(null,function (err) {
 		return next(err);
 	});

@@ -68,7 +68,7 @@ exports.getArticle = function (req,res,next) {
 			console.log(err);
 		} else if (doc) {
 			console.log("getArticle sucess!");
-			res.send(doc);
+			return res.status(200).json(doc);
 		}
 	});
 }
@@ -78,7 +78,7 @@ exports.delArticle = function (req,res,next) {
 	const id = req.body.id;
 	console.log(id);
 	Article.findByIdAndRemove(id, () => {
-		res.send({state: 1, msg: '删除成功'}).end();
+		return res.send({state: 1, msg: '删除成功'}).end();
 	});
 }
 exports.getArticleList = function (req,res,next) {
@@ -87,11 +87,11 @@ exports.getArticleList = function (req,res,next) {
 		if (err) {
 			console.log(err)
 		} else if (doc) {
-			res.send(JSON.stringify(doc))
+			return res.status(200).json(doc);
 		}
 	})
 }
-
+//Front
 exports.getFrontArticleList = function (req,res,next) {
 	console.log("getFrontArticleList ing....");
 	const page = req.query.page;
@@ -99,6 +99,19 @@ exports.getFrontArticleList = function (req,res,next) {
 	const skip = limit * (page - 1 );
 	console.log("page: "+page+";limit: "+limit+";skip: "+skip);
 	Article.find({status:1},"title created intro special_img visit_count comment_count").sort({created:-1}).skip(skip).limit(limit).exec().then((articles) => {
-		res.send(articles);
+		return res.status(200).json(articles);
+	});
+}
+exports.getFrontArticle = function (req,res,next) {
+	console.log("getFrontArticle ing....");
+	const title = req.body.atitle;
+	console.log("title: "+title);
+	Article.findOneAndUpdate({title},{$inc:{visit_count:1}},(err, doc) => {
+		if (err) {
+			console.log(err);
+		} else if (doc) {
+			console.log("getFrontArticle sucess!: "+doc);
+			return res.status(200).json(doc);
+		}
 	});
 }

@@ -2,7 +2,7 @@
 	<div class="contain">
 		<Welcome v-if="firstLoad"></Welcome>
 		<transition name="fade">
-			<Background v-if="!firstLoad"></Background>
+			<Background v-show="!firstLoad"></Background>
 		</transition>
 		<ArticlesList></ArticlesList>
 	</div>
@@ -34,7 +34,7 @@
 </script>
 <style lang="scss">
 .fade-enter-active{
-  transition: opacity 1s ease-in-out
+  transition: opacity .5s ease-in-out
 }
 .fade-enter{
   opacity: 0

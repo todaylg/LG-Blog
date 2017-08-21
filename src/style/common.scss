@@ -7,6 +7,9 @@ select,textarea{outline:none;border:none; background:none;}
 textarea{resize:none;}
 button {cursor: pointer;}
 a{text-decoration:none; color:#656565;}
+a:hover{
+	cursor:pointer;
+}
 h1 {font-size: 2em;}
 * {
     box-sizing: border-box;

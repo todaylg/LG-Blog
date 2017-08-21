@@ -32,7 +32,7 @@ exports.getCatList = function (req,res,next) {
 	console.log("getCatList ing....");
 	Category.find().then(function(result){
 		console.log("getCatList ok!");
-		return res.status(200).json({data:result});
+		return res.status(200).json(result);
 	}).catch(function (err) {
 		return next(err);
 	})
@@ -44,7 +44,7 @@ exports.updateCat = function (req,res) {
 	var id = req.body.id;
 	Category.findByIdAndUpdate(id,{name:req.body.val},{new:true}).then(function(result){
 		// return res.status(200).json({success:true,cat_id:result._id});
-		return res.send({state: 1, msg: 'updateCat success'});
+		return res.send({state: 1, msg: 'updateCat success'}).end();;
 		console.log("updateCat sucess....");
 	}).catch(function(err){
 		return next(err);
@@ -58,7 +58,7 @@ exports.delCat = function (req,res,next) {
 	var id = req.body.id;
 	console.log(id);
 	Category.findByIdAndRemove(id).then(function (cat) {
-		return res.send({state: 1, msg: 'del success'});
+		return res.send({state: 1, msg: 'del success'}).end();;
 	}).catch(function (err) {
 		return next(err);
 	})
@@ -77,7 +77,7 @@ exports.getCat = function (req,res,next) {
 	    } else if (result) {
 	      console.log("getCat...OK!!");
 		  console.log(result);
-		  return res.status(200).json({data:result});
+		  return res.status(200).json(result);
 	    }
 	});
 }

@@ -21,6 +21,7 @@ const store = new Vuex.Store({
 		isToasting: false,
 		contentShow:false,//主页内容显示标志
 		user: {},
+		userInfo:{},//后台个人信息显示
 		articleList:[],//前台首页文章列表
 		commentList:[],//后台评论列表,
 		articleComment:[],//前台文章所属评论

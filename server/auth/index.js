@@ -9,7 +9,7 @@ var confirmToken = (req, res, next) => {
 		return res.status(401).end('no token');
 	} else {
         var token = req.headers.authorization.split(' ')[1];
-        jwt.verify(token, secret, function (err) {
+        jwt.verify(token, secret.cert, function (err) {
             if (err) {
                 console.log("token error");
                 console.log("err.message:"+err.message);
@@ -17,6 +17,7 @@ var confirmToken = (req, res, next) => {
             }
         })
     }
+    console.log("confirmToken pass");
     next();
 }
 

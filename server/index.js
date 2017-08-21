@@ -3,7 +3,8 @@
 var express = require('express');
 var path = require('path');
 var http = require('http');
-var fs = require('fs');      
+var fs = require('fs');
+//var history = require('connect-history-api-fallback');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -14,7 +15,7 @@ var init = require('./init.json');
 
 var settings = require('./settings');
 var app = express();
-var port = process.env.PORT || 3004;
+var port = process.env.PORT || 3005;
 
 var dbUrl = 'mongodb://localhost/lgBlog';// 数据库地址
 
@@ -81,6 +82,11 @@ db.once('open', function () {
 
 var routes = require('./routes/routes');
 routes(app);
+
+app.get('*', function (req, res) {
+  const html = fs.readFileSync(path.resolve('./dist/index.html'), 'utf-8')
+  res.send(html)
+})
 
 var server = http.createServer(app);
 server.listen(app.get('port'));

@@ -1,0 +1,12 @@
+[{
+  "name": "LG-Blog",
+  "script": "server/index.js",
+  "error_file": "server/log/app-err.log",
+  "out_file": "server/log/app-out.log",
+  "env_dev": {
+    "NODE_ENV": "development"
+  },
+  "env_production": {
+    "NODE_ENV": "production"
+  }
+}]

@@ -55,7 +55,8 @@
                   <span>评论量</span>
               </p>
           </div>
-        </li> -->
+        </li>-->
+        
       </ul>
       <div v-if='!loadMore' v-show="!noMore" class="pagination" @click.prevent="addAticle">
         <a>加载更多</a>
@@ -74,13 +75,18 @@
   data(){
     return {
       page:1,
-      limit:2
+      limit:3
     }
+  },
+  updated(){
+    
   },
   computed: {
     ...mapState(['articleList','loadMore','contentShow','noMore'])
   },  
   created(){
+      this.$store.state.noMore = false;
+      this.$store.state.loadMore = false;
       this.$store.state.contentShow = false;
       this.getFrontArticleList({page:this.page,limit:this.limit});
   },
@@ -149,11 +155,17 @@
     overflow: hidden;
     position: relative;
     z-index: 3;
-    img{
-      position:absolute;
+    img:nth-child(1){
+      position:relative;
     	display: block;
     	max-width: 100%;
     	height: auto;
+    }
+    img:nth-child(2){
+      position:absolute;
+      top: 0;
+      left: 0;
+      width:100%;
     }
 }
 .else {
@@ -220,4 +232,93 @@
       }
     }
 }
+//自适应
+@media screen and (max-width: 1200px){
+  .post {
+      width: 900px;
+      & > a {
+            width: 520px;
+            height: 310px;
+            margin-top: 10px;
+        }
+  }
+  .post:nth-child(even) .else {
+      right: 450px;
+  }
+  .post:nth-child(odd) .else {
+      left: 450px;
+  }
+  .else {
+      top: 10px;
+      width: 420px;
+      height: 290px;
+      p:first-child {
+          font-size: 12px;
+          margin: 50px 0 0 100px;
+      }
+      h3 {
+          font-size: 24px;
+          margin: 25px 60px 0 100px;
+      }
+      h3 + p {
+          color: #555;
+          margin: 15px 100px 0 100px;
+          text-indent:20px;
+          font-size: 14px;
+          line-height: 1.8;
+      }
+      .here {
+          left: 100px;
+          bottom: 50px;
+      }
+  }
+}
+
+@media screen and (max-width: 900px){
+  .post {
+      width: 100%;
+      margin-top: 60px;
+      background: #fff;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eaeaea;
+      & > a {
+        display: block;
+        margin: 0 auto;
+        width:100%;
+        height:auto;
+        img {
+            position: relative;
+            margin: 0 auto;
+        }
+      }
+  }
+  .post:nth-child(odd) .else,
+  .post:nth-child(even) .else {
+     box-shadow:none;
+  }
+  .else {
+      height: auto;
+      position: static;
+      width: 96%;
+      margin: 0 auto;
+      background: transparent;
+      border: none;
+      p:first-child {
+          margin: 30px 0 0 50px;
+      }
+      h3 {
+          font-size: 24px;
+          margin: 20px 30px 0 50px;
+      }
+      h3 + p {
+          margin: 10px 30px 0 50px;
+      }
+  }
+  .here {
+      position: static;
+      margin: 20px 50px 20px 20px;
+      text-align: right;
+  }
+}
+
 </style>

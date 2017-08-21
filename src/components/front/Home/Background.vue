@@ -22,7 +22,8 @@ export default {
 	mounted(){
 		this.getBgWidth(),
     	window.addEventListener('resize', this.autoHW),//全局触发导致报错      
-    	window.addEventListener('scroll', this.bgDisplay)
+    	window.addEventListener('scroll', this.bgDisplay),
+    	this.bgPreloading()
     },
     destroyed(){//注销事件
     	window.removeEventListener('scroll', this.bgDisplay),
@@ -51,6 +52,26 @@ export default {
     			that.autoHW();
     			that.bgAnimation();
     		}
+    	},
+    	bgPreloading(){
+    		let src= [],preCount=0,that=this;
+			src.push(document.querySelector('#centerbg').src);
+			src.push(document.querySelector('#yz').src);
+			src.push(document.querySelector('#yz').src);
+			for(let i=0;i<src.length;i++){
+				let imgTemp = new Image();
+    			imgTemp.src = src;
+    			imgTemp.onload = function(){
+    				preCount++;
+    				if(preCount >= src.length){
+    					//图片预加载完成
+    					console.log("preCount： "+preCount);
+    					setTimeout(()=>{
+    						that.$store.state.isLoading = false;
+    					},1000);
+    				}
+    			}
+			}
     	},
     	bgAnimation(){
     		var bg = document.querySelector('#centerbg');
@@ -95,6 +116,7 @@ export default {
 				}, 1400);
 				//内容组件向上动画 //TODO vuex
 				this.$store.state.contentShow = true;
+				if(this.getScrollTop()===0)window.scrollTo(0,1);
 			}
     	},
 		getScrollTop(){

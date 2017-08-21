@@ -2,13 +2,14 @@
 
 var express = require('express');
 var Category = require('../controllers/category.js');
+var confirmToken = require('../auth/index.js');
 
 var router = express.Router();
 //admin
-router.post('/addCategory',Category.addCategory);
-router.get('/getCatList', Category.getCatList);
-router.post('/updateCat', Category.updateCat);
-router.post('/delCategory', Category.delCat);
+router.post('/addCategory', confirmToken, Category.addCategory);
+router.get('/getCatList', Category.getCatList);//因为token的加入，所有后台和前台都得分开，才能鉴权
+router.post('/updateCat', confirmToken, Category.updateCat);
+router.post('/delCategory', confirmToken, Category.delCat);
 
 //front
 router.post('/getCat',Category.getCat);//显示当前分类目录的名称及简介

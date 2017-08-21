@@ -2,13 +2,13 @@
 
 var express = require('express');
 var Comment = require('../controllers/comment.js');
-//var auth = require('../auth/index.js');
+var confirmToken = require('../auth/index.js');
 
 var router = express.Router();
 
 //后台管理
-router.get('/getCommentList',Comment.getCommentList);
-router.post('/delComment',Comment.delComment);
+router.get('/getCommentList', confirmToken, Comment.getCommentList);
+router.post('/delComment', confirmToken, Comment.delComment);
 // router.put('/:id/delReply', auth.adminRequired, Comment.delReply);
 //前台获取
 router.post('/addComment',Comment.addComment);

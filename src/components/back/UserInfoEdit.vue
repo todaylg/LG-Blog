@@ -2,9 +2,9 @@
   <section class="account">
     <div class="title">用户信息</div>
     <header class="avatar">
-        <img v-bind:src="user.avatar" />
-      <h4>{{user.username}}</h4>
-      <h5>{{user.intro}}</h5>
+        <img v-bind:src="userInfo.avatar" />
+      <h4>{{userInfo.username}}</h4>
+      <h5>{{userInfo.intro}}</h5>
     </header>
     <div class="title">修改密码</div>
     <div class="password">
@@ -36,7 +36,7 @@ import {mapState, mapActions} from 'vuex';
     created(){
       this.getUserinfo()
     },
-    computed: mapState(['user']),
+    computed: mapState(['userInfo']),
     methods: {
       savePwd(){
         if (this.pwd === this.pwdRepeat) {

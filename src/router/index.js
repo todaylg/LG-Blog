@@ -1,5 +1,4 @@
 import Vue      from 'vue';
-//import Store    from '../store';
 import Router   from 'vue-router';
 
 import Front  from '../components/front/Front.vue';
@@ -13,51 +12,53 @@ import Dashboard  from '../components/back/Dashboard.vue';
 import ArticleCreate  from '../components/back/ArticleCreate.vue';
 import CategoryEdit  from '../components/back/CategoryEdit.vue';
 import ArticleList  from '../components/back/ArticleList.vue';
-import UserInfoEdit  from '../components/back/userInfoEdit.vue';
+import UserInfoEdit  from '../components/back/UserInfoEdit.vue';
 import ArticleEdit  from '../components/back/ArticleEdit.vue';
 import CommentEdit  from '../components/back/CommentEdit.vue';
 
+
+import NotFound  from '../components/share/NotFound.vue';
 //import Loading  from '../components/front/Share/Loading.vue';
 //import Toast  from '../components/front/Share/Toast.vue';
 
 Vue.use(Router);
 
-// 滚动条滚回顶部
-// const scrollBehavior =(to, from, savedPosition)=> {
-// 	if (savedPosition) {
-// 		return savedPosition;
-// 	} else {
-// 		return { x: 0, y: 0 }
-// 	}
-// }
-
 var router = new Router({
 	mode: 'history',
 	//访问不需要权限的设置路由元信息meta:false
+	scrollBehavior (to, from, savedPosition) {
+	    if (to.hash) {
+	        return {
+	            selector: to.hash
+	        };
+	    } else {
+	        return {x: 0, y: 0};
+	    }
+	},
 	routes: [
 		{
 			path: '/', 
 			component: Front,
 			children:[
 				{
-					path: '', component:Home, name:'home', meta:{auth:false}
+					path: '', component:Home, name:'home', meta:{auth:false,title: '首页'}
 				},
 				{
-					path: 'home', component:Home, meta:{auth:false}
+					path: 'home', component:Home, meta:{auth:false,title: '首页'}
 				},
 				{
-					path: 'article/:atitle', component: Article, name:'article',meta:{auth:false}
+					path: 'article/:atitle', component: Article, name:'article',meta:{auth:false,title: '文章'}
 				},
 				{
-					path: 'category/:catname', component: Category, name:'category', meta:{auth:false}
+					path: 'category/:catname', component: Category, name:'category', meta:{auth:false,title: '分类'}
 				},
 				{
-					path: 'about', component: About, name:'about', meta:{auth:false}
+					path: 'about', component: About, name:'about', meta:{auth:false,title: '关于'}
 				},
 			]
 		},
 		{
-			path: '/login', name:'login',component: Login, meta:{auth:false}
+			path: '/login', name:'login',component: Login, meta:{auth:false,title: '登录'}
 		},
 		{
 			path:'/admin',
@@ -65,57 +66,48 @@ var router = new Router({
 			component:Dashboard,
 			children:[
 			  	{
-			  		path:'',component:ArticleList,name:'admin'
+			  		path:'',component:ArticleList,name:'admin',meta: {title: '后台管理'}
 			  	},
 			  	{
-					path:'articleList',component:ArticleList,name:'adminArticleList'
+					path:'articleList',component:ArticleList,name:'adminArticleList',meta: {title: '文章列表'}
 			  	},
 				{
-					path:'userInfoEdit',component:UserInfoEdit,name:'adminUserInfoEdit'
+					path:'userInfoEdit',component:UserInfoEdit,name:'adminUserInfoEdit',meta: {title: '个人信息'}
 				},
 				{
-					path:'commentEdit',component:CommentEdit
+					path:'commentEdit',component:CommentEdit,meta: {title: '评论管理'}
 				},
 			  	{
-			  		path:'articleEdit/:atitle', component:ArticleEdit, name:'adminArticleEdit'
+			  		path:'articleEdit/:atitle', component:ArticleEdit, name:'adminArticleEdit',meta: {title: '文章编辑'}
 			  	},
 			  	{
-			  		path:'articleCreate',component:ArticleCreate, name:'adminArticleCreate'
+			  		path:'articleCreate',component:ArticleCreate, name:'adminArticleCreate',meta: {title: '新建文章'}
 				},
 			  	{
-			  		path:'categoryEdit',component:CategoryEdit,name:'adminCategoryEdit'
+			  		path:'categoryEdit',component:CategoryEdit,name:'adminCategoryEdit',meta: {title: '分类管理'}
 			  	},
 			]
 		},
-
 		{
-			path:'*',component:Home//todo 404
+			path:'*',component:NotFound
 		}
 	]
 });
 
-// 路由钩子
-router.beforeEach(({meta}, from, next) => {
-	let {goTop=true}=meta;
-	if (goTop) {
-		window.scrollTo(0, 0); 
+router.beforeEach(({meta,path},from,next)=>{
+	document.title = 'LG-Blog| '+meta.title;
+	let {auth=true}=meta;
+	let isLogin = Boolean(localStorage.getItem('token'));
+	console.log('isLogin'+isLogin);
+	//访问要登录但是又没登录的情况转到login
+	if(auth&&!isLogin&&path!=='/login'){
+		return next({name:'login'});	
+	}
+	// 登录了以后访问login则路由到admin
+	if(isLogin&&path=='/login'){
+		return next({name:'admin'});
 	}
 	next();
 });
-// router.beforeEach(({meta,path},from,next)=>{
-// 	let {auth=true}=meta;
-// 	let isLogin = Boolean(Store.state.token);
-
-// 	if(auth&&!isLogin&&path!=='/login'){
-// 		return next({path:'/login'});	
-// 	}
-// 	// 如果登录了以后再访问reg和login则路由到Home
-// 	if(isLogin&&path=='/login'){
-// 		return next({path:'/admin'});
-// 	}
-// 	//未登录的情况下访问reg则直接路由
-// 	next();
-// });
-//import Store    from '../store';
 
 export default router;

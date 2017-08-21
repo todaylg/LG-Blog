@@ -25,7 +25,7 @@
           <li>
               <router-link :to="{path:'/admin/categoryEdit'}" tag="li">
                 <i></i>
-                <span>分类目录</span>
+                <span>分类管理</span>
               </router-link>
           </li>
           <li>

@@ -22,7 +22,16 @@ export default {
 	SET_USER: (state, user) => {
 		localStorage.setItem('token', user.token);
 		localStorage.setItem('username', user.username);
-		state.user = {
+		state.user = {//前台貌似可以不需要了
+			username:user.username,
+			intro:user.intro,
+			avatar:user.avatar,
+			token:user.token
+		};
+		console.log(user);
+	},
+	SET_USERINFO: (state, user) => {
+		state.userInfo = {
 			username:user.username,
 			intro:user.intro,
 			avatar:user.avatar

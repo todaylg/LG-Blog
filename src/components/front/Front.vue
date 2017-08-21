@@ -2,9 +2,9 @@
 	<div class="contain">
 		<HeaderBar></HeaderBar>
     <!--实际上线-->
-		<!-- <router-view v-show="!isLoading"></router-view>
-		<Loading v-show="isLoading"></Loading>	 -->
-    <router-view></router-view>
+		<router-view v-show="!isLoading"></router-view>
+		<Loading v-show="isLoading"></Loading>	
+    	<!-- <router-view></router-view> -->
 		<FooterBar></FooterBar>
 		<Toast v-show="isToasting"></Toast>	
 		<ScrollTop></ScrollTop>
