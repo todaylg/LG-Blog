@@ -29,7 +29,7 @@ import Velocity from "../../assets/js/velocity.min.js";
 export default{
 	data(){
 		return {
-			username: 'lg',
+			username: 'LG',
 			pwd: '123',
 			loginFlag:false,
 			loginTip:'Welcome'

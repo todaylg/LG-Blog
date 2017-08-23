@@ -9,6 +9,7 @@
 
 ![image](https://github.com/todaylg/LG-Blog/blob/master/src/assets/img/intro.png)
 
+![image](https://github.com/todaylg/LG-Blog/blob/master/src/assets/img/intro1.png)
 
 ## Features
 
@@ -53,7 +54,11 @@ npm start
 ```
 open browser and input:
 
-http://localhost:3001/
+#####http://localhost:3001/
+
+Login:
+
+#####http://localhost:3001/login
 
 
 Development:
