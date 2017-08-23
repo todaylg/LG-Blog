@@ -4,10 +4,10 @@
 			<div class="smartphone-menu-trigger"></div>
 			<header class="avatar">
 				<router-link :to="{path:'/'}">
-					<img src="../../assets/img/LG.png" />
+					<img :src="userInfo.avatar" />
 				</router-link>
-				<h4>晚上好</h4>
-				<h2>todaylg</h2>
+				<h4>Hello~</h4>
+				<h2>{{userInfo.username}}</h2>
 			</header>
 			<ul>
 				<li>
@@ -49,13 +49,19 @@
 	</div>
 </template>
 <script>
-import {mapState, mapMutations}	 from 'vuex'
+import {mapState, mapActions}	 from 'vuex';
 import Toast from '../share/Toast.vue';
 
 export default{
+	created(){
+		this.getUserinfo();
+	},
 	components: {Toast},
 	computed: {
-		...mapState(['isToasting'])
+		...mapState(['isToasting','userInfo'])
+	},
+	methods: {
+		...mapActions(['getUserinfo'])
 	}
 }
 </script>

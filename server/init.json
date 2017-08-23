@@ -1,10 +1,10 @@
 [
   {
     "type": "User",
-    "username": "lg",
+    "username": "LG",
     "intro": "this is the test user for init",
     "password": "123",
-    "avatar":"http://ouib5enmf.bkt.clouddn.com/LG.png"
+    "avatar":"http://ouib5enmf.bkt.clouddn.com/headImg.png"
   },
   {
     "type": "Category",
@@ -14,7 +14,7 @@
   {
     "type": "Comment",
     "atitle": "test",
-    "username": "lg",
+    "username": "LG",
     "website": "www.bilibili.com",
     "email": "lg2lugang@gmial.com",
     "content": "这是一条测试评论"

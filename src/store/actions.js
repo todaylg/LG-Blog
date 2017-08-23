@@ -20,7 +20,7 @@ const doToast = (state, commit, payload) => {
 	commit('TOASTING_TOGGLE', true);
 	return state.toast.promise;
 };
-//学习！！TODO 来波async/await
+//学习！！TODO 
 Promise.prototype.finally = function (callback) {
 	return this.then(
 		value => Promise.resolve(callback()).then(() => value),
@@ -34,7 +34,6 @@ export default {
 	login ({commit}, payload) {
 		return axios.post('/api/userLogin', payload).then(response => {
 			commit('SET_USER', response.data);
-			router.push({name: 'admin'});
 		});
 	},
 	logoutUser({commit, state, dispatch}) {
@@ -67,9 +66,8 @@ export default {
 			})
 			.catch((err) => {console.log(err);});
 	},
-	getArticle ({commit}, atitle) {//前台后台要不通用？？不能通用，因为前台访问涉及访问量的增加
+	getArticle ({commit}, atitle) {
 		const start = beginLoading(commit, false);
-		//这里get方法不行，先TODO再找原因，可能是中文作为参数不行？？？get 的params参数都会自动转为小写？
 		return axios.post('/api/getArticle', atitle).then(response => {
 			stopLoading(commit, start, false);
 			commit('SET_ARTICLE', response.data);

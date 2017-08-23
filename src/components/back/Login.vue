@@ -46,7 +46,9 @@ export default{
 			if (!this.pwd.length) return this.loginTip = '密码不能为空';
 			this.loginTip = 'Welcome';
 			this.loginFlag = true;
-			this.login({username: this.username, pwd: this.pwd});
+			this.login({username: this.username, pwd: this.pwd}).then(()=>{
+				this.$router.push({name: 'admin'});
+			})
 		},
 		clearInfo(){
 			this.info = ''

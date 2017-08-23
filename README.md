@@ -1,18 +1,62 @@
-# lg-blog
 
-> An anime theme blog platform for myself's use,basic on Vue2,Nodejs,MongoDB.
+# LG-Blog
 
-## Build Setup
+> A simple anime theme(Tamako Love Story) blog platform for myself's use,basic on Vue2, Nodejs, MongoDB.
 
-``` bash
-# install dependencies
-npm install
 
-# serve with hot reload at localhost:8080
-npm run dev
+### [Demo](http://todaylg.com)
 
-# build for production with minification
-npm run build
+
+## Features
+
+### FrontEnd：
+* Vue2.js
+* Vue-Router
+* Vuex
+* Axio
+* Velocity
+
+### BackEnd:
+* Node.js
+* Express
+* MongoDB (mongoose)
+* JWT
+
+### Others:
+* Webpack
+* ES6
+* SASS
+* PM2
+
+
+##Setup
+
+1.Launch mongdb
+
 ```
+mongod
+```
+2.Install 
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+```
+cd LG-Blog
+
+npm install
+```
+3.Start
+
+```
+npm start
+```
+open browser and input:
+
+http://localhost:3001/
+
+
+Development:
+
+```
+npm run dev
+```
+## Licence
+MIT
