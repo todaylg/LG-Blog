@@ -18,7 +18,10 @@ let config = {
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: debug? '[name].js':'[hash:8].[name].js',
-    //publicPath: '/',
+    publicPath: '/',//必不可少
+    //对于按需加载(on-demand-load)或加载外部资源(external resources)（如图片、文件等）来说，output.publicPath 是很重要的选项。如果指定了一个错误的值，则在加载这些资源时会收到 404 错误。
+    //该选项的值是以 runtime(运行时) 或 loader(载入时) 所创建的每个 URL 为前缀。因此，在多数情况下，此选项的值都会以/结束。
+    //<link href="/assets/spinner.gif" />最前面的/，没有这个多级目录的时候就找不到了
     chunkFilename: debug? '[name].js':'[name].[chunkhash].js'
   },
   plugins: [
@@ -41,12 +44,13 @@ let config = {
       favicon:path.join(__dirname,'src/assets/img/favicon.ico'),
       title: 'LG-Blog',
       template: path.join(__dirname,'src/index.html'),  //模板文件
-      inject:'body',
+      inject:true,
       hash:false,    //为静态资源生成hash值
       minify:{    //压缩HTML文件
         removeComments:false,    //移除HTML中的注释
         collapseWhitespace:true    //删除空白符与换行符
-      }
+      },
+      chunksSortMode: 'dependency'
     }),
   ],
   module: {

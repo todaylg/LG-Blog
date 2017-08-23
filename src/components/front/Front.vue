@@ -16,7 +16,7 @@ import HeaderBar from './Share/HeaderBar.vue';
 import ScrollTop from './Share/ScrollTop.vue';
 import FooterBar from './Share/FooterBar.vue';
 import Loading from './Share/Loading.vue';
-import Toast from './Share/Toast.vue';
+import Toast from '../share/Toast.vue';
 
 export default{
 	components: {HeaderBar, ScrollTop, FooterBar, Loading, Toast},

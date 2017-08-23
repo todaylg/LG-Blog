@@ -1,7 +1,7 @@
 var jwt =require('jsonwebtoken');
 var secret = require('./config').jwt;
 
-// 检查token是否正确
+//token
 var confirmToken = (req, res, next) => {
 	console.log("begin confirmToken");
 	if (!req.headers.authorization) {

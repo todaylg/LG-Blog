@@ -5,7 +5,7 @@ var logs = require('../controllers/logs.js');
 var auth = require('../auth/index.js');
 
 var router = express.Router();
-//后台日志查看
-router.get('/getLogsList',auth.adminRequired,logs.getLogsList);
+//后台日志查看 //TODO
+router.get('/getLogsList',logs.getLogsList);
 
 module.exports = router;

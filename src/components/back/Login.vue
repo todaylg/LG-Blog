@@ -1,288 +1,259 @@
 <template>
-    <div class="wrapper">
-    <div class="container">
-      <h1>{{info}}</h1>
-      <div class="form">
-        <input type="text" name="log" id="user_login" class="input" value="" size="20"
-               placeholder="username"
-               v-model.trim="username"
-        >
-         <input type="password" name="pwd" id="user_pass" class="input" value="" size="20"
-               placeholder="password"
-               v-model.trim="pwd"
-        >
-        <button id="login-button" v-on:click.prevent="doLogin">Login</button>
-      </div>
-    </div>
-    
-    <ul class="bg-bubbles">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
-  </div>
+<div>
+	<figure class="bgContain">
+		<img id="loginBG" src="../../assets/img/login_BG.png">
+		<img id="login_yz" src="../../assets/img/login_yz.png">
+		<img id='login_bz' src="../../assets/img/login_bz.png">
+		<div class="container" :class="loginFlag?'logining':''">
+			<h1>{{loginTip}}</h1>
+			<div class="form">
+				<input type="text" name="log" id="user_login" class="input" value="" size="20"
+					 placeholder="username"
+					 v-model.trim="username"
+				>
+				 <input type="password" name="pwd" id="user_pass" class="input" value="" size="20"
+					 placeholder="password"
+					 v-model.trim="pwd"
+				>
+				<button id="login-button" v-on:click.prevent="doLogin">Login</button>
+			</div>
+		</div>
+	</figure>
+	
+	</div>
 </template>
 <script>
-  import {mapActions} from 'vuex';
+import {mapActions, mapState} from 'vuex';
+import Velocity from "../../assets/js/velocity.min.js";
 
-  export default{
-    data(){
-      return {
-        username: 'lg',
-        pwd: '123',
-        info: 'Welcome'
-      }
-    },
-    methods: {
-      doLogin(){
-        if (!this.username.length) return this.info = '请输入正常的用户名';
-        if (!this.pwd.length) return this.info = '请输入正常的密码';
-        //$('form').fadeOut(500);
-        //document.querySelector('.wrapper').classList.add('form-success');
-        this.login({username: this.username, pwd: this.pwd});
-      },
-      clearInfo(){
-        this.info = ''
-      },
-      ...mapActions(['login'])
-    },
-    watch: {
-      name: 'clearInfo',
-      pwd: 'clearInfo'
-    }
-  }
+export default{
+	data(){
+		return {
+			username: 'lg',
+			pwd: '123',
+			loginFlag:false,
+			loginTip:'Welcome'
+		}
+	},
+	mounted(){
+		this.loginAnimation()
+	},
+	computed:{
+	},
+	methods: {
+		doLogin(){
+			if (!this.username.length) return this.loginTip = '用户名不能为空';
+			if (!this.pwd.length) return this.loginTip = '密码不能为空';
+			this.loginTip = 'Welcome';
+			this.loginFlag = true;
+			this.login({username: this.username, pwd: this.pwd});
+		},
+		clearInfo(){
+			this.info = ''
+		},
+	loginAnimation(){
+		var bg = document.querySelector('#loginBG');
+		var bz = document.querySelector('#login_bz');
+		var yz = document.querySelector('#login_yz');
+		var panel = document.querySelector('.container');
+		Velocity(bg, {
+			blur: [4,0]
+		}, {
+		duration: 2000
+		});
+		Velocity(panel, {
+			blur: [0,2]
+		}, {
+		duration: 2000
+		});
+		Velocity(bz,{
+			blur: [0,6],
+			translateX:[0,10]
+		},{
+		duration: 2500
+		});
+		Velocity(yz,{
+			blur: [0,6],
+			translateX:[0,-10]
+		},{
+			duration: 2500
+		});
+	},
+	...mapActions(['login'])
+	},
+	watch: {
+		name: 'clearInfo',
+		pwd: 'clearInfo'
+	}
+}
 </script>
 <style lang="scss" scoped>
-.wrapper {
-  font-family: 'Source Sans Pro', sans-serif;
-  color: white;
-  font-weight: 300;
+.bgContain {
+	position:absolute;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	width: 100%;
+	height: 100%;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	margin: 0;
+	padding: 0;
+	z-index: -1;
 }
-.wrapper ::-webkit-input-placeholder {
-  /* WebKit browsers */
-  font-family: 'Source Sans Pro', sans-serif;
-  color: white;
-  font-weight: 300;
+
+#login_yz{
+	position: absolute;
+	right: 10%;
+	bottom: 0;
+	filter:blur(8px);
+	width: 15%;
 }
-.wrapper :-moz-placeholder {
-  /* Mozilla Firefox 4 to 18 */
-  font-family: 'Source Sans Pro', sans-serif;
-  color: white;
-  opacity: 1;
-  font-weight: 300;
+
+#login_bz{
+	position: absolute;
+	left:10%;
+	bottom: 0;
+	filter:blur(8px);
+	width: 19%;
 }
-.wrapper ::-moz-placeholder {
-  /* Mozilla Firefox 19+ */
-  font-family: 'Source Sans Pro', sans-serif;
-  color: white;
-  opacity: 1;
-  font-weight: 300;
+
+.container ::-webkit-input-placeholder {
+	/* WebKit browsers */
+	font-family: 'Source Sans Pro', sans-serif;
+	color: white;
+	font-weight: 300;
 }
-.wrapper :-ms-input-placeholder {
-  /* Internet Explorer 10+ */
-  font-family: 'Source Sans Pro', sans-serif;
-  color: white;
-  font-weight: 300;
+
+.container :-moz-placeholder {
+	/* Mozilla Firefox 4 to 18 */
+	font-family: 'Source Sans Pro', sans-serif;
+	color: white;
+	opacity: 1;
+	font-weight: 300;
 }
-.wrapper {
-  background: #50a3a2;
-  background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
-  background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 400px;
-  margin-top: -200px;
-  overflow: hidden;
+
+.container ::-moz-placeholder {
+	/* Mozilla Firefox 19+ */
+	font-family: 'Source Sans Pro', sans-serif;
+	color: white;
+	opacity: 1;
+	font-weight: 300;
 }
-.wrapper.form-success .container h1 {
-  -webkit-transform: translateY(85px);
-          transform: translateY(85px);
+
+.container :-ms-input-placeholder {
+	/* Internet Explorer 10+ */
+	font-family: 'Source Sans Pro', sans-serif;
+	color: white;
+	font-weight: 300;
 }
+
 .container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 80px 0;
-  color:white;
-  height: 400px;
-  text-align: center;
+	position: absolute;
+	background: rgba(255,255,255,0.2);
+	border-radius: 30px;
+	top: 50%;
+	left: 50%;
+	width: 30%;
+	transform: translate(-50%,-50%);
+	opacity:1;
+	padding: 80px 0;
+	color:white;
+	height: 400px;
+	text-align: center;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight: 300;
 }
+
 .container h1 {
-  font-size: 40px;
-  -webkit-transition-duration: 1s;
-          transition-duration: 1s;
-  -webkit-transition-timing-function: ease-in-put;
-          transition-timing-function: ease-in-put;
-  font-weight: 200;
+	font-size: 40px;
+	transition:transform .3s ease-in-out;
+	font-weight: 200;
 }
+
+.container.logining h1{
+	transform: translateY(85px);
+}
+
+.container.logining .form{
+	opacity:0;
+}
+
 .form {
-  padding: 20px 0;
-  position: relative;
-  z-index: 2;
+	padding: 20px 0;
+	position: relative;
+	z-index: 2;
+	transition:opacity .3s ease-in-out;
 }
+
 .form input {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  outline: 0;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  background-color: rgba(255, 255, 255, 0.2);
-  width: 250px;
-  border-radius: 3px;
-  padding: 10px 15px;
-  margin: 0 auto 10px auto;
-  display: block;
-  text-align: center;
-  font-size: 18px;
-  color: white;
-  -webkit-transition-duration: 0.25s;
-          transition-duration: 0.25s;
-  font-weight: 300;
+	-webkit-appearance: none;
+	 -moz-appearance: none;
+		appearance: none;
+	outline: 0;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	background-color: rgba(255, 255, 255, 0.2);
+	width: 250px;
+	border-radius: 3px;
+	padding: 10px 15px;
+	margin: 0 auto 10px auto;
+	display: block;
+	text-align: center;
+	font-size: 18px;
+	color: white;
+	-webkit-transition-duration: 0.25s;
+		transition-duration: 0.25s;
+	font-weight: 300;
 }
+
 .form input:hover {
-  background-color: rgba(255, 255, 255, 0.4);
+	background-color: rgba(255, 255, 255, 0.4);
 }
+
 .form input:focus {
-  background-color: white;
-  width: 300px;
-  color: #53e3a6;
+	background-color: white;
+	width: 300px;
+	color: #517c9d;
 }
+
 .form button {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  outline: 0;
-  background-color: white;
-  border: 0;
-  padding: 10px 15px;
-  color: #53e3a6;
-  border-radius: 3px;
-  width: 250px;
-  cursor: pointer;
-  font-size: 18px;
-  -webkit-transition-duration: 0.25s;
-          transition-duration: 0.25s;
+	-webkit-appearance: none;
+	 -moz-appearance: none;
+		appearance: none;
+	outline: 0;
+	background-color: white;
+	border: 0;
+	padding: 10px 15px;
+	color: #517c9d;
+	border-radius: 3px;
+	width: 250px;
+	cursor: pointer;
+	font-size: 18px;
+	-webkit-transition-duration: 0.25s;
+		transition-duration: 0.25s;
 }
+
 .form button:hover {
-  background-color: #f5f7f9;
+	background-color: #f5f7f9;
 }
-.bg-bubbles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-.bg-bubbles li {
-  position: absolute;
-  list-style: none;
-  display: block;
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.15);
-  bottom: -160px;
-  -webkit-animation: square 25s infinite;
-  animation: square 25s infinite;
-  -webkit-transition-timing-function: linear;
-  transition-timing-function: linear;
-}
-.bg-bubbles li:nth-child(1) {
-  left: 10%;
-}
-.bg-bubbles li:nth-child(2) {
-  left: 20%;
-  width: 80px;
-  height: 80px;
-  -webkit-animation-delay: 2s;
-          animation-delay: 2s;
-  -webkit-animation-duration: 17s;
-          animation-duration: 17s;
-}
-.bg-bubbles li:nth-child(3) {
-  left: 25%;
-  -webkit-animation-delay: 4s;
-          animation-delay: 4s;
-}
-.bg-bubbles li:nth-child(4) {
-  left: 40%;
-  width: 60px;
-  height: 60px;
-  -webkit-animation-duration: 22s;
-          animation-duration: 22s;
-  background-color: rgba(255, 255, 255, 0.25);
-}
-.bg-bubbles li:nth-child(5) {
-  left: 70%;
-}
-.bg-bubbles li:nth-child(6) {
-  left: 80%;
-  width: 120px;
-  height: 120px;
-  -webkit-animation-delay: 3s;
-          animation-delay: 3s;
-  background-color: rgba(255, 255, 255, 0.2);
-}
-.bg-bubbles li:nth-child(7) {
-  left: 32%;
-  width: 160px;
-  height: 160px;
-  -webkit-animation-delay: 7s;
-          animation-delay: 7s;
-}
-.bg-bubbles li:nth-child(8) {
-  left: 55%;
-  width: 20px;
-  height: 20px;
-  -webkit-animation-delay: 15s;
-          animation-delay: 15s;
-  -webkit-animation-duration: 40s;
-          animation-duration: 40s;
-}
-.bg-bubbles li:nth-child(9) {
-  left: 25%;
-  width: 10px;
-  height: 10px;
-  -webkit-animation-delay: 2s;
-          animation-delay: 2s;
-  -webkit-animation-duration: 40s;
-          animation-duration: 40s;
-  background-color: rgba(255, 255, 255, 0.3);
-}
-.bg-bubbles li:nth-child(10) {
-  left: 90%;
-  width: 160px;
-  height: 160px;
-  -webkit-animation-delay: 11s;
-          animation-delay: 11s;
-}
-@-webkit-keyframes square {
-  0% {
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-  }
-  100% {
-    -webkit-transform: translateY(-700px) rotate(600deg);
-            transform: translateY(-700px) rotate(600deg);
-  }
-}
-@keyframes square {
-  0% {
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-  }
-  100% {
-    -webkit-transform: translateY(-700px) rotate(600deg);
-            transform: translateY(-700px) rotate(600deg);
-  }
+
+@media screen and (max-width: 900px){
+	#login_yz{
+	position: absolute;
+	right: 10%;
+	bottom: 0;
+	width: 16%;
+	}
+	#login_bz{
+	position: absolute;
+	left:10%;
+	bottom: 0;
+	width: 20%;
+	}
+	.container {
+	width:100%;
+	}
 }
 
 </style>

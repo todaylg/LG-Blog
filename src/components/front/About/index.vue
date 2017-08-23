@@ -15,8 +15,8 @@
 				<h2>关于LG：</h2>
 				<p>辽工大老学弟</p>
 				<p>专业通信,误入前端</p>
-				<p>修仙爱好者,补番狂人</p>
-				<p>已重度沉迷前端与动漫</p>
+				<p>重度沉迷撸码与动漫</p>
+				<p>Rua~ 小僵尸一枚</p>
 				<p>交朋♂友: <a title="Find Me" target="_blank" href="https://github.com/todaylg">Github</a>/<a title="Find Me" target="_blank" href="mailto:lg2lugang@gmail.com">Email</a></p>
 			</div>
 		</div>

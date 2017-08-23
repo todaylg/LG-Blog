@@ -22,11 +22,11 @@ exports.delComment = function (req,res,next) {
 	console.log('delComment ing.....');
 	var cid = req.body.id;
 	Comment.findByIdAndRemove(cid).then(function (result) {
-		//评论数-1
+		//评论数-
 		console.log(result);  
 		Article.findOneAndUpdate({title:result.atitle},{$inc:{comment_count:-1}}).then(function(result){
 			console.log('delComment ok!!: '+result);
-			return res.send({state: 1, msg: 'delComment success'}).end();
+			return res.status(200).end()
 		})
 	}).catch(function (err) {
 		return next(err);
@@ -38,13 +38,8 @@ exports.delComment = function (req,res,next) {
 exports.getFrontComment = function (req,res,next) {
 	console.log('getFrontComment ing.....');
 	var atitle = req.body.atitle;
-	// Comment.find({aid:aid,status:{$eq:1}})//回收站TODO
 	Comment.find({atitle:atitle})
 	.sort('created')
-	// .populate({ //跨表取数据，相当于mysql的join
-	// 	path: 'user_id',
-	// 	select: 'nickname avatar'
-	// })
 	.exec().then(function (commentList) {
 		console.log('getFrontComment ok!!: '+commentList);
 		return res.status(200).json(commentList).end();
@@ -53,7 +48,7 @@ exports.getFrontComment = function (req,res,next) {
 	});
 }
 
-//添加新的评论. comment对象包含所有参数
+//添加新的评论.
 exports.addComment = function (req,res,next) {
 	var error_msg;
 	console.log('addComment ing.....');
@@ -66,7 +61,7 @@ exports.addComment = function (req,res,next) {
 	}
 	if(error_msg){
 		console.log('addComment 失败!!');
-		return res.status(422).send({state: 0, msg: 'delComment success'});
+		return res.status(422).send();
 	}
 	Comment.create(comment).then(function (result) {
 		var comment = result.toObject();

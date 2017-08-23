@@ -1,6 +1,6 @@
 <template>
 	<div class="headertop" v-bind:class="bgshow" style="height: auto;" data-hover-only="true" data-relative-input="true">
-		<figure class="bgContain" data-depth="0.3">
+		<figure class="bgContain">
 			<img id="centerbg" src="../../../assets/img/bg.png">
 			<img id="yz" src="../../../assets/img/玉子.png">
 			<img id='bz' src="../../../assets/img/饼藏.png">
@@ -38,7 +38,7 @@ export default {
 		...mapState(['firstLoad'])//TODO 
 	},
     methods: {
-    	autoHW(){//用vue的事件系统绑定到父组件，在父组件跳转的时候解除事件绑定
+    	autoHW(){
     		document.querySelector('#centerbg').style.width = window.innerWidth+'px';
     		document.querySelector('.bgContain').style.height = window.innerWidth/this.wh+'px';
     	},
@@ -65,7 +65,6 @@ export default {
     				preCount++;
     				if(preCount >= src.length){
     					//图片预加载完成
-    					console.log("preCount： "+preCount);
     					setTimeout(()=>{
     						that.$store.state.isLoading = false;
     					},1000);
@@ -111,7 +110,6 @@ export default {
 				window.onwheel = this.diableScroll;
 				setTimeout(()=>{
 					//动画完成之前不能滚动
-					console.log("enableScroll");
 					window.onwheel = that.scrollEvent;
 				}, 1400);
 				//内容组件向上动画 //TODO vuex
@@ -123,7 +121,6 @@ export default {
 			return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
 		},
 		diableScroll(e){
-			console.log("diableScroll");
             e.preventDefault();
             return false;
 		}
@@ -131,46 +128,46 @@ export default {
 }
 </script>
 <style lang='scss'>
-	.headertop{
-		position: absolute;
-    	overflow: hidden;
-	    height: 0;
-	    transition-timing-function: cubic-bezier(.7,0,.3,1);
-    	transition-duration: 1.2s;
-    	transition-property: opacity,transform;
-    	&.bgShow{
-    		opacity: 0;
-    		transform: translateY(-100%) scale(.9);
-    		&+#content{//下面文章上来的动画得慢一点
-				transition-delay: .6s;
-    		}
-    	}
-	    .bgContain {
-		    width: 100%;
-		    height: 550px;
-		    margin: 0;
-		    padding: 0;
-		    z-index: -1;
-		    #centerbg{
-		    	transform: scale(1);
-		    	transform-origin:50% 50%;
-		    }
+.headertop{
+	position: absolute;
+	overflow: hidden;
+    height: 0;
+    transition-timing-function: cubic-bezier(.7,0,.3,1);
+	transition-duration: 1.2s;
+	transition-property: opacity,transform;
+	&.bgShow{
+		opacity: 0;
+		transform: translateY(-100%) scale(.9);
+		&+#content{//下面文章上来的动画得慢一点
+			transition-delay: .6s;
 		}
 	}
-	#yz{
-		width: 35%;
-		position: absolute;
-		bottom: 0;
-		left: 10%;
-		filter:blur(4px);
-		transform:translateX(-10px);
+    .bgContain {
+	    width: 100%;
+	    height: 550px;
+	    margin: 0;
+	    padding: 0;
+	    z-index: -1;
+	    #centerbg{
+	    	transform: scale(1);
+	    	transform-origin:50% 50%;
+	    }
 	}
-	#bz{
-		width: 42%;
-		position: absolute;
-		bottom: 0;
-		right: 10%;
-		filter:blur(4px);
-		transform:translateX(-10px);
-	}
+}
+#yz{
+	width: 35%;
+	position: absolute;
+	bottom: 0;
+	left: 10%;
+	filter:blur(4px);
+	transform:translateX(-10px);
+}
+#bz{
+	width: 42%;
+	position: absolute;
+	bottom: 0;
+	right: 10%;
+	filter:blur(4px);
+	transform:translateX(-10px);
+}
 </style>

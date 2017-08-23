@@ -1,5 +1,6 @@
 import Vue      from 'vue';
 import Router   from 'vue-router';
+import axios from 'axios';
 
 import Front  from '../components/front/Front.vue';
 import Home  from '../components/front/Home/index.vue';
@@ -98,7 +99,6 @@ router.beforeEach(({meta,path},from,next)=>{
 	document.title = 'LG-Blog| '+meta.title;
 	let {auth=true}=meta;
 	let isLogin = Boolean(localStorage.getItem('token'));
-	console.log('isLogin'+isLogin);
 	//访问要登录但是又没登录的情况转到login
 	if(auth&&!isLogin&&path!=='/login'){
 		return next({name:'login'});	
@@ -107,6 +107,17 @@ router.beforeEach(({meta,path},from,next)=>{
 	if(isLogin&&path=='/login'){
 		return next({name:'admin'});
 	}
+	next();
+});
+
+const instance = axios.create();
+instance.defaults.headers.post['Content-Type'] = 'application/json';
+router.beforeEach((to,from,next)=>{
+	if(localStorage.getItem('token')){
+		instance.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('token');
+	}
+	// axios拦截请求
+	axios.interceptors.request.use = instance.interceptors.request.use;
 	next();
 });
 

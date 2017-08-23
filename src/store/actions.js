@@ -1,19 +1,14 @@
 import axios from 'axios';
 import router from '../router';
 
-const instance = axios.create();
-instance.defaults.headers.post['Content-Type'] = 'application/json';
-if(localStorage.getItem('token')){
-	instance.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('token');
-}
-// axios拦截请求
-axios.interceptors.request.use = instance.interceptors.request.use;
+
 
 const beginLoading = (commit,flag) => {
 	flag? commit('LOADMORE_TOGGLE', true):commit('LOADING_TOGGLE', true);
 	return Date.now();
 };
-//flag = true =>LOADMORE_TOGGLE
+//flag = true =>LoadMore
+//		false =>Loading
 //timeAllow代表最短Loading动画时间
 const stopLoading = (commit, start, flag, timeAllowed = 500) => {
 	const spareTime = timeAllowed - (Date.now() - start);
@@ -36,42 +31,44 @@ Promise.prototype.finally = function (callback) {
 };
 
 export default {
-	// welcomeComplete(){
-	// 	var bg = document.querySelector('#centerbg');
-	// 	var bz = document.querySelector('#bz');
-	// 	var yz = document.querySelector('#yz');
-	// 	Velocity(bg, {
-	// 		blur: [4,0]
-	// 	}, {
-	// 	    duration: 2000
-	// 	});
-	// 	Velocity(bz,{
-	// 		blur: 0,
-	// 		translateX:[0,10]
-	// 	},{
-	// 	    duration: 2500
-	// 	});
-	// 	Velocity(yz,{
-	// 		blur: 0,
-	// 		translateX:[0,-10]
-	// 	},{
-	// 		duration: 2500
-	// 	});
-	// },
 	login ({commit}, payload) {
 		return axios.post('/api/userLogin', payload).then(response => {
 			commit('SET_USER', response.data);
 			router.push({name: 'admin'});
 		});
 	},
+	logoutUser({commit, state, dispatch}) {
+		return doToast(state, commit, {info: '确定注销吗?', btnNum: 2})
+			.then(
+			 	() => doToast(state, commit, {info: '注销成功', btnNum: 1})
+			)
+			.finally(() => commit('TOASTING_TOGGLE', false))
+			.then(() => {
+				commit('LOUGOUT_USER');
+				router.push({name: 'login'});
+			})
+			.catch((err) => {console.log(err);});
+	},
 	getUserinfo({commit}){//todo findOne
 		return axios.get('/api/getUserinfo').then(response => {
 		  	commit('SET_USERINFO', response.data);
 		  });
 	},
+	changePwd({commit, state, dispatch}, payload) {
+		return doToast(state, commit, {info: '确定更改密码吗?', btnNum: 2})
+			.then(()=> axios.post('/api/changePwd', payload))
+			.then(
+			 	() => doToast(state, commit, {info: '更改密码成功', btnNum: 1})
+			)
+			.finally(() => commit('TOASTING_TOGGLE', false))
+			.then(() => {
+				commit('LOUGOUT_USER');
+				router.push({name: 'login'});
+			})
+			.catch((err) => {console.log(err);});
+	},
 	getArticle ({commit}, atitle) {//前台后台要不通用？？不能通用，因为前台访问涉及访问量的增加
 		const start = beginLoading(commit, false);
-		console.log('atitle:'+atitle);
 		//这里get方法不行，先TODO再找原因，可能是中文作为参数不行？？？get 的params参数都会自动转为小写？
 		return axios.post('/api/getArticle', atitle).then(response => {
 			stopLoading(commit, start, false);
@@ -80,70 +77,82 @@ export default {
 	},
 	getFrontArticle ({commit}, atitle) {//前台访问单篇文章
 		//const start = beginLoading(commit, false);
-		console.log('atitle:'+atitle.atitle);
 		return axios.post('/api/getFrontArticle', atitle).then(response => {
 			//stopLoading(commit, start, false);
 			commit('SET_ARTICLE', response.data);
 		});
 	},
 	updateArticle({commit, state, dispatch}){
-		return axios.post('/api/updateArticle',state.article).then(response => {
-			if (response.data.state === 1) {
+		return doToast(state, commit, {info: '确定修改文章吗?', btnNum: 2})
+			.then(()=> axios.post('/api/updateArticle',state.article))
+			.then(
+			 	() => doToast(state, commit, {info: '修改文章成功', btnNum: 1})
+			)
+			.finally(() => commit('TOASTING_TOGGLE', false))
+			.then(() => {
 				dispatch('getArticleList');
-				alert('updateArticle成功');
-			} else {
-				alert('updateArticle失败');
-			}
-		});
+			})
+			.catch((err) => {console.log(err);});
 	},
-	delArticle({commit,dispatch}, id){
-		return axios.post('/api/delArticle',{id:id}).then(response => {
-			if (response.data.state === 1) {
+	delArticle({commit, state, dispatch}, id){
+		return doToast(state, commit, {info: '确定删除文章吗?', btnNum: 2})
+			.then(()=> axios.post('/api/delArticle',{id:id}))
+			.then(
+			 	() => doToast(state, commit, {info: '删除文章成功', btnNum: 1})
+			)
+			.finally(() => commit('TOASTING_TOGGLE', false))
+			.then(() => {
 				dispatch('getArticleList');
-				alert('del成功');
-			} else {
-				alert('del失败');
-			}
-		});
+			})
+			.catch((err) => {console.log(err);});
 	},
-	addArticle ({state}) {
-		return axios.post('/api/addArticle', state.article).then(response => {
-			if (response.data.state === 1) {
-				alert('保存成功');
-			} else {
-				alert('保存失败');
-			}
-		});
+	addArticle ({state,commit,dispatch}) {
+		return doToast(state, commit, {info: '确定添加文章吗?', btnNum: 2})
+			.then(()=> axios.post('/api/addArticle', state.article))
+			.then(
+			 	() => doToast(state, commit, {info: '添加文章成功', btnNum: 1})
+			)
+			.finally(() => commit('TOASTING_TOGGLE', false))
+			.then(() => {
+				router.push({name: 'admin'});
+			})
+			.catch((err) => {console.log(err);});
 	},
-	addCategory ({state,dispatch}) {
-		return axios.post('/api/addCategory', state.catEdit).then(response => {
-			if (response.data.state === 1) {
-				dispatch('getCatList');// why slow???
-				alert('add成功');
-			} else {
-				alert('add失败');
-			}
-		});
-	},
-	delCategory ({state,dispatch},id) {
-		return axios.post('/api/delCategory',{id:id}).then(response => {
-			if (response.data.state === 1) {
+	addCategory ({state,commit,dispatch}) {
+		return doToast(state, commit, {info: '确定添加分类吗?', btnNum: 2})
+			.then(()=> axios.post('/api/addCategory', state.catEdit))
+			.then(
+			 	() => doToast(state, commit, {info: '添加分类成功', btnNum: 1})
+			)
+			.finally(() => commit('TOASTING_TOGGLE', false))
+			.then(() => {
 				dispatch('getCatList');
-				alert('del成功');
-			} else {
-				alert('del失败');
-			}
-		});
+			})
+			.catch((err) => {console.log(err);});
 	},
-	updateCat({commit,dispatch}, payload){
-		return axios.post('/api/updateCat',payload).then(response => {
-			if (response.data.state === 1) {
+	delCategory ({state,commit,dispatch},id) {
+		return doToast(state, commit, {info: '确定删除该分类吗?', btnNum: 2})
+			.then(()=> axios.post('/api/delCategory',{id:id}))
+			.then(
+				() => doToast(state, commit, {info: '删除分类成功', btnNum: 1})
+			)
+			.finally(() => commit('TOASTING_TOGGLE', false))
+			.then(() => {
 				dispatch('getCatList');
-				alert('updateCat成功');
-			} else {
-				alert('updateCat失败');
-			}
-		});
+			})
+			.catch((err) => {console.log(err);});
+	},
+	updateCat({state,commit,dispatch}, payload){
+		return doToast(state, commit, {info: '确定更改吗?', btnNum: 2})
+			.then(()=> axios.post('/api/updateCat',payload))
+			.then(
+				() => doToast(state, commit, {info: '更改成功', btnNum: 1})
+			)
+			.finally(() => commit('TOASTING_TOGGLE', false))
+			.then(() => {
+				dispatch('getCatList');
+			})
+			.catch((err) => {console.log(err);});
 	},
 	getCatList ({commit}) {
 		return axios.get('/api/getCatList')
@@ -154,7 +163,6 @@ export default {
 	getCat ({commit}, catname) {//显示当前分类目录的名称及简介
 		return axios.post('/api/getCat',catname)
 			.then((result) => {
-				console.log('cat: '+result.data.name);
 				commit('SET_CAT', result.data);
 			});
 	},
@@ -169,8 +177,6 @@ export default {
 			const start = beginLoading(commit,false);
 			return axios.get('/api/getFrontArticleList', {params: payload}).then(articles => {
 				let length = articles.data.length;
-				console.log(articles.data);
-				console.log(length);
 				if (length != 0) {
 					commit('SET_ARTICLELIST', articles.data);
 				}
@@ -183,8 +189,6 @@ export default {
 			const start = beginLoading(commit,true);
 			return axios.get('/api/getFrontArticleList', {params: payload}).then(articles => {
 				let length = articles.data.length;
-				console.log(articles.data);
-				console.log(length);
 				if (length != 0) {
 					commit('SET_ARTICLELIST', articles.data);
 				}
@@ -201,8 +205,6 @@ export default {
 			const start = beginLoading(commit,false);
 			return axios.get('/api/getCatAticle',{params: payload}).then(articles => {
 				let length = articles.data.length;
-				console.log(articles.data);
-				console.log(length);
 				if (length != 0) {
 					commit('SET_CATATICLES', articles.data);
 				}
@@ -215,8 +217,6 @@ export default {
 			const start = beginLoading(commit,true);
 			return axios.get('/api/getCatAticle',{params: payload}).then(articles => {
 				let length = articles.data.length;
-				console.log(articles.data);
-				console.log(length);
 				if (length != 0) {
 					commit('SET_CATATICLES', articles.data);
 				}
@@ -228,27 +228,26 @@ export default {
 		}
 	},
 	getCommentList({commit}) {
-		console.log('getCommentList');
 		return axios.get('/api/getCommentList')
 			.then(commentList => {
-				console.log('getCommentList  ok!:'+commentList);
 				commit('SET_COMMENTLIST', commentList.data);
 			});
 	},
-	delComment({state,dispatch},id) {
-		return axios.post('/api/delComment',{id:id}).then(response => {
-			if (response.data.state === 1) {
+	delComment({state,commit,dispatch},id) {
+		return doToast(state, commit, {info: '确定删除该评论吗?', btnNum: 2})
+			.then(()=> axios.post('/api/delComment',{id:id}))
+			.then(
+			 	() => doToast(state, commit, {info: '删除评论成功', btnNum: 1})
+			)
+			.finally(() => commit('TOASTING_TOGGLE', false))
+			.then(() => {
 				dispatch('getCommentList');
-				alert('del成功');
-			} else {
-				alert('del失败');
-			}
-		});
+			})
+			.catch((err) => {console.log(err);});
 	},
 	getComment({commit}, atitle) {//显示当前文章下的评论列表
 		return axios.post('/api/getFrontComment',atitle)
 			.then((result) => {
-				console.log('CommentCount: '+result.data.length);
 				commit('SET_ARTICLECOMENT', result.data);
 			});
 	},
@@ -256,12 +255,10 @@ export default {
 		return doToast(state, commit, {info: '确定添加评论吗?', btnNum: 2})
 			.then(() => axios.post('/api/addComment', {comment:preload}))
 			.then(
-			 	() => doToast(state, commit, {info: '保存成功', btnNum: 1}),
-				() => doToast(state, commit, {info: '保存失败', btnNum: 1})
+			 	() => doToast(state, commit, {info: '评论成功', btnNum: 1})
 			)
 			.finally(() => commit('TOASTING_TOGGLE', false))
 			.then(() => {
-				console.log('preload.atitle:'+preload.atitle);
 				dispatch('getComment',{atitle:preload.atitle});
 				state.article.comment_count++;
 			})

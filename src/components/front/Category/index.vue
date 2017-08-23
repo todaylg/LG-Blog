@@ -1,32 +1,6 @@
 <template>
 	<div class="catAticle">
-	<div class="blank"></div>
-	<!--静态数据-->
-		<!-- <div id='catAticleMain'>
-			<div id='catTitle'>
-				<h1 id="catName">test</h1>
-				<h1 id="catIntro">intro</h1>
-			</div>
-		</div> -->
-	<!--静态数据-->
-   <!-- <article class="post-list">
-		<div class="post-entry">
-			<div class="feature">
-				<a>
-					<img width="150" height="150" src="../../../assets/img/bg.png">
-				</a>
-			</div>	
-			<h1 class="entry-title"><a>文章测试标题</a></h1>
-			<div class="p-time">文章测试时间</div>
-			<p>intro</p>
-			<div class="entry-footer">
-				<div class="post-more">
-					<a>More</a>
-				</div>
-			</div>
-		</div>	
-	</article> -->
-	
+		<div class="blank"></div>
 		<div id='catAticleMain'>
 			<div id='catTitle'>
 				<h1 id="catName">{{cat.name}}</h1>
@@ -56,13 +30,13 @@
 			</div>	
 		</article>
 		
-		  <div v-if='!loadMore' v-show="!noMore" class="pagination" @click.prevent="addAticle">
-        <a>加载更多</a>
-      </div>
-      <div v-if="noMore" style="padding: 4%; text-align: center;color: #b9bfd0;">
-        <span>Dont have more...</span>
-      </div>
-      <spinner v-show="loadMore" class="spinner"></spinner>
+		<div v-if='!loadMore' v-show="!noMore" class="pagination" @click.prevent="addAticle">
+		<a>加载更多</a>
+		</div>
+		<div v-if="noMore" style="padding: 4%; text-align: center;color: #b9bfd0;">
+			<span>Dont have more...</span>
+		</div>
+		<spinner v-show="loadMore" class="spinner"></spinner>
 	</div>
 </template>
 <script>
@@ -71,13 +45,13 @@ import Spinner from "../Share/Spinner.vue";
 
 export default{
 	data(){
-	  return {
-	    page:1,
-	    limit:2
-	  }
+		return {
+			page:1,
+			limit:2
+		}
 	},
 	watch: {
-    '$route': 'initData'
+		'$route': 'initData'
 	},  
 	created () {
 		this.initData();
@@ -85,7 +59,6 @@ export default{
 	beforeRouteLeave (to, from, next) {
 		this.$store.state.catAticles = [];
 		this.$store.state.cat = {};
-		console.log("LeaveCategory ");
 	    next();
 	},
 	methods: {
@@ -95,7 +68,6 @@ export default{
 			this.$store.state.catAticles = [];
 			this.$store.state.cat = {};
 			this.page = 1;
-			console.log('initData:'+this.$route.params.catname);
 			this.getCat({catname:this.$route.params.catname});//显示当前分类目录的名称及简介
 		    this.getCatArticle({page:this.page,limit:this.limit,catname:this.$route.params.catname})//显示当前分类目录下的文章
 		},
@@ -118,6 +90,7 @@ export default{
 	margin-bottom: 30px;
 	border-bottom: 1px solid #F7F7F7;
 }
+
 .catAticle{
 	max-width: 800px;
     padding: 0 10px;
@@ -149,9 +122,11 @@ export default{
 		}
 	}
 }
+
 .catPost{
 	max-width: 800px;
 }
+
 .post-entry{
 	position: relative;
 	p{
@@ -165,6 +140,7 @@ export default{
 	    line-height: 30px;
 	}
 }
+
 .feature{
 	position: absolute;
     margin-top: 10px;
@@ -177,6 +153,7 @@ export default{
 	    position: relative;
 	}
 }
+
 .entry-title{
 	font-size: 20px;
     font-weight: 400;
@@ -190,6 +167,7 @@ export default{
     white-space: nowrap;
     width: 70%;
 }
+
 .p-time {
     position: absolute;
     right: 0;
@@ -198,6 +176,7 @@ export default{
     color: #989898;
     letter-spacing: 0;
 }
+
 .entry-footer {
     margin: 0 0 0 17%;
     list-style: none;
@@ -205,6 +184,7 @@ export default{
     	text-align: right;
     }
 }
+
 .pagination {
     padding: 20px 0;
     text-align: center;

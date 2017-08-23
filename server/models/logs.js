@@ -2,17 +2,16 @@
 
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
-
+//TODO
 var LogsSchema = new Schema({
 	uid: {
 		type:Schema.Types.ObjectId,
 		ref:'User'
 	},
 	content: {
-    type:String,
-    trim: true
-  },
-	type: String,
+    	type:String,
+    	trim: true
+	},
 	created: {
 		type: Date,
 		default: Date.now
@@ -20,9 +19,5 @@ var LogsSchema = new Schema({
 });
 
 var Logs = mongoose.model('Logs',LogsSchema);
-
-// var Promise = require('bluebird');
-// Promise.promisifyAll(Logs);
-// Promise.promisifyAll(Logs.prototype);
 
 module.exports = Logs;

@@ -28,17 +28,11 @@
 	            	  			关于
 	            	  		</router-link>
 						</li>
-		            	<!--静态数据-->
-						<!-- <li>
-							<router-link :to="{path:`category/${h1}`}">
-	            	  			测试
-	            	  		</router-link>
-						</li> -->
 					</ul>
-				</nav><!--分类 -->
+				</nav>
 	        </div>
         </div>
-      </header><!-- #masthead -->
+      </header>
 </template>
 <script>
 import {mapState, mapActions} from 'vuex';
@@ -131,6 +125,7 @@ export default {
 	    transform: rotate(-45deg);
 	}
 }
+
 @keyframes burgerBottom{
 	0% {
 	    right: 0;
@@ -153,6 +148,7 @@ export default {
 	    transform: rotate(45deg);
 	}
 }
+
 @keyframes burgerMiddle{
 	0% {
 	    width: 28px;
@@ -189,6 +185,7 @@ export default {
 	    transform: rotate(0deg);
 	}
 }
+
 @keyframes burgerBottomBack{
 	0% {
 	    right: 0;
@@ -211,6 +208,7 @@ export default {
 	    transform: rotate(0deg);
 	}
 }
+
 @keyframes burgerMiddleBack{
 	0% {
 		width: 0px;
@@ -278,6 +276,7 @@ header{
 	    }
 	}
 }
+
 .header-user-avatar {
     position: relative;
     float: right;
@@ -344,6 +343,7 @@ header{
 		}
 	}
 }
+
 .header-user-avatar:hover .header-user-menu {
     display: block;
 }
@@ -384,16 +384,19 @@ header{
 		}
 	}
 }
+
 .burger_container.navOpen .burger-top{
 	animation: burgerTop .6s linear normal;
 	animation-fill-mode: forwards;
 	transform-origin: 28px 1px;
 }
+
 .burger_container.navOpen .burger-middle{
     animation: burgerMiddle .4s linear normal;
     animation-fill-mode: forwards;
     transform-origin: 28px 1px;
 }
+
 .burger_container.navOpen .burger-bottom{
     animation: burgerBottom .6s linear normal;
     animation-fill-mode: forwards;
@@ -405,28 +408,33 @@ header{
 	animation-fill-mode: forwards;
 	transform-origin: 28px 1px;
 }
+
 .burger_container.navClose .burger-middle{
     animation: burgerMiddleBack .4s linear normal;
     animation-fill-mode: forwards;
     transform-origin: 28px 1px;
 }
+
 .burger_container.navClose .burger-bottom{
     animation: burgerBottomBack .6s linear normal;
     animation-fill-mode: forwards;
     transform-origin: 28px 1px;
 }
+
 .burger_container ul{
 	margin: 0;
     padding: 0;
     list-style: none;
     display: inline-block;
 }
+
 .burger_container ul li{
 	float: left;
     margin-left: 28px;
     position: relative;
     transition: all 1s ease;
 }
+
 .burger_container .navBar{
 	position: relative;
     float: right;
@@ -434,10 +442,12 @@ header{
     transform: translateX(30px);
     transition:all .6s ease-in-out;
 }
+
 .burger_container.navOpen .navBar{
     opacity:1;
 	transform: translateX(0);
 }
+
 .burger_container.navClose .navBar{
     opacity:0;
 	transform: translateX(30px);

@@ -18,18 +18,18 @@ exports.addArticle = function (req,res,next) {
 	    		console.log(err)
 	    	} else if (doc) {
 		  		console.log("title name used!!");
-		  		return res.send({state: 0, msg: '文章标题名已经被使用'}).end();
+		  		return res.status(401).end();//TODO
 		  	} else {
-		  		if(article.content=='')return res.send({state: 0, msg: '新文章内容不能为空'}).end();
+		  		if(article.content=='')return res.status(401).end();//TODO
 				article.intro = article.content.substring(0,10);
 				article.intro+='...';
 				new Article(article).save();
 				console.log("new Article!!");
-				return res.send({state: 1, msg: '新文章成功创建'}).end();
+				return res.status(200).end();
 			}
 		});
 	}else{
-		return res.send({state: 0, msg: '文章标题名不能为空'}).end();
+		return res.status(401).end();//TODO
 	}
 }
 
@@ -48,14 +48,14 @@ exports.updateArticle = function (req,res,next) {
 	    		console.log(err)
 	    	} else if (doc) {
 		  		console.log("Article更新成功!!");
-		  		res.send({state: 1, msg: '更新成功'}).end();
+		  		return res.status(200).end();
 		  	}else {
 			  console.log("Article更新失败!!")
-			  return res.send({state: 0, msg: '更新成功失败'}).end();
+			  return res.status(401).end();
 			}
 		});
 	}else{
-		return res.send({state: 0, msg: '文章标题名不能为空'}).end();
+		return res.status(401).end();
 	}
 }
 
@@ -77,8 +77,8 @@ exports.delArticle = function (req,res,next) {
 	console.log("delArticle ing....");
 	const id = req.body.id;
 	console.log(id);
-	Article.findByIdAndRemove(id, () => {
-		return res.send({state: 1, msg: '删除成功'}).end();
+	Article.findByIdAndRemove(id, () => {//todo err
+		return res.status(200).end();
 	});
 }
 exports.getArticleList = function (req,res,next) {

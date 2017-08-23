@@ -23,7 +23,7 @@ exports.userLogin = function(req,res) {
   console.log(username);//解构赋值
   console.log(pwd);//解构赋值
 
-  // //简单验证不能为空
+  //简单验证
   if(username==''||pwd==''){
     res.send({state: -1, msg: '不能为空'}) 
     console.log('不能为空');
@@ -48,6 +48,33 @@ exports.userLogin = function(req,res) {
     }
   });
 };
+
+exports.changePwd = function(req,res) {
+  const {_id,password} = req.body;
+  console.log('newPassword: '+password);//解构赋值
+  console.log('_id: '+_id);
+  //简单验证
+  if(_id==''||password==''){
+    res.send({state: -1, msg: '缺少参数'}) 
+    console.log('缺少参数');
+  }
+  User.findById(_id,function (err, user) {
+    if(err){
+      console.log(err);
+      return res.status(401).end();
+    }else if(user){
+      user.password = password;
+      user.save();
+      console.log('修改密码成功');
+      console.log('user.Newpassword: '+user.password);
+      return res.status(200).end();
+    }else{
+      console.log('无此用户');
+      return res.status(401).end();
+    }
+  });
+};
+
 exports.getUserinfo = function(req,res) {
   console.log("getUserinfo ing....");
   User.findOne(null, (err,user)=>{
@@ -55,7 +82,7 @@ exports.getUserinfo = function(req,res) {
       console.log(err)
     } else if (user) {
       console.log(user);
-      return res.status(200).json({username:user.username,intro:user.intro,avatar:user.avatar});
+      return res.status(200).json({_id:user._id,username:user.username,intro:user.intro,avatar:user.avatar});
     }
   });
 };

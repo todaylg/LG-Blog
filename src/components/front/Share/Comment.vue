@@ -4,15 +4,6 @@
 		<div id="commentListTitle">
 			<h3>Comments<span class="noticom">{{articleComment.length}} 条评论 </span></h3>
 		</div>
-	    <!--静态测试数据-->
-	    <!-- <div id="articleCL">
-	    	<a class='commentUserList' href="">todaylg</a>
-	    	<div class='commentTimeList'><time>2017-08-18</time></div>
-	    	<div class="commentContentList">
-	    		content
-	    	</div>
-	    </div> -->
-		
 	    <div id="articleCL" v-for="(comment,index) in articleComment">
 	    	<a class='commentUserList' :href="comment.website">{{comment.username}}</a>
 	    	<div class='commentTimeList'><time>{{comment.created | toDate}}</time></div>
@@ -40,12 +31,12 @@ import {mapState, mapActions} from 'vuex';
 
 export default {
 	data(){
-	  return {
-	  	username:'',
-	  	email:'',
-	  	website:'',
-	  	commentContent:''
-	  }
+		return {
+			username:'',
+			email:'',
+			website:'',
+			commentContent:''
+		}
 	},
 	created () {
 	    this.getComment({atitle:this.$route.params.atitle})//显示当前文章下的评论
@@ -73,9 +64,11 @@ export default {
 #commentListTitle{
 	text-align: center;
 }
+
 #articleCL{
 	padding:20px;
 }
+
 #commentListTitle{
 	max-width: 860px;
 	width: 100%;
@@ -92,10 +85,12 @@ export default {
 		color: #909090;
 	}
 }
+
 .commentUserList{
 	font-size: 15px;
     font-weight: 400;
 }
+
 .commentTimeList{
 	margin-top: 2px;
     font-size: 12px;
@@ -103,12 +98,14 @@ export default {
     text-transform: none;
     color: rgba(0,0,0,.35);
 }
+
 .commentContentList{
 	margin: 10px;
 	line-height: 32px;
     color: #63686d;
     border-bottom: 1px solid rgba(0,0,0,.05);
 }
+
 #postComment{
 	#commentInput {
 	    display: block;

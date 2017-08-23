@@ -11,16 +11,16 @@ exports.addCategory = function (req,res,next) {
 	var intro = req.body.catIntro;
 	if(!catName){
 		console.log("标签分类名称不能为空.");
-		return res.status(422).send({error_msg:"标签分类名称不能为空."});
+		return res.status(422).end();
 	}
 	Category.findOne({name:catName}).then(function (cat) {
 		if(cat){
 			console.log("分类名称已经存在.");
-			return res.status(403).send({error_msg:"分类名称已经存在."});
+			return res.status(403).end();
 		}else{
 			new Category({'name':catName,"intro":intro}).save();
 			console.log("new Category!!");
-	  		return res.send({state: 1, msg: '新分类目录已创建'}).end();
+	  		return res.status(200).end();
 		}
 	}).catch(function (err) {
 		return next(err);
@@ -34,7 +34,7 @@ exports.getCatList = function (req,res,next) {
 		console.log("getCatList ok!");
 		return res.status(200).json(result);
 	}).catch(function (err) {
-		return next(err);
+		return res.status(401).end();//TODO
 	})
 }
 
@@ -43,11 +43,10 @@ exports.updateCat = function (req,res) {
 	console.log("updateCat ing....");
 	var id = req.body.id;
 	Category.findByIdAndUpdate(id,{name:req.body.val},{new:true}).then(function(result){
-		// return res.status(200).json({success:true,cat_id:result._id});
-		return res.send({state: 1, msg: 'updateCat success'}).end();;
+		return res.status(200).end();
 		console.log("updateCat sucess....");
 	}).catch(function(err){
-		return next(err);
+		return res.status(401).end();//TODO
 	});
 }
 
@@ -58,9 +57,9 @@ exports.delCat = function (req,res,next) {
 	var id = req.body.id;
 	console.log(id);
 	Category.findByIdAndRemove(id).then(function (cat) {
-		return res.send({state: 1, msg: 'del success'}).end();;
+		return res.status(200).end();
 	}).catch(function (err) {
-		return next(err);
+		return res.status(401).end();//TODO
 	})
 }
 

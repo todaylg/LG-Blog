@@ -7,55 +7,48 @@
     "avatar":"http://ouib5enmf.bkt.clouddn.com/LG.png"
   },
   {
+    "type": "Category",
+    "name": "测试分类",
+    "intro": "这是一个测试分类目录"
+  },
+  {
     "type": "Comment",
     "atitle": "test",
     "username": "lg",
-    "website": "www.baidu.com",
-    "email": "1034405777@qq.com",
+    "website": "www.bilibili.com",
+    "email": "lg2lugang@gmial.com",
     "content": "这是一条测试评论"
   },
   {
-    "type": "Comment",
-    "atitle": "test",
-    "username": "lg",
-    "website": "www.baidu.com",
-    "email": "1034405777@qq.com",
-    "content": "这是一条测试评论1"
-  },
-  {
-    "type": "Comment",
-    "atitle": "test",
-    "username": "lg",
-    "website": "www.baidu.com",
-    "email": "1034405777@qq.com",
-    "content": "这是一条测试评论2"
-  },
-  {
     "type": "Article",
-    "title" : "test",
+    "title" : "测试文章",
     "content" : "测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1",
-    "category" : "test",
-    "intro" : "测试文章1测试文章1..."
+    "category" : "测试分类",
+    "intro" : "测试文章测试文章...",
+    "special_img" : "http://ouib5enmf.bkt.clouddn.com/Test1.jpg"
   },
   {
     "type": "Article",
     "title" : "测试文章1",
     "content" : "测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1",
-    "category" : "test",
-    "intro" : "测试文章1测试文章1..."
+    "category" : "测试分类",
+    "intro" : "测试文章1测试文章1...",
+    "special_img" : "http://ouib5enmf.bkt.clouddn.com/Test2.jpg"
   },
   {
     "type": "Article",
     "title" : "测试文章2",
     "content" : "测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1",
-    "category" : "test",
-    "intro" : "测试文章1测试文章1..."
+    "category" : "测试分类",
+    "intro" : "测试文章2测试文章2...",
+    "special_img" : "http://ouib5enmf.bkt.clouddn.com/Test3.jpg"
   },
   {
     "type": "Article",
     "title" : "测试文章3",
     "content" : "测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1测试文章1",
-    "category" : "test",
-    "intro" : "测试文章1测试文章1..."
+    "category" : "测试分类",
+    "intro" : "测试文章3测试文章3...",
+    "special_img" : "http://ouib5enmf.bkt.clouddn.com/Test4.png"
   }
 ]

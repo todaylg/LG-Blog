@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 import store from './store';
 import router from './router';
-import './style/index.scss';
+import './style/common.scss';
 
 Vue.filter('toDate', date => {
 	const d = new Date(date);

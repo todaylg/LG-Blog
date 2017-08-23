@@ -28,24 +28,20 @@ export default {
 			avatar:user.avatar,
 			token:user.token
 		};
-		console.log(user);
 	},
 	SET_USERINFO: (state, user) => {
 		state.userInfo = {
 			username:user.username,
 			intro:user.intro,
-			avatar:user.avatar
+			avatar:user.avatar,
+			_id:user._id
 		};
-		console.log(user);
 	},
-	UNSET_USER: (state) => {
+	LOUGOUT_USER: (state) => {
 	    localStorage.removeItem('token');
 	    localStorage.removeItem('username');
 	    state.user = {};
 	},
-	// SET_CONTENTSHOW:(state, flag) => {
-	// 	state.contentShow = flag;
-	// },
 	SET_ARTICLE: (state, article) => {
 		state.article = article;
 	},

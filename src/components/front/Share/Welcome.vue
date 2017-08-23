@@ -19,6 +19,7 @@ export default {
 	},
 	methods:{
 		eyeAnimation(){
+			//TODO Rewrite
 			var that = this;
 			var topBlock = document.querySelector('.topBlock');
 			var buttomBlock = document.querySelector('.buttomBlock');
@@ -117,15 +118,10 @@ export default {
 			    }
 			}))
 		},
-		//...mapActions(['welcomeComplete'])
 	}
 }
 </script>
-<style lang='scss'>
-@keyframes show-text {
-		0%   { left: 0; }
-		100% { left: 300px; }
-}
+<style lang='scss' scoped>
 .eye{
 	display:none;
 	position:fixed;
@@ -184,19 +180,22 @@ export default {
 	background-color: black;
 	//transition: all 1s ease-out;
 }
+
 .topBlock{
 	top:-100%;
 }
+
 .buttomBlock{
 	bottom:-100%;
 }
-/*ripple*/
 
+/*ripple*/
 .ripple {
   position: absolute;
   z-index: 1;
   opacity: 1;
 }
+
 .ripple.wave:before, .ripple.wave:after {
   content: '';
   position: absolute;
@@ -213,15 +212,18 @@ export default {
   z-index: 1;
   animation:rip 2s 1 ease-out;
 }
+
 .ripple.wave:after {
   animation-delay:50ms;
 }
+
 #ripple1{
 	top: 50%;
 	left: 50%;
 	margin-left:140px;
 	margin-top:10px;
 }
+
 #ripple2{
 	top: 50%;
     left: 50%;
@@ -241,5 +243,10 @@ export default {
 	transition: 1000ms transform ease, 2100ms blur ease, 900ms border-color ease;
 	transition: 1000ms transform ease, 2100ms blur ease, 900ms border-color ease, 1000ms -webkit-transform ease;
 	}
+}
+
+@keyframes show-text {
+	0%   { left: 0; }
+	100% { left: 300px; }
 }
 </style>

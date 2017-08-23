@@ -13,7 +13,7 @@ const store = new Vuex.Store({
 		catEdit:{},//后台编辑分类(名称、简介)
 		catList:[],//前后通用
 		articles: [],//后台文章列表
-		article: {},//前后通用???
+		article: {},//
 		loadMore: false,//Loading标志位，加载更多时显示的Spinner
 		noMore:false,
 		isLoading:false,//Loading标志位，是否显示Spinner

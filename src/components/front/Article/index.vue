@@ -21,15 +21,15 @@ import Comment from "../Share/Comment.vue";
 
 export default{
 	data(){
-	  return {
+		return {
 	  	
-	  }
+	  	}
 	},
 	updated(){
-      this.highlight()
+		this.highlight()
     },
 	created () {
-	    this.getFrontArticle({atitle:this.$route.params.atitle})//显示当前文章
+		this.getFrontArticle({atitle:this.$route.params.atitle})//显示当前文章
 	},
 	components: {Comment},
 	methods: {

@@ -4,43 +4,44 @@ var express = require('express');
 var path = require('path');
 var http = require('http');
 var fs = require('fs');
-//var history = require('connect-history-api-fallback');
+var history = require('connect-history-api-fallback');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-var session = require('express-session');// session依赖cookie模块
-var mongoose = require('mongoose'); 
-var mongoStore = require('connect-mongo')(session);// 对session进行持久化--存数据库
+var mongoose = require('mongoose');
 var init = require('./init.json');       
 
 var settings = require('./settings');
 var app = express();
-var port = process.env.PORT || 3005;
+var port = process.env.PORT || 3001;
 
 var dbUrl = 'mongodb://localhost/lgBlog';// 数据库地址
 
-//首先连接本地数据库(基本模块加载)
+//连接数据库
 mongoose.connect(dbUrl);
 var db = mongoose.connection;
 //mongoose promise 风格
 mongoose.Promise = global.Promise;
 
+
+app.use(history());
+
 app.set('port',port);
-app.use(express.static(path.join(__dirname, '../dist')));//入口
+app.use(express.static(path.join(__dirname, '../dist')));//entry
 app.use(favicon(path.join(__dirname, '../dist', 'favicon.ico')));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));////返回的对象是一个键值对，当extended为false的时候，键值对中的值就为'String'或'Array'形式，为true的时候，则可为任何数据类型。
+app.use(bodyParser.urlencoded({extended: false}));
 
 // models loading
 var models_path = path.join(__dirname, 'models');// 模型所在路径
 
-//路径加载函数，加载各模型的路径,所以可以直接通过mongoose.model加载各模型 这样即使模型路径改变也无需更改路径
+//路径加载函数，加载各模型的路径
 var walk = function(path) {
 	fs 
-	.readdirSync(path)	//同步版的返回文件名数组，其中不包括 '.' 和 '..' 目录.readdir 读取 path 路径所在目录的内容。 回调函数 (callback) 接受两个参数 (err, files) 其中 files 是一个存储目录中所包含的文件名称的数组，数组中不包括 '.' 和 '..'。
-	.forEach(function(file) {//参数file是哪里来的？readdirSync的返回值？有点猛啊
+	.readdirSync(path)
+	.forEach(function(file) {
 		var newPath = path + '/' + file;
-		var stat = fs.statSync(newPath);//同步版的,回调函数（callback） 接收两个参数： (err, stats) ，其中 stats 是一个 fs.Stats 对象。 详情请参考 fs.Stats
+		var stat = fs.statSync(newPath);
 		// 如果是文件
 		if (stat.isFile()) {
 			if (/(.*)\.(js)/.test(file)) {
@@ -82,11 +83,6 @@ db.once('open', function () {
 
 var routes = require('./routes/routes');
 routes(app);
-
-app.get('*', function (req, res) {
-  const html = fs.readFileSync(path.resolve('./dist/index.html'), 'utf-8')
-  res.send(html)
-})
 
 var server = http.createServer(app);
 server.listen(app.get('port'));
