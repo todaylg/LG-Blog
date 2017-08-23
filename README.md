@@ -7,6 +7,9 @@
 ### [Demo](http://todaylg.com)
 
 
+![image](https://github.com/todaylg/LG-Blog/blob/master/src/assets/img/intro.png)
+
+
 ## Features
 
 ### FrontEnd：
