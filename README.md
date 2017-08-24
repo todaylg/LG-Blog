@@ -8,6 +8,7 @@
 
 
 ![image](https://github.com/todaylg/LG-Blog/blob/master/src/assets/img/intro.png)
+![image](https://github.com/todaylg/LG-Blog/blob/master/src/assets/img/intro1.png)
 
 ## Features
 
@@ -52,11 +53,11 @@ npm start
 ```
 open browser and input:
 
-#####http://localhost:3001/
+####http://localhost:3001/
 
 Login:
 
-#####http://localhost:3001/login
+####http://localhost:3001/login
 
 
 Development:
@@ -64,5 +65,9 @@ Development:
 ```
 npm run dev
 ```
+
+## Todo
+There are too many things to do, this is my first time to use Vue, so there are a lot of code that needs to be improved. I learned a lot from other open source projects, in a word , I will slowly improve.
+
 ## Licence
 MIT
