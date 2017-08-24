@@ -20,7 +20,7 @@
 					  {{article.title}}
 					</router-link>
 				</h1>
-				<div class="p-time">{{ article.publish | toDate }}</div>
+				<div class="p-time">{{article.created | toDate}}</div>
 				 <p>{{article.intro}}</p>
 				<footer class="entry-footer">
 					<div class="post-more">
