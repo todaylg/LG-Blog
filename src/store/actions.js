@@ -1,8 +1,6 @@
 import axios from 'axios';
 import router from '../router';
 
-
-
 const beginLoading = (commit,flag) => {
 	flag? commit('LOADMORE_TOGGLE', true):commit('LOADING_TOGGLE', true);
 	return Date.now();

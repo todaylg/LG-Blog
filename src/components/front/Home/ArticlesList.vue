@@ -8,7 +8,7 @@
 					<img src="../../../assets/img/mask.png" >
 				</router-link>
 				<div class="else">
-		 			<p>{{ article.publish | toDate }}</p>
+		 			<p>{{article.created | toDate}}</p>
 					<h3>
 						<router-link :to="{ name: 'article', params: {atitle: article.title } }">
 							{{article.title}}
@@ -16,8 +16,8 @@
 					</h3>
 					<p>{{article.intro}}</p>
 					<p class="here">
-						<span>{{article.visit_count}}</span>
-						<span>{{article.comment_count}}</span>
+						<span>View: {{article.visit_count}}</span>
+						<span>Comment: {{article.comment_count}}</span>
 					</p>
 				</div>
 	        </li>

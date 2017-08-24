@@ -62,7 +62,7 @@
     animation-delay: 0.3s;
 }
 
-.loading-dot:nt h-child(5) {
+.loading-dot:nth-child(5) {
     animation-delay: 0.4s;
 }
 

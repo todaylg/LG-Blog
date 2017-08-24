@@ -4,7 +4,7 @@
 		<div id='articleMain'>
 			<h1 id='articleTitle'>{{article.title}}</h1>
 			<div id="articleInfo">
-				<span>{{article.created}}</span>
+				<span>{{article.created | toDate}}</span>
 				<span>浏览量： {{article.visit_count}}</span>
 				<span>评论量： {{article.comment_count}}</span>
 			</div>
