@@ -87,6 +87,7 @@ export default {
 			.finally(() => commit('TOASTING_TOGGLE', false))
 			.then(() => {
 				dispatch('getArticleList');
+				router.push({name: 'admin'});
 			})
 			.catch((err) => {console.log(err);});
 	},

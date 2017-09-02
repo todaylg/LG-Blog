@@ -42,16 +42,25 @@ exports.updateArticle = function (req,res,next) {
 	  content: req.body.content,
 	  category: req.body.belongCat
 	}
-	if (title) {//title不能重复
-	  	Article.findOneAndUpdate({title},article,(err,doc)=>{
-		  	if (err) {
-	    		console.log(err)
-	    	} else if (doc) {
-		  		console.log("Article更新成功!!");
-		  		return res.status(200).end();
-		  	}else {
-			  console.log("Article更新失败!!")
-			  return res.status(401).end();
+	if (title) {
+		Article.findOne({title}, (err, doc) => {//title不能重复
+			if (err) {
+				console.log(err);
+			} else if (doc) {
+				console.log("Title不能重复!!")
+			  	return res.status(401).end();
+			}else{
+			  	Article.findByIdAndUpdate(req.body._id,article,(err,doc)=>{
+				  	if (err) {
+			    		console.log(err)
+			    	} else if (doc) {
+				  		console.log("Article更新成功!!");
+				  		return res.status(200).end();
+				  	}else {
+					  console.log("Article更新失败!!")
+					  return res.status(401).end();
+					}
+				});
 			}
 		});
 	}else{
