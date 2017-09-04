@@ -3,7 +3,8 @@
 		<input class="title"
 			placeholder="标题"
 			v-model="title">
-		<select	v-model="belongCat"><!--TODO设置默认值-->
+		<input v-model="imgUrl" class='articleImgUrl' type="text" placeholder="封面图片地址">
+		<select	v-model="belongCat" class="styled-select blue semi-square"><!--TODO设置默认值-->
 			<option v-for="cat in catList">{{cat.name}}</option>
 		</select>
 
@@ -83,11 +84,52 @@ export default{
 				this.$store.commit('UPDATE_BELONGCAT', value)
 			}
 		},
+		imgUrl:{
+			get(){
+				return this.$store.state.article.special_img
+			},
+			set(value){
+				this.$store.commit('UPDATE_SPECIALIMG', value)
+			}
+		},
 		...mapState(['article','catList'])
 	}
 }
 </script>
 <style lang="scss">
+
+.articleImgUrl{
+	text-align: center;
+	box-sizing: border-box;
+	padding: 5px;
+	margin: 10px 0 10px 70%;
+	height: 20px;
+	display: block;
+	font-size: 15px;
+	color: black;
+	width:18%;
+}
+.styled-select {
+	background: #d8d6d8;
+	height: 29px;
+	overflow: hidden;
+	width: 240px;
+}
+.styled-select select {
+	background: transparent;
+	border: none;
+	font-size: 14px;
+	height: 29px;
+	padding: 5px;
+	width: 268px;
+}
+.semi-square {
+	display: block;
+	height: 20px;
+	margin: 10px 0 10px 70%;
+	border-radius: 5px;
+	width:20%;
+}
 section.editor {
 	height: 100%;
 	.title {
@@ -206,4 +248,5 @@ section.editor {
 		}
 	}
 }
+
 </style>

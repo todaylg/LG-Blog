@@ -34,21 +34,41 @@ exports.addArticle = function (req,res,next) {
 }
 
 exports.updateArticle = function (req,res,next) {
-	console.log("updatesaveArticle ing....");
+	console.log("updateArticle ing....");
 	const title = req.body.title
 	const article = {
 	  title: req.body.title,
 	  updated: req.body.date,
 	  content: req.body.content,
+	  special_img:req.body.special_img,
 	  category: req.body.belongCat
 	}
 	if (title) {
-		Article.findOne({title}, (err, doc) => {//title不能重复
+		Article.findById(req.body._id,(err, doc)=>{
+			console.log(doc.title);
 			if (err) {
 				console.log(err);
-			} else if (doc) {
-				console.log("Title不能重复!!")
-			  	return res.status(401).end();
+			} else if (doc.title != req.body.title) {//可以用原title
+				Article.findOne({title}, (err, doc) => {//title不能重复
+					if (err) {
+						console.log(err);
+					} else if (doc) {
+						console.log("Title不能重复!!")
+					  	return res.status(401).end();
+					}else{
+					  	Article.findByIdAndUpdate(req.body._id,article,(err,doc)=>{
+						  	if (err) {
+					    		console.log(err)
+					    	} else if (doc) {
+						  		console.log("Article更新成功!!");
+						  		return res.status(200).end();
+						  	}else {
+							  console.log("Article更新失败!!")
+							  return res.status(401).end();
+							}
+						});
+					}
+				});
 			}else{
 			  	Article.findByIdAndUpdate(req.body._id,article,(err,doc)=>{
 				  	if (err) {
@@ -62,7 +82,7 @@ exports.updateArticle = function (req,res,next) {
 					}
 				});
 			}
-		});
+		})
 	}else{
 		return res.status(401).end();
 	}

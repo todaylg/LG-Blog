@@ -5,7 +5,7 @@
 			<input class="title"
 			placeholder="标题"
 			v-model="title">
-			<input class='articleImgUrl' type="text" placeholder="封面图片地址">
+			<input v-model="imgUrl" class='articleImgUrl' type="text" placeholder="封面图片地址">
 			<select	v-model="belongCat" placeholder="请选择分类" class="styled-select blue semi-square">
 				<option v-for="cat in catList">{{cat.name}}</option>
 			</select>
@@ -86,6 +86,14 @@ export default{
 		},
 		set(value){
 			this.$store.commit('UPDATE_BELONGCAT', value)
+		}
+	},
+	imgUrl:{
+		get(){
+			return this.$store.state.article.special_img
+		},
+		set(value){
+			this.$store.commit('UPDATE_SPECIALIMG', value)
 		}
 	},
 	...mapState(['catList']),

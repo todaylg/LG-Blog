@@ -57,6 +57,9 @@ export default {
 	UPDATE_BELONGCAT: (state, belongCat) => {
 		state.article.belongCat = belongCat;
 	},
+	UPDATE_SPECIALIMG: (state, url) => {
+		state.article.special_img = url;
+	},
 	SET_CATEDITNAME: (state, catName) => {//后台编辑分类名称
 		state.catEdit.catName = catName;
 	},

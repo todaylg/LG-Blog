@@ -130,6 +130,7 @@ export default {
 	width: 100%;
 	height: 100%;
 	z-index: 2;
+	background: radial-gradient(ellipse closest-side,rgba(255, 255, 255, 0) 10%,#000 90%);
 	background: -webkit-radial-gradient(center,ellipse closest-side,rgba(255, 255, 255, 0) 10%,#000 90%);
 }
 .welcome{
