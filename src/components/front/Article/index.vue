@@ -15,8 +15,8 @@
 </template>
 <script>
 import {mapState, mapActions} from 'vuex';
-import marked from '../../../assets/js/marked.min.js';
-import hljs from '../../../assets/js/highlight.pack.js';
+import marked from '../../../assets/js/marked.js';
+import lightCss from '../../../assets/css/highlight.css';
 import Comment from "../Share/Comment.vue";
 
 export default{
@@ -25,9 +25,6 @@ export default{
 	  	
 	  	}
 	},
-	updated(){
-		this.highlight()
-    },
 	created () {
 		this.getFrontArticle({atitle:this.$route.params.atitle})//显示当前文章
 	},

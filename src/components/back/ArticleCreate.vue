@@ -2,21 +2,15 @@
 	<section class="editor">
 		<div class='articleCrtPage'>
 			<h1>新建文章</h1>
-			<input class="title"
-			placeholder="标题"
-			v-model="title">
+			<input class="editorTitle" placeholder="标题" v-model="title">
 			<input v-model="imgUrl" class='articleImgUrl' type="text" placeholder="封面图片地址">
-			<select	v-model="belongCat" placeholder="请选择分类" class="styled-select blue semi-square">
-				<option v-for="cat in catList">{{cat.name}}</option>
-			</select>
-		
-			<div :class="inspected?'inspect':'edit'">
-				<textarea v-model="content" spellcheck="false"></textarea>
-				<button class="toggle"
-				@click="inspected = !inspected">
-				</button>
-				<article id="a" v-html="markedContent"></article>
+			<div class="styled-select semi-square">
+				<select	v-model="belongCat"><!--TODO设置默认值:--><!--Fixed:v-bind:value-->
+					<option v-for="cat in catList" v-bind:value="cat.name">{{cat.name}}</option>
+				</select>
 			</div>
+			<textarea id="editor"></textarea>
+
 			<div class="panel">
 				<button class="saveArticle"
 				@click="add">保存
@@ -27,77 +21,85 @@
 </template>
 <script>
 import {mapActions, mapState, mapMutations} from 'vuex';
-import marked from '../../assets/js/marked.min';
-import hljs from '../../assets/js/highlight.pack';
+import SimpleMDE from 'simplemde';
+import fontCss from 'font-awesome/css/font-awesome.min.css';
+import lightCss from '../../assets/css/highlight.css';
+import css from 'simplemde/dist/simplemde.min.css'
+import marked	 from '../../assets/js/marked';
+
+let simplemde;
 
 export default{
- data(){
-	return {
-	inspected: false,
-	markedContent:''
+	data(){
+		return {
+		inspected: false,
+		markedContent:''
+		}
+	},
+	created(){
+		this.getCatList(),
+		this.SET_ARTICLE({content:'',title:'',belongCat:'', date: new Date()})//todo
+	},
+	mounted() {
+		simplemde = new SimpleMDE({
+			autoDownloadFontAwesome: false,
+			element: document.getElementById("editor"),
+			spellChecker: false,
+			previewRender: function(plainText) {
+				return marked(plainText); // Returns HTML from a custom parser
+			},
+		});
+		simplemde.codemirror.on("change", () => {
+			let value = simplemde.value();
+			this.article.content = value;
+		});
+		this.$nextTick(() => {
+			this.articleContent = this.article.content;
+			simplemde.value(this.articleContent);
+		})
+	},
+	methods: {
+		add(){
+			this.addArticle()
+			.catch(err => console.log(err))
+		},
+		...mapActions(['addArticle','getCatList']),
+		...mapMutations(['SET_ARTICLE'])
+	},
+	
+	computed: {
+		title: {
+			get(){
+				return this.$store.state.article.title
+			},
+			set(value){
+				this.$store.commit('UPDATE_TITLE', value)
+			}
+		},
+		belongCat:{
+			get(){
+				return this.$store.state.article.belongCat
+			},
+			set(value){
+				this.$store.commit('UPDATE_BELONGCAT', value)
+			}
+		},
+		imgUrl:{
+			get(){
+				return this.$store.state.article.special_img
+			},
+			set(value){
+				this.$store.commit('UPDATE_SPECIALIMG', value)
+			}
+		},
+		...mapState(['article','catList']),
+	},
+	watch: {
+		article(val, oldVal) {
+			this.articleContent = val.content;
+			simplemde.value(this.articleContent);
+		}
 	}
- },
- created(){
-	this.getCatList(),
-	this.SET_ARTICLE({content:'',title:'',belongCat:'', date: new Date()})//todo
- },
- updated(){
-	this.highlight()
- },
- methods: {
-	add(){
-		this.addArticle()
-		.catch(err => console.log(err))
-	},
-	highlight(){
-		setTimeout(() => {
-			hljs.initHighlighting.called = false
-			hljs.initHighlighting()
-		}, 0)
-	},
-	...mapActions(['addArticle','getCatList']),
-	...mapMutations(['SET_ARTICLE'])
- },
- computed: {
-	content: {
-		get(){
-			this.markedContent = marked(
-			this.$store.state.article.content || '',
-			{sanitize: true}
-		)
-			this.highlight();
-			return this.$store.state.article.content;
-		},
-		set(value){
-			this.$store.commit('UPDATE_CONTENT', value)
-		}
-	},
-	title: {
-		get(){
-			return this.$store.state.article.title
-		},
-		set(value){
-			this.$store.commit('UPDATE_TITLE', value)
-		}
-	},
-	belongCat:{
-		get(){
-			return this.$store.state.article.belongCat
-		},
-		set(value){
-			this.$store.commit('UPDATE_BELONGCAT', value)
-		}
-	},
-	imgUrl:{
-		get(){
-			return this.$store.state.article.special_img
-		},
-		set(value){
-			this.$store.commit('UPDATE_SPECIALIMG', value)
-		}
-	},
-	...mapState(['catList']),
- }
 }
 </script>
 <style lang="scss">
@@ -123,7 +125,7 @@ export default{
 	h1{
 		padding: 10px 0 0 10px;
 	}
-	.title {
+	.editorTitle {
 		text-align: center;
 		box-sizing: border-box;
 		padding: 10px;
@@ -166,14 +168,6 @@ export default{
 		}
 		article {
 			width: 0;
-		}
-	}
-	.inspect {
-		textarea {
-			width: calc(50% - 20px);
-		}
-		article {
-			width: calc(50% - 20px);
 		}
 	}
 	.panel {
@@ -257,7 +251,6 @@ export default{
 }
 .semi-square {
 	display: block;
-	height: 20px;
 	margin: 10px 0 10px 70%;
 	border-radius: 5px;
 	width:20%;

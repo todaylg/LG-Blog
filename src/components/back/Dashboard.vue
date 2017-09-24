@@ -93,7 +93,6 @@ main {
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 5;
 	outline: none;
 	background-color: #f8f8ff;
 	transition: all 1s ease-in-out;

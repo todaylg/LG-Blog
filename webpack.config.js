@@ -66,6 +66,10 @@ let config = {
         exclude: /node_modules/
       },
       {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
         test: /\.scss$/,
         loader: extractCSSFromSASS.extract(['css-loader', 'sass-loader'])
       },
@@ -75,8 +79,15 @@ let config = {
         options: {
           name: '[name].[ext]?[hash]'
         }
-      }
-    ]
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'fonts/[name].[hash:7].[ext]'
+        }
+      }]
   },
   resolve: {
     alias: {
