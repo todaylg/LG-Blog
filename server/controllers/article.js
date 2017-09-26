@@ -10,7 +10,7 @@ exports.addArticle = function (req,res,next) {
 	  title: req.body.title,
 	  updated: req.body.date,
 	  content: req.body.content,
-	  category: req.body.belongCat
+	  category: req.body.category
 	}
 	if (title) {//title不能重复
 		Article.findOne({title},(err,doc)=>{
@@ -21,8 +21,8 @@ exports.addArticle = function (req,res,next) {
 		  		return res.status(401).end();//TODO
 		  	} else {
 		  		if(article.content=='')return res.status(401).end();//TODO
-				article.intro = article.content.substring(0,10);
-				article.intro+='...';
+				article.intro = article.content.substring(0,25);
+				article.intro+='......';
 				new Article(article).save();
 				console.log("new Article!!");
 				return res.status(200).end();
@@ -35,13 +35,16 @@ exports.addArticle = function (req,res,next) {
 
 exports.updateArticle = function (req,res,next) {
 	console.log("updateArticle ing....");
+	let introTemp = req.body.content.substring(0,25);
+	introTemp+="......";
 	const title = req.body.title
 	const article = {
 	  title: req.body.title,
 	  updated: req.body.date,
+	  intro:introTemp,
 	  content: req.body.content,
 	  special_img:req.body.special_img,
-	  category: req.body.belongCat
+	  category: req.body.category
 	}
 	if (title) {
 		Article.findById(req.body._id,(err, doc)=>{

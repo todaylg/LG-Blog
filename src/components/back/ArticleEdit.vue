@@ -246,5 +246,10 @@ section.editor {
 		}
 	}
 }
-
+.CodeMirror {
+	height: 70%;
+}
+.CodeMirror-scroll {
+    height: 100%;
+}
 </style>

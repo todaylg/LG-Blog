@@ -55,7 +55,7 @@ export default {
 		state.article.title = title;
 	},
 	UPDATE_BELONGCAT: (state, belongCat) => {
-		state.article.belongCat = belongCat;
+		state.article.category = belongCat;
 	},
 	UPDATE_SPECIALIMG: (state, url) => {
 		state.article.special_img = url;

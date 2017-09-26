@@ -38,7 +38,7 @@ export default{
 	},
 	created(){
 		this.getCatList(),
-		this.SET_ARTICLE({content:'',title:'',belongCat:'', date: new Date()})//todo
+		this.SET_ARTICLE({content:'',title:'',category:'', date: new Date()})//todo
 	},
 	mounted() {
 		simplemde = new SimpleMDE({
@@ -78,7 +78,7 @@ export default{
 		},
 		belongCat:{
 			get(){
-				return this.$store.state.article.belongCat
+				return this.$store.state.article.category
 			},
 			set(value){
 				this.$store.commit('UPDATE_BELONGCAT', value)
@@ -254,5 +254,11 @@ export default{
 	margin: 10px 0 10px 70%;
 	border-radius: 5px;
 	width:20%;
+}
+.CodeMirror {
+	height: 70%;
+}
+.CodeMirror-scroll {
+    height: 100%;
 }
 </style>
