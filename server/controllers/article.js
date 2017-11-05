@@ -10,7 +10,8 @@ exports.addArticle = function (req,res,next) {
 	  title: req.body.title,
 	  updated: req.body.date,
 	  content: req.body.content,
-	  category: req.body.category
+	  category: req.body.category,
+	  created: req.body.created
 	}
 	if (title) {//title不能重复
 		Article.findOne({title},(err,doc)=>{
@@ -44,7 +45,8 @@ exports.updateArticle = function (req,res,next) {
 	  intro:introTemp,
 	  content: req.body.content,
 	  special_img:req.body.special_img,
-	  category: req.body.category
+	  category: req.body.category,
+	  created: req.body.created
 	}
 	if (title) {
 		Article.findById(req.body._id,(err, doc)=>{

@@ -1,6 +1,7 @@
 <template>
 	<section class="editor">
 		<input class="editorTitle" placeholder="标题" v-model="title">
+		<input v-model="createDate" class='createDate'>
 		<input v-model="imgUrl" class='articleImgUrl' type="text" placeholder="封面图片地址">
 		<div class="styled-select semi-square">
 			<select	v-model="belongCat"><!--TODO设置默认值:--><!--Fixed:v-bind:value-->
@@ -58,8 +59,11 @@ export default{
 		save(){
 			this.updateArticle();
 		},
-	 	...mapActions(['getArticle', 'updateArticle','getCatList']),
-	 	...mapMutations(['SET_ARTICLE'])
+		toDate(date){
+			let d = new Date(date);
+			return d.getFullYear() + '年' +(d.getMonth() + 1) + '月' +d.getDate() + '日';
+		},
+	 	...mapActions(['getArticle', 'updateArticle','getCatList'])
  	},
  	computed: {
 		title: {
@@ -80,10 +84,20 @@ export default{
 		},
 		imgUrl:{
 			get(){
-				return this.$store.state.article.special_img
+				return this.article.special_img
 			},
 			set(value){
 				this.$store.commit('UPDATE_SPECIALIMG', value)
+			}
+		},
+		createDate:{
+			get(){
+				return this.toDate(this.article.created)
+			},
+			set(value){
+				if(value.length>=9){
+					this.$store.commit('UPDATE_CREATEDATE', value)
+				}
 			}
 		},
 		...mapState(['article','catList'])

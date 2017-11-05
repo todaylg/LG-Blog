@@ -3,6 +3,7 @@
 		<div class='articleCrtPage'>
 			<h1>新建文章</h1>
 			<input class="editorTitle" placeholder="标题" v-model="title">
+			<input v-model="createDate" class='createDate'>
 			<input v-model="imgUrl" class='articleImgUrl' type="text" placeholder="封面图片地址">
 			<div class="styled-select semi-square">
 				<select	v-model="belongCat"><!--TODO设置默认值:--><!--Fixed:v-bind:value-->
@@ -32,13 +33,12 @@ let simplemde;
 export default{
 	data(){
 		return {
-		inspected: false,
-		markedContent:''
+			articleContent:''
 		}
 	},
 	created(){
 		this.getCatList(),
-		this.SET_ARTICLE({content:'',title:'',category:'', date: new Date()})//todo
+		this.SET_ARTICLE({content:'',title:'',category:'',special_img:'',created: new Date()})//todo
 	},
 	mounted() {
 		simplemde = new SimpleMDE({
@@ -63,6 +63,10 @@ export default{
 			this.addArticle()
 			.catch(err => console.log(err))
 		},
+		toDate(date){
+			let d = new Date(date);
+			return d.getFullYear() + '年' +(d.getMonth() + 1) + '月' +d.getDate() + '日';
+		},
 		...mapActions(['addArticle','getCatList']),
 		...mapMutations(['SET_ARTICLE'])
 	},
@@ -70,7 +74,7 @@ export default{
 	computed: {
 		title: {
 			get(){
-				return this.$store.state.article.title
+				return this.article.title
 			},
 			set(value){
 				this.$store.commit('UPDATE_TITLE', value)
@@ -78,7 +82,7 @@ export default{
 		},
 		belongCat:{
 			get(){
-				return this.$store.state.article.category
+				return this.article.category
 			},
 			set(value){
 				this.$store.commit('UPDATE_BELONGCAT', value)
@@ -86,10 +90,20 @@ export default{
 		},
 		imgUrl:{
 			get(){
-				return this.$store.state.article.special_img
+				return this.article.special_img
 			},
 			set(value){
 				this.$store.commit('UPDATE_SPECIALIMG', value)
+			}
+		},
+		createDate:{
+			get(){
+				return this.toDate(this.article.created)
+			},
+			set(value){
+				if(value.length>=9){
+					this.$store.commit('UPDATE_CREATEDATE', value)
+				}
 			}
 		},
 		...mapState(['article','catList']),

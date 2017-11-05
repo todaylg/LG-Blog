@@ -113,7 +113,7 @@ router.beforeEach(({meta,path},from,next)=>{
 const instance = axios.create();
 instance.defaults.headers.post['Content-Type'] = 'application/json';
 router.beforeEach((to,from,next)=>{
-	if(localStorage.getItem('token')){
+	if(localStorage.getItem('token')){//TODO 这样判断是有bug的，还需要在后面的路由钩子添加上返回的state是不是401的验证，若是这需跳转到login
 		instance.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('token');
 	}
 	// axios拦截请求

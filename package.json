@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --progress --profile --watch",
+    "watch": "webpack --config webpack.config.js --watch --colors",
     "build": "npm-run-all clean --parallel compile",
     "compile": "cross-env NODE_ENV=production webpack --progress --hide-modules  --profile --bail",
     "clean": "rimraf dist",

@@ -9,7 +9,7 @@ var creatToken = (id, name) => {
     return jwt.sign({
         id: id,
         name: name
-    }, cert, { expiresIn: '7d' })
+    }, cert, { expiresIn: '365d' })
 }
 
 exports.userTest = function(req,res) {

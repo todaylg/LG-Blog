@@ -57,6 +57,9 @@ export default {
 	UPDATE_BELONGCAT: (state, belongCat) => {
 		state.article.category = belongCat;
 	},
+	UPDATE_CREATEDATE:(state, date) => {
+		state.article.created = date;
+	},
 	UPDATE_SPECIALIMG: (state, url) => {
 		state.article.special_img = url;
 	},
