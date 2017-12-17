@@ -35,7 +35,7 @@ exports.userLogin = function(req,res) {
     }
     if(!user) {
       console.log('用户不存在');
-      res.status(401).end();
+      return res.status(401).end();
     }
     // 使用user实例方法对用户名密码进行比较
     if(user.comparePassword(pwd)){

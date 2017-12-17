@@ -95,7 +95,7 @@ export default{
 				return this.toDate(this.article.created)
 			},
 			set(value){
-				if(value.length>=9){
+				if(value.length==10){
 					this.$store.commit('UPDATE_CREATEDATE', value)
 				}
 			}
