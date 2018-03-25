@@ -5,7 +5,7 @@
 
 
 ### [Demo](http://todaylg.com)
-
+（学生机即将到期（续不起😂）。。。博客已迁移。。。）
 
 ![image](https://github.com/todaylg/LG-Blog/blob/master/src/assets/img/intro.png)
 ![image](https://github.com/todaylg/LG-Blog/blob/master/src/assets/img/intro1.png)
@@ -44,7 +44,7 @@ mongod
 ```
 cd LG-Blog
 
-npm install
+yarn / npm install
 ```
 3.Start
 

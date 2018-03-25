@@ -44,7 +44,7 @@ exports.userLogin = function(req,res) {
       return res.status(200).json({state: 1, username:user.username,intro:user.intro,avatar:user.avatar,token});
     }else{
       console.log('密码不正确');
-      res.status(401).end();
+      return res.status(401).end();
     }
   });
 };
